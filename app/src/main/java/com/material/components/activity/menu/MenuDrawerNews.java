@@ -19,6 +19,7 @@ import com.material.components.R;
 import com.material.components.activity.MainMenu;
 import com.material.components.activity.profile.ProfilePolygon;
 import com.material.components.activity.search.SearchToolbarLight;
+import com.material.components.activity.toolbar.ToolbarCollapsePin;
 import com.material.components.adapter.AdapterGridShopProductCard;
 import com.material.components.data.DataGenerator;
 import com.material.components.model.ShopProduct;
@@ -124,6 +125,8 @@ public class MenuDrawerNews extends AppCompatActivity {
             @Override
             public void onItemClick(View view, ShopProduct obj, int position) {
                 Snackbar.make(parent_view, "Item " + obj.title + " clicked", Snackbar.LENGTH_SHORT).show();
+                Intent gotoLesson = new Intent(getApplicationContext(), ToolbarCollapsePin.class);
+                startActivity(gotoLesson);
             }
         });
 
