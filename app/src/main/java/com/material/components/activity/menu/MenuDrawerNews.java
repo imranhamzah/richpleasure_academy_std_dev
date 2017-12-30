@@ -18,6 +18,7 @@ import android.view.View;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
 import com.material.components.activity.profile.ProfilePolygon;
+import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.adapter.AdapterGridShopProductCard;
 import com.material.components.data.DataGenerator;
 import com.material.components.model.ShopProduct;
@@ -53,6 +54,17 @@ public class MenuDrawerNews extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle("Dashboard");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_search)
+        {
+            Intent gotoSearch = new Intent(getApplicationContext(), SearchToolbarLight.class);
+            startActivity(gotoSearch);
+        }
+        return true;
     }
 
     @Override
