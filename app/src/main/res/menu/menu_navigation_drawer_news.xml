@@ -5,9 +5,9 @@
         android:id="@+id/grp_1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="Profile" />
         <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_whatshot"

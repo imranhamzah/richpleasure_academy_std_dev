@@ -1,5 +1,6 @@
 package com.material.components.activity.menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.material.components.R;
+import com.material.components.activity.profile.ProfilePolygon;
 
 public class MenuDrawerNews extends AppCompatActivity {
 
@@ -49,8 +51,14 @@ public class MenuDrawerNews extends AppCompatActivity {
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(final MenuItem item) {
-                Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
-                actionBar.setTitle(item.getTitle());
+
+                int id = item.getItemId();
+
+                if(id == R.id.nav_profile)
+                {
+                    Intent intentProfile = new Intent(getApplicationContext(), ProfilePolygon.class);
+                    startActivity(intentProfile);
+                }
                 drawer.closeDrawers();
                 return true;
             }
