@@ -847,11 +847,11 @@ public class MainMenu extends AppCompatActivity {
 
         return items;
     }
-
-    @Override
-    public void onBackPressed() {
-        doExitApp();
-    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        doExitApp();
+//    }
 
     private long exitTime = 0;
 
