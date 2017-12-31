@@ -107,6 +107,7 @@
                         <ImageButton
                             android:layout_alignRight="@+id/description"
                             android:id="@+id/more"
+                            android:onClick="openSubMenu"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/spacing_xlarge"
                             android:background="?attr/selectableItemBackgroundBorderless"
@@ -179,6 +180,7 @@
                             android:id="@+id/more2"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/spacing_xlarge"
+                            android:onClick="openSubMenu"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:tint="@color/grey_40"
                             app:srcCompat="@drawable/ic_more_vert" />
