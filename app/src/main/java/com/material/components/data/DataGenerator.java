@@ -229,7 +229,8 @@ public class DataGenerator {
 
     public static List<TutorList> getTutorList(Context ctx){
         List<TutorList> items = new ArrayList<>();
-        TypedArray drw_arr = ctx.getResources().obtainTypedArray(R.array.shop_product_image);
+
+        TypedArray drw_arr = ctx.getResources().obtainTypedArray(R.array.sample_tutor_image);
         String title_arr[] = ctx.getResources().getStringArray(R.array.shop_product_title);
         String price_arr[] = ctx.getResources().getStringArray(R.array.total_students_enrolled);
         for (int i = 0; i < drw_arr.length(); i++) {

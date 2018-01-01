@@ -19,6 +19,7 @@ import java.util.List;
 public class AdapterTutorList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context ctx;
+    private OnItemClickListener mOnItemClickListener;
     private List<TutorList> tutorLists = new ArrayList<>();
 
     public AdapterTutorList(List<TutorList> tutorLists, Context ctx) {
@@ -26,17 +27,27 @@ public class AdapterTutorList extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.ctx = ctx;
     }
 
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mOnItemClickListener = mItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, TutorList obj, int pos);
+    }
+
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView tutorProfilePic;
         private TextView tutorName;
         private TextView totalStudentsEnrolled;
+        public View lyt_parent;
 
         public OriginalViewHolder(View itemView) {
             super(itemView);
             tutorProfilePic = (ImageView) itemView.findViewById(R.id.tutor_image);
             tutorName = (TextView) itemView.findViewById(R.id.tutor_name);
             totalStudentsEnrolled = (TextView) itemView.findViewById(R.id.total_students_enrolled);
+            lyt_parent = (View) itemView.findViewById(R.id.lyt_parent);
         }
     }
 
@@ -49,13 +60,21 @@ public class AdapterTutorList extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof OriginalViewHolder){
             OriginalViewHolder view = (OriginalViewHolder) holder;
             final TutorList t = tutorLists.get(position);
             view.tutorName.setText(t.tutorName);
             view.totalStudentsEnrolled.setText(t.totalStudentsEnrolled);
-            Tools.displayImageOriginal(ctx,view.tutorProfilePic,"https://scontent.fkul5-1.fna.fbcdn.net/v/t1.0-9/26055700_1596710833738523_1874922313394105221_n.jpg?oh=80bcfd43288bfe7e9e683b1060202da9&oe=5AF7B300");
+            Tools.displayImageOriginal(ctx,view.tutorProfilePic,t.tutorProfileImage);
+            view.lyt_parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(view, tutorLists.get(position), position);
+                    }
+                }
+            });
 
         }
     }

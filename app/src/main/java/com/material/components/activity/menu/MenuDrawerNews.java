@@ -171,6 +171,19 @@ public class MenuDrawerNews extends AppCompatActivity {
         linearLayoutManagerTutor.setOrientation(LinearLayoutManager.HORIZONTAL);
 
 
+        // on item list clicked
+        mTutorAdapter.setOnItemClickListener(new AdapterTutorList.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, TutorList obj, int pos) {
+                Snackbar.make(parent_view, "Item " + obj.tutorName + " clicked", Snackbar.LENGTH_SHORT).show();
+                Intent gotoProfile = new Intent(getApplicationContext(), ProfilePolygon.class);
+                startActivity(gotoProfile);
+            }
+
+        });
+
+
+
     }
 
     private void initComponent() {
