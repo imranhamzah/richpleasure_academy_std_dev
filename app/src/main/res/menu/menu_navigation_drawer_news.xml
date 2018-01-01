@@ -33,5 +33,13 @@
             android:icon="@drawable/ic_help"
             android:title="Help" />
     </group>
+    <group
+        android:id="@+id/grp_3"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/logout"
+            android:icon="@android:drawable/ic_lock_lock"
+            android:title="Logout" />
+    </group>
 
 </menu>

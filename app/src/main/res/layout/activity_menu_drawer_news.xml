@@ -58,12 +58,13 @@
             android:layout_height="match_parent"
             android:background="@android:color/white"
             android:clipToPadding="false"
-            android:padding="@dimen/spacing_mlarge"
             android:scrollbars="none"
             android:scrollingCache="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
             <include android:id="@+id/parent_view" layout="@layout/include_drawer_content" />
+
 
         </android.support.v4.widget.NestedScrollView>
 
