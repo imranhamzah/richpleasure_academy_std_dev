@@ -34,7 +34,7 @@ public class ToolbarCollapsePin extends AppCompatActivity {
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Matematik");
+        getSupportActionBar().setTitle("Chapter 1: Function");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
