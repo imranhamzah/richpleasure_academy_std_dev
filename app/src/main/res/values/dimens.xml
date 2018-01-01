@@ -23,4 +23,40 @@
     <dimen name="spacing_xxxlarge">55dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
 
+    <dimen name="subjects_margin_top_dashboard">180dp</dimen>
+    <dimen name="container_margin">8dp</dimen>
+
+
+    <item name="match_parent" format="integer" type="dimen">-1</item>
+    <item name="wrap_content" format="integer" type="dimen">-2</item>
+
+    <dimen name="auth_page_margin">24dp</dimen>
+    <dimen name="folded_size">20sp</dimen>
+    <dimen name="unfolded_size">40sp</dimen>
+    <dimen name="option_size">56dp</dimen>
+    <dimen name="text_padding">16dp</dimen>
+    <dimen name="input_width">220dp</dimen>
+    <dimen name="label_size">20sp</dimen>
+    <dimen name="folded_label_padding">22sp</dimen>
+    <dimen name="logo_size">64dp</dimen>
+    <dimen name="guideline_margin">56dp</dimen>
+
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="toolbarMargin">8dp</dimen>
+
+
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="img_width_height">120dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">16dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+
+    <dimen name="card_cover_height">100dp</dimen>
+
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="thumbnail">40dp</dimen>
+    <dimen name="row_padding">10dp</dimen>
+    <dimen name="contact_name">15dp</dimen>
+    <dimen name="contact_number">12dp</dimen>
 </resources>

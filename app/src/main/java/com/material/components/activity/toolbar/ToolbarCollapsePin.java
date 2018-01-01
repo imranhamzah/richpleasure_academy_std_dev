@@ -32,7 +32,7 @@ public class ToolbarCollapsePin extends AppCompatActivity {
     {
         PopupMenu popup = new PopupMenu(v.getContext(), v);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_product_more, popup.getMenu());
+        inflater.inflate(R.menu.menu_lesson_more, popup.getMenu());
         popup.show();
     }
 

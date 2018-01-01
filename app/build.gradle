@@ -19,9 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/java/com.material.components/activity/login']
+        }
+    }
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // google support library ---------------------------------------------------------------------
@@ -46,4 +52,7 @@ dependencies {
     compile 'com.mikhaellopez:circularimageview:3.0.2'          // circle image view
     compile 'com.github.pchmn:MaterialChipsInput:1.0.5'         // material chip
     compile 'com.hootsuite.android:nachos:1.1.1'                // material chips
+
+    //Login
+    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
 }
