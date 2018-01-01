@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,10 +24,10 @@ import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
 import com.material.components.activity.profile.ProfilePolygon;
 import com.material.components.activity.search.SearchToolbarLight;
-import com.material.components.activity.toolbar.ToolbarCollapsePin;
+import com.material.components.activity.tutor.TutorList;
 import com.material.components.adapter.AdapterGridShopProductCard;
+import com.material.components.adapter.AdapterTutorList;
 import com.material.components.data.DataGenerator;
-import com.material.components.model.ShopCategory;
 import com.material.components.model.ShopProduct;
 import com.material.components.utils.Tools;
 import com.material.components.widget.SpacingItemDecoration;
@@ -45,6 +44,9 @@ public class MenuDrawerNews extends AppCompatActivity {
     private AdapterGridShopProductCard mAdapter;
     private View parent_view;
 
+    private RecyclerView tutorRecyclerView;
+    private AdapterTutorList mTutorAdapter;
+
     private SessionManager session;
     private SQLiteHandler db;
 
@@ -57,6 +59,7 @@ public class MenuDrawerNews extends AppCompatActivity {
         initToolbar();
         initNavigationMenu();
         initComponent();
+        displayTutorList();
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -150,6 +153,26 @@ public class MenuDrawerNews extends AppCompatActivity {
         finish();
     }
 
+    private void displayTutorList(){
+        List<TutorList> tutorLists = DataGenerator.getTutorList(this);
+
+        mTutorAdapter = new AdapterTutorList(tutorLists, this);
+        tutorRecyclerView = (RecyclerView) findViewById(R.id.tutorRecylerView);
+        tutorRecyclerView.setHasFixedSize(true);
+        tutorRecyclerView.setNestedScrollingEnabled(false);
+        tutorRecyclerView.setAdapter(mTutorAdapter);
+
+        RecyclerView.LayoutManager layoutManagerTutor = new LinearLayoutManager(getApplicationContext());
+        tutorRecyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
+        tutorRecyclerView.setLayoutManager(layoutManagerTutor);
+        tutorRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        tutorRecyclerView.setAdapter(mTutorAdapter);
+        LinearLayoutManager linearLayoutManagerTutor = (LinearLayoutManager) layoutManagerTutor;
+        linearLayoutManagerTutor.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+
+    }
+
     private void initComponent() {
 
         List<ShopProduct> items = DataGenerator.getShoppingProduct(this);
@@ -160,7 +183,6 @@ public class MenuDrawerNews extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(mAdapter);
 
         RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
         recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));

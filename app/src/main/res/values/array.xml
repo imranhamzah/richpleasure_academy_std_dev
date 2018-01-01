@@ -292,6 +292,17 @@
         <item>$ 96.00</item>
     </string-array>
 
+    <string-array name="total_students_enrolled">
+        <item>50 students</item>
+        <item>50 students</item>
+        <item>50 students</item>
+        <item>2 students</item>
+        <item>10 students</item>
+        <item>10 students</item>
+        <item>10 students</item>
+        <item>5 students</item>
+    </string-array>
+
     <!--music data-->
     <integer-array name="album_cover">
         <item>@drawable/image_20</item>
