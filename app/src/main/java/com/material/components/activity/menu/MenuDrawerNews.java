@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
+import com.material.components.activity.list.ListMultiSelection;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
@@ -174,8 +175,8 @@ public class MenuDrawerNews extends AppCompatActivity {
             @Override
             public void onItemClick(View view, ShopProduct obj, int position) {
                 Snackbar.make(parent_view, "Item " + obj.title + " clicked", Snackbar.LENGTH_SHORT).show();
-                Intent gotoLesson = new Intent(getApplicationContext(), ToolbarCollapsePin.class);
-                startActivity(gotoLesson);
+                Intent gotoChapter = new Intent(getApplicationContext(), ListMultiSelection.class);
+                startActivity(gotoChapter);
             }
         });
 

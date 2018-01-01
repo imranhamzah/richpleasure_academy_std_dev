@@ -1,5 +1,6 @@
 package com.material.components.activity.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.material.components.R;
+import com.material.components.activity.toolbar.ToolbarCollapsePin;
 import com.material.components.adapter.AdapterListInbox;
 import com.material.components.data.DataGenerator;
 import com.material.components.model.Inbox;
@@ -39,16 +41,13 @@ public class ListMultiSelection extends AppCompatActivity {
 
         initToolbar();
         initComponent();
-        Toast.makeText(this, "Long press for multi selection", Toast.LENGTH_SHORT).show();
     }
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Inbox");
+        getSupportActionBar().setTitle("Chapter");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Tools.setSystemBarColor(this, R.color.red_600);
     }
 
     private void initComponent() {
@@ -71,6 +70,9 @@ public class ListMultiSelection extends AppCompatActivity {
                     // read the inbox which removes bold from the row
                     Inbox inbox = mAdapter.getItem(pos);
                     Toast.makeText(getApplicationContext(), "Read: " + inbox.from, Toast.LENGTH_SHORT).show();
+
+                    Intent gotoLesson = new Intent(getApplicationContext(), ToolbarCollapsePin.class);
+                    startActivity(gotoLesson);
                 }
             }
 
@@ -141,12 +143,6 @@ public class ListMultiSelection extends AppCompatActivity {
             mAdapter.removeData(selectedItemPositions.get(i));
         }
         mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search_setting, menu);
-        return true;
     }
 
     @Override
