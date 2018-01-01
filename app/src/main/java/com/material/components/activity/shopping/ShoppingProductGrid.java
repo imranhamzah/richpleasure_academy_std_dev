@@ -9,11 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.material.components.R;
 import com.material.components.adapter.AdapterGridShopProductCard;
 import com.material.components.data.DataGenerator;
+import com.material.components.model.Image;
 import com.material.components.model.ShopProduct;
 import com.material.components.utils.Tools;
 import com.material.components.widget.SpacingItemDecoration;
