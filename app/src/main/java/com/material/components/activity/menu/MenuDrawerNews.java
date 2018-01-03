@@ -1,7 +1,10 @@
 package com.material.components.activity.menu;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -12,10 +15,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
 import com.material.components.activity.list.ListMultiSelection;
@@ -24,14 +31,24 @@ import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
 import com.material.components.activity.profile.ProfilePolygon;
 import com.material.components.activity.search.SearchToolbarLight;
+import com.material.components.activity.subject.Subjects;
 import com.material.components.activity.tutor.TutorList;
 import com.material.components.adapter.AdapterGridShopProductCard;
+import com.material.components.adapter.AdapterSubjectList;
 import com.material.components.adapter.AdapterTutorList;
+import com.material.components.config.AppConfig;
 import com.material.components.data.DataGenerator;
+import com.material.components.helper.HttpHandler;
 import com.material.components.model.ShopProduct;
+import com.material.components.provider.SubjectServiceProvider;
 import com.material.components.utils.Tools;
 import com.material.components.widget.SpacingItemDecoration;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,6 +66,9 @@ public class MenuDrawerNews extends AppCompatActivity {
 
     private SessionManager session;
     private SQLiteHandler db;
+    private SubjectServiceProvider subjectServiceProvider;
+
+    public List<Subjects> subjectsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +76,14 @@ public class MenuDrawerNews extends AppCompatActivity {
         setContentView(R.layout.activity_menu_drawer_news);
         parent_view = findViewById(R.id.parent_view);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         initToolbar();
         initNavigationMenu();
         initComponent();
         displayTutorList();
+        displaySubjectList();
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -76,6 +100,10 @@ public class MenuDrawerNews extends AppCompatActivity {
 
         String name = user.get("name");
         String email = user.get("email");
+
+
+        subjectServiceProvider = new SubjectServiceProvider();
+        subjectServiceProvider.loadSubjects();
     }
 
     private void initToolbar() {
@@ -153,6 +181,19 @@ public class MenuDrawerNews extends AppCompatActivity {
         finish();
     }
 
+
+    public AdapterSubjectList adapterSubjectList;
+    public RecyclerView recyclerViewSubject;
+
+    ArrayList<HashMap<String,String>> subjectList;
+
+    private void displaySubjectList(){
+
+        subjectList = new ArrayList<>();
+        new GetSubjectList().execute();
+
+    }
+
     private void displayTutorList(){
         List<TutorList> tutorLists = DataGenerator.getTutorList(this);
 
@@ -160,7 +201,6 @@ public class MenuDrawerNews extends AppCompatActivity {
         tutorRecyclerView = (RecyclerView) findViewById(R.id.tutorRecylerView);
         tutorRecyclerView.setHasFixedSize(true);
         tutorRecyclerView.setNestedScrollingEnabled(false);
-        tutorRecyclerView.setAdapter(mTutorAdapter);
 
         RecyclerView.LayoutManager layoutManagerTutor = new LinearLayoutManager(getApplicationContext());
         tutorRecyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
@@ -222,5 +262,93 @@ public class MenuDrawerNews extends AppCompatActivity {
             }
         });
 
+    }
+
+    ProgressDialog progressDialog;
+    private static final String TAG = MenuDrawerNews.class.getSimpleName();
+
+    public class GetSubjectList extends AsyncTask<Void, Void, List<Subjects>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(MenuDrawerNews.this);
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<Subjects> doInBackground(Void... voids) {
+            HttpHandler sh = new HttpHandler();
+            String jsonStr = sh.makeServiceCall(AppConfig.URL_API_STD+"/lesson/main_subject");
+            Log.d(TAG,"Response from URL:"+jsonStr);
+
+            if(jsonStr != null)
+            {
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonStr);
+                    JSONObject obj_result = jsonObject.getJSONObject("result");
+                    JSONArray arr_subjects = obj_result.getJSONArray("subjects");
+
+
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+
+                    for(int i=0; i<arr_subjects.length(); i++)
+                    {
+                        Subjects subjects = gson.fromJson(String.valueOf(arr_subjects.get(i)),Subjects.class);
+                        subjectsList.add(subjects);
+                    }
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+
+                }
+            }else
+            {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Subjects> aVoid) {
+            super.onPostExecute(aVoid);
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+
+        adapterSubjectList = new AdapterSubjectList(this,subjectsList);
+        recyclerViewSubject = (RecyclerView) findViewById(R.id.subjectRecyclerView);
+        recyclerViewSubject.setHasFixedSize(true);
+        recyclerViewSubject.setNestedScrollingEnabled(false);
+
+        RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
+        recyclerViewSubject.addItemDecoration(new SpacingItemDecoration(2,Tools.dpToPx(getApplicationContext(),8),true));
+        recyclerViewSubject.setLayoutManager(layoutManagerSubject);
+        recyclerViewSubject.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewSubject.setAdapter(adapterSubjectList);
+        LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
+        linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        }
     }
 }

@@ -26,12 +26,14 @@
             android:background="@color/grey_10" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/subjectRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:scrollingCache="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
 
         <View
             android:layout_width="match_parent"
@@ -47,9 +49,17 @@
             android:text="Tutors"/>
 
 
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tutorRecylerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:scrollingCache="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
