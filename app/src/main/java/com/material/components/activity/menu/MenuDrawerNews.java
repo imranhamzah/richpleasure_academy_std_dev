@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
+import com.material.components.activity.chapters.ListChapters;
 import com.material.components.activity.list.ListMultiSelection;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
@@ -341,6 +342,14 @@ public class MenuDrawerNews extends AppCompatActivity {
         recyclerViewSubject.setHasFixedSize(true);
         recyclerViewSubject.setNestedScrollingEnabled(false);
 
+        recyclerViewSubject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gotoChapter = new Intent(getApplicationContext(), ListChapters.class);
+                startActivity(gotoChapter);
+            }
+        });
+
         RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
         recyclerViewSubject.addItemDecoration(new SpacingItemDecoration(2,Tools.dpToPx(getApplicationContext(),8),true));
         recyclerViewSubject.setLayoutManager(layoutManagerSubject);
@@ -348,6 +357,8 @@ public class MenuDrawerNews extends AppCompatActivity {
         recyclerViewSubject.setAdapter(adapterSubjectList);
         LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
         linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+
 
         }
     }

@@ -136,7 +136,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.menu.MenuDrawerNews"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.picker.PickerDateLight"
             android:screenOrientation="portrait" />
@@ -460,7 +460,8 @@
         <activity
             android:name=".activity.welcome.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.dialog.EduSelection"></activity>
+        <activity android:name=".activity.dialog.EduSelection" />
+        <activity android:name=".activity.chapters.ListChapters"></activity>
     </application>
 
 </manifest>
