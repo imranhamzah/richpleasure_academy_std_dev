@@ -342,9 +342,9 @@ public class MenuDrawerNews extends AppCompatActivity {
         recyclerViewSubject.setHasFixedSize(true);
         recyclerViewSubject.setNestedScrollingEnabled(false);
 
-        recyclerViewSubject.setOnClickListener(new View.OnClickListener() {
+        adapterSubjectList.setOnClickListener(new AdapterSubjectList.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(View view, Subjects obj, int pos) {
                 Intent gotoChapter = new Intent(getApplicationContext(), ListChapters.class);
                 startActivity(gotoChapter);
             }
