@@ -460,8 +460,10 @@
         <activity
             android:name=".activity.welcome.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.dialog.EduSelection" />
-        <activity android:name=".activity.chapters.ListChapters"></activity>
+        <activity android:name=".activity.chapters.ListChapters" android:screenOrientation="portrait" />
+        <activity android:name=".activity.chapters.ListChapter" android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

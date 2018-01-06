@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
+import com.material.components.activity.chapters.ListChapter;
 import com.material.components.activity.chapters.ListChapters;
 import com.material.components.activity.list.ListMultiSelection;
 import com.material.components.activity.login.LoginActivity;
@@ -190,7 +191,6 @@ public class MenuDrawerNews extends AppCompatActivity {
 
     private void displaySubjectList(){
 
-        subjectList = new ArrayList<>();
         new GetSubjectList().execute();
 
     }
@@ -199,7 +199,7 @@ public class MenuDrawerNews extends AppCompatActivity {
         List<TutorList> tutorLists = DataGenerator.getTutorList(this);
 
         mTutorAdapter = new AdapterTutorList(tutorLists, this);
-        tutorRecyclerView = (RecyclerView) findViewById(R.id.tutorRecylerView);
+        tutorRecyclerView = findViewById(R.id.tutorRecylerView);
         tutorRecyclerView.setHasFixedSize(true);
         tutorRecyclerView.setNestedScrollingEnabled(false);
 
@@ -338,7 +338,7 @@ public class MenuDrawerNews extends AppCompatActivity {
             }
 
         adapterSubjectList = new AdapterSubjectList(this,subjectsList);
-        recyclerViewSubject = (RecyclerView) findViewById(R.id.subjectRecyclerView);
+        recyclerViewSubject = findViewById(R.id.subjectRecyclerView);
         recyclerViewSubject.setHasFixedSize(true);
         recyclerViewSubject.setNestedScrollingEnabled(false);
 

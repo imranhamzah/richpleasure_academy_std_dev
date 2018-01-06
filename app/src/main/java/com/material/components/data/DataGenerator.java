@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 
 import com.material.components.R;
+import com.material.components.activity.content.Content;
 import com.material.components.activity.tutor.TutorList;
 import com.material.components.model.MusicAlbum;
 import com.material.components.model.CardViewImg;
@@ -243,6 +244,19 @@ public class DataGenerator {
         }
         return items;
     }
+/*
+    public static List<Content> getContent(Context ctx){
+        List<Content> items = new ArrayList<>();
+
+            TutorList obj = new TutorList();
+            obj.tutorProfileImage = drw_arr.getResourceId(i, -1);
+            obj.tutorName = title_arr[i];
+            obj.totalStudentsEnrolled = price_arr[i];
+            obj.tutorImageDrw = ctx.getResources().getDrawable(obj.tutorProfileImage);
+            items.add(obj);
+        }
+        return items;
+    }*/
 
 
     /**
