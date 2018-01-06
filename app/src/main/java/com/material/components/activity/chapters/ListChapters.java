@@ -1,7 +1,6 @@
 package com.material.components.activity.chapters;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -35,9 +34,9 @@ import java.util.List;
 public class ListChapters extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private View parent_view;
     ProgressDialog progressDialog;
     private static final String TAG = ListChapters.class.getSimpleName();
+
     public List<Chapters> chaptersList = new ArrayList<>();
     public AdapterListChapters adapterListChapters;
     public RecyclerView recyclerViewChapters;
@@ -50,7 +49,6 @@ public class ListChapters extends AppCompatActivity {
 
 
         toolbar = findViewById(R.id.toolbar);
-        parent_view = findViewById(R.id.lyt_parent);
         setSupportActionBar(toolbar);
         setTitle("Chapters");
 
@@ -61,6 +59,9 @@ public class ListChapters extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         //Start set empty adapter at first
+        adapterListChapters = new AdapterListChapters(this,chaptersList);
+
+
         recyclerViewChapters = findViewById(R.id.chapterRecyclerView);
         recyclerViewChapters.setHasFixedSize(true);
         recyclerViewChapters.setNestedScrollingEnabled(false);
@@ -70,13 +71,9 @@ public class ListChapters extends AppCompatActivity {
         recyclerViewChapters.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getApplicationContext(),8),true));
         recyclerViewChapters.setLayoutManager(layoutManagerChapter);
         recyclerViewChapters.setItemAnimator(new DefaultItemAnimator());
-        LinearLayoutManager linearLayoutManagerChapter = (LinearLayoutManager) layoutManagerChapter;
-        linearLayoutManagerChapter.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewChapters.setAdapter(adapterListChapters);
 
-        adapterListChapters = new AdapterListChapters(getApplicationContext(),chaptersList);
-
-        Log.d("xxxx", String.valueOf(chaptersList));
-        adapterListChapters.setOnClickListener(new AdapterListChapters.OnClickListener(){
+        /*adapterListChapters.setOnClickListener(new AdapterListChapters.OnClickListener(){
             @Override
             public void onItemClick(View view, Chapters obj, int pos) {
                 Intent gotoChapter = new Intent(getApplicationContext(), ListChapters.class);
@@ -88,8 +85,7 @@ public class ListChapters extends AppCompatActivity {
 
             }
 
-        });
-        recyclerViewChapters.setAdapter(adapterListChapters);
+        });*/
 
 
         //End set empty adapter
@@ -119,7 +115,7 @@ public class ListChapters extends AppCompatActivity {
         protected List<Chapters> doInBackground(Void... voids) {
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(AppConfig.URL_API_STD+"/lesson/main_chapters?actv_id=23&subject_id=43");
-            Log.d(TAG,"Response from URL:"+jsonStr);
+            //Log.d(TAG,"Response from URL:"+jsonStr);
 
             if(jsonStr != null)
             {
@@ -177,8 +173,6 @@ public class ListChapters extends AppCompatActivity {
             }
 
 
-            Log.d("yyyy", String.valueOf(chaptersList));
-            adapterListChapters = new AdapterListChapters(getApplicationContext(),chaptersList);
             recyclerViewChapters.setAdapter(adapterListChapters);
         }
     }

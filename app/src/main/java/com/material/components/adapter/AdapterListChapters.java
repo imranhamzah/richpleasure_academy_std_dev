@@ -23,7 +23,6 @@ public class AdapterListChapters extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private OnClickListener onClickListener = null;
 
-    private SparseBooleanArray selected_items;
     private int current_selected_idx = -1;
 
 
@@ -55,30 +54,11 @@ public class AdapterListChapters extends RecyclerView.Adapter<RecyclerView.ViewH
             final Chapters chapters = items.get(position);
 
             // displaying text view data
-            ((OriginalViewHolder) holder).chapter_name.setText(chapters.chapterName);
-            ((OriginalViewHolder) holder).chapter_progress.setText(chapters.chapterProgress);
-            ((OriginalViewHolder) holder).total_completed_lesson.setText(chapters.chapterProgress);
-            ((OriginalViewHolder) holder).lyt_parent.setActivated(selected_items.get(position, false));
+            view.chapter_name.setText(chapters.chapterName);
+            view.chapter_progress.setText(chapters.chapterProgress);
+            view.total_completed_lesson.setText(chapters.chapterProgress);
 
-            ((OriginalViewHolder) holder).lyt_parent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onClickListener == null) return;
-                    onClickListener.onItemClick(v, chapters, position);
-                }
-            });
 
-            ((OriginalViewHolder) holder).lyt_parent.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (onClickListener == null) return false;
-                    onClickListener.onItemLongClick(v, chapters, position);
-                    return true;
-                }
-            });
-
-            toggleCheckedIcon(((OriginalViewHolder) holder), position);
-            displayImage(((OriginalViewHolder) holder), chapters);
         }
 
     }
@@ -93,41 +73,20 @@ public class AdapterListChapters extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public OriginalViewHolder(View itemView) {
             super(itemView);
-            chapter_name = (TextView) itemView.findViewById(R.id.chapter_name);
-            chapter_progress = (TextView) itemView.findViewById(R.id.chapter_progress);
-            total_completed_lesson = (TextView) itemView.findViewById(R.id.total_completed_lesson);
-            chapter_letter = (TextView) itemView.findViewById(R.id.chapter_letter);
-            lyt_parent = (View) itemView.findViewById(R.id.lyt_parent);
-            lyt_checked = (RelativeLayout) itemView.findViewById(R.id.lyt_checked);
-            lyt_image = (RelativeLayout) itemView.findViewById(R.id.lyt_image);
-            lyt_parent = (View) itemView.findViewById(R.id.lyt_parent);
+            chapter_name = itemView.findViewById(R.id.chapter_name);
+            chapter_progress = itemView.findViewById(R.id.chapter_progress);
+            total_completed_lesson = itemView.findViewById(R.id.total_completed_lesson);
+            chapter_letter = itemView.findViewById(R.id.chapter_letter);
+            lyt_parent = itemView.findViewById(R.id.lyt_parent);
+            lyt_checked = itemView.findViewById(R.id.lyt_checked);
+            lyt_image = itemView.findViewById(R.id.lyt_image);
+            lyt_parent = itemView.findViewById(R.id.lyt_parent);
         }
     }
 
 
-    private void displayImage(OriginalViewHolder holder, Chapters chapters) {
-        if (chapters.image != null) {
-            Tools.displayImageRound(ctx, holder.chapter_icon, chapters.image);
-            holder.chapter_icon.setColorFilter(null);
-            holder.chapter_letter.setVisibility(View.GONE);
-        } else {
-            holder.chapter_icon.setImageResource(R.drawable.shape_circle);
-            holder.chapter_icon.setColorFilter(chapters.color);
-            holder.chapter_letter.setVisibility(View.VISIBLE);
-        }
-    }
 
-    private void toggleCheckedIcon(OriginalViewHolder holder, int position) {
-        if (selected_items.get(position, false)) {
-            holder.lyt_image.setVisibility(View.GONE);
-            holder.lyt_checked.setVisibility(View.VISIBLE);
-            if (current_selected_idx == position) resetCurrentIndex();
-        } else {
-            holder.lyt_checked.setVisibility(View.GONE);
-            holder.lyt_image.setVisibility(View.VISIBLE);
-            if (current_selected_idx == position) resetCurrentIndex();
-        }
-    }
+
 
     public void removeData(int position) {
         items.remove(position);
@@ -140,7 +99,7 @@ public class AdapterListChapters extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
 
@@ -148,7 +107,5 @@ public class AdapterListChapters extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public interface OnClickListener {
         void onItemClick(View view, Chapters obj, int pos);
-
-        void onItemLongClick(View view, Chapters obj, int pos);
     }
 }
