@@ -9,7 +9,7 @@ public class Tutor {
     public String tutorName;
 
 
-    @SerializedName("tutor_description")
+    @SerializedName("short_description")
     @Expose
     public String tutorDescription;
 

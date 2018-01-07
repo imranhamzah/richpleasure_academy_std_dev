@@ -41,11 +41,12 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        final TextView tutorFullname;
+        final TextView tutorFullname, shortDescription;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_polygon);
 
         tutorFullname = findViewById(R.id.tutorFullname);
+        shortDescription = findViewById(R.id.tutorShortDescription);
 
         initToolbar();
         initComponent();
@@ -57,14 +58,12 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
 
-
-
                 String dataReceived = gson.toJson(dataSnapshot.getValue());
                 Tutor dataTutor = gson.fromJson(dataReceived,Tutor.class);
                 tutorList.add(dataTutor);
 
-                System.out.println(dataTutor.tutorName);
                 tutorFullname.setText(dataTutor.tutorName);
+                shortDescription.setText(dataTutor.tutorDescription);
 
                 for (DataSnapshot tutorData: dataSnapshot.getChildren()) {
                     // TODO: handle the post
@@ -75,7 +74,21 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
 
+                String dataReceived = gson.toJson(dataSnapshot.getValue());
+                Tutor dataTutor = gson.fromJson(dataReceived,Tutor.class);
+                tutorList.add(dataTutor);
+
+                tutorFullname.setText(dataTutor.tutorName);
+                shortDescription.setText(dataTutor.tutorDescription);
+
+                for (DataSnapshot tutorData: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+                    System.out.println(tutorData);
+
+                }
             }
 
             @Override
