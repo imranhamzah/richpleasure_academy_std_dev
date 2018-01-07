@@ -13,5 +13,13 @@ public class Tutor {
     @Expose
     public String tutorDescription;
 
+    @SerializedName("profile_pic")
+    @Expose
+    public String profilePic;
+
+    @SerializedName("background_profile_pic")
+    @Expose
+    public String backgroundProfilePic;
+
 
 }

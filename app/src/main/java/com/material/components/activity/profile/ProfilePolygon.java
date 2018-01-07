@@ -1,14 +1,19 @@
 package com.material.components.activity.profile;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +29,10 @@ import com.material.components.R;
 import com.material.components.model.Tutor;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-import org.json.JSONObject;
-
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ProfilePolygon extends AppCompatActivity  implements ValueEventListener{
@@ -35,18 +40,25 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    private DatabaseReference tutorReferences = databaseReference.child("tutor_profile");
 
     public List<Tutor> tutorList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        final TextView tutorFullname, shortDescription;
+        final TextView tutorFullname, shortDescription, subjectLabel;
+        final ImageView profilePic, backgroundProfilePic;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_polygon);
 
         tutorFullname = findViewById(R.id.tutorFullname);
         shortDescription = findViewById(R.id.tutorShortDescription);
+        profilePic = findViewById(R.id.image);
+        backgroundProfilePic = findViewById(R.id.backgroundProfilePic);
+        subjectLabel = findViewById(R.id.subjectLabel);
+
+        SpannableString content = new SpannableString("My Subjects");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        subjectLabel.setText(content);
 
         initToolbar();
         initComponent();
@@ -65,11 +77,30 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
                 tutorFullname.setText(dataTutor.tutorName);
                 shortDescription.setText(dataTutor.tutorDescription);
 
-                for (DataSnapshot tutorData: dataSnapshot.getChildren()) {
-                    // TODO: handle the post
-                    System.out.println(tutorData);
-
+                URL url = null;
+                Bitmap bmp = null;
+                try {
+                    url = new URL(dataTutor.profilePic);
+                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                profilePic.setImageBitmap(bmp);
+
+                URL url2 = null;
+                Bitmap bmp2 = null;
+                try {
+                    url2 = new URL(dataTutor.backgroundProfilePic);
+                    bmp2 = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                backgroundProfilePic.setImageBitmap(bmp2);
+
             }
 
             @Override
@@ -84,11 +115,30 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
                 tutorFullname.setText(dataTutor.tutorName);
                 shortDescription.setText(dataTutor.tutorDescription);
 
-                for (DataSnapshot tutorData: dataSnapshot.getChildren()) {
-                    // TODO: handle the post
-                    System.out.println(tutorData);
-
+                URL url = null;
+                Bitmap bmp = null;
+                try {
+                    url = new URL(dataTutor.profilePic);
+                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                profilePic.setImageBitmap(bmp);
+
+                URL url2 = null;
+                Bitmap bmp2 = null;
+                try {
+                    url2 = new URL(dataTutor.backgroundProfilePic);
+                    bmp2 = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                backgroundProfilePic.setImageBitmap(bmp2);
+
             }
 
             @Override
@@ -109,12 +159,19 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         databaseReference.addChildEventListener(childEventListener);
     }
 
+
+    @Override
+    public boolean onNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void initComponent() {
@@ -129,12 +186,6 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
                 image.setScaleY(scale >= 0 ? scale : 0);
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search_setting, menu);
-        return true;
     }
 
     @Override
