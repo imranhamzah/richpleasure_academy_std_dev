@@ -1,6 +1,7 @@
 package com.material.components.activity.profile;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
@@ -11,10 +12,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.material.components.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-public class ProfilePolygon extends AppCompatActivity {
+public class ProfilePolygon extends AppCompatActivity  implements ValueEventListener{
+
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private DatabaseReference tutorReferences = databaseReference.child("tutor_profile");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +34,8 @@ public class ProfilePolygon extends AppCompatActivity {
 
         initToolbar();
         initComponent();
+
+        Log.d("Firebasela", String.valueOf(tutorReferences));
     }
 
     private void initToolbar() {
@@ -63,4 +76,20 @@ public class ProfilePolygon extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        if(dataSnapshot.getValue(String.class) != null){
+
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
 }
