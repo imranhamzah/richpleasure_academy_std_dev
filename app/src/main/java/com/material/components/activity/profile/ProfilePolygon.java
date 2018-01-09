@@ -7,6 +7,9 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -26,8 +29,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.adapter.AdapterTutorSubject;
 import com.material.components.model.Tutor;
+import com.material.components.model.TutorSubject;
+import com.material.components.utils.Tools;
+import com.material.components.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -39,14 +50,19 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
 
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private DatabaseReference mRootReference = firebaseDatabase.getReference();
+    private DatabaseReference mTutorProfile = mRootReference.child("tutor_profile");
 
     public List<Tutor> tutorList = new ArrayList<>();
+    public List<TutorSubject> tutorSubjectList = new ArrayList<>();
+    public RecyclerView tutorSubjectListRecyclerView;
+    private AdapterTutorSubject adapterTutorSubject;
+    public TextView tutorFullname, shortDescription, subjectLabel;
+    public ImageView profilePic, backgroundProfilePic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        final TextView tutorFullname, shortDescription, subjectLabel;
-        final ImageView profilePic, backgroundProfilePic;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_polygon);
 
@@ -63,100 +79,19 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         initToolbar();
         initComponent();
 
-        ChildEventListener childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
+        adapterTutorSubject = new AdapterTutorSubject(tutorSubjectList);
+        tutorSubjectListRecyclerView = findViewById(R.id.tutorSubjectListRecyclerView);
+        tutorSubjectListRecyclerView.setHasFixedSize(true);
+        tutorSubjectListRecyclerView.setNestedScrollingEnabled(false);
 
-                String dataReceived = gson.toJson(dataSnapshot.getValue());
-                Tutor dataTutor = gson.fromJson(dataReceived,Tutor.class);
-                tutorList.add(dataTutor);
+        RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
+        tutorSubjectListRecyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getApplicationContext(),8),true));
+        tutorSubjectListRecyclerView.setLayoutManager(layoutManagerSubject);
+        tutorSubjectListRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        tutorSubjectListRecyclerView.setAdapter(adapterTutorSubject);
 
-                tutorFullname.setText(dataTutor.tutorName);
-                shortDescription.setText(dataTutor.tutorDescription);
 
-                URL url = null;
-                Bitmap bmp = null;
-                try {
-                    url = new URL(dataTutor.profilePic);
-                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                profilePic.setImageBitmap(bmp);
-
-                URL url2 = null;
-                Bitmap bmp2 = null;
-                try {
-                    url2 = new URL(dataTutor.backgroundProfilePic);
-                    bmp2 = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                backgroundProfilePic.setImageBitmap(bmp2);
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
-
-                String dataReceived = gson.toJson(dataSnapshot.getValue());
-                Tutor dataTutor = gson.fromJson(dataReceived,Tutor.class);
-                tutorList.add(dataTutor);
-
-                tutorFullname.setText(dataTutor.tutorName);
-                shortDescription.setText(dataTutor.tutorDescription);
-
-                URL url = null;
-                Bitmap bmp = null;
-                try {
-                    url = new URL(dataTutor.profilePic);
-                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                profilePic.setImageBitmap(bmp);
-
-                URL url2 = null;
-                Bitmap bmp2 = null;
-                try {
-                    url2 = new URL(dataTutor.backgroundProfilePic);
-                    bmp2 = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                backgroundProfilePic.setImageBitmap(bmp2);
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        databaseReference.addChildEventListener(childEventListener);
     }
 
 
@@ -175,12 +110,12 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
     }
 
     private void initComponent() {
-        final CircularImageView image = (CircularImageView) findViewById(R.id.image);
-        final CollapsingToolbarLayout collapsing_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        final CircularImageView image = findViewById(R.id.image);
+        final CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         ((AppBarLayout) findViewById(R.id.app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
+                int min_height = (int) (ViewCompat.getMinimumHeight(collapsing_toolbar) * 1.5);
                 float scale = (float) (min_height + verticalOffset) / min_height;
                 image.setScaleX(scale >= 0 ? scale : 0);
                 image.setScaleY(scale >= 0 ? scale : 0);
@@ -188,34 +123,86 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        } else {
-            Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        if(dataSnapshot.getValue(String.class) != null){
-            String value = dataSnapshot.getValue(String.class);
-            Log.d("valueFila",value);
 
             String key = dataSnapshot.getKey();
-            Log.d("keyla",key);
-        }
+            if(key.equals("tutor_profile"))
+            {
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+
+                String dataTutor = gson.toJson(dataSnapshot.getValue());
+
+                Tutor tutor = gson.fromJson(dataTutor,Tutor.class);
+                tutorList.add(tutor);
+
+
+                String arrSubjectReceived = gson.toJson(dataSnapshot.child("subjects").getValue());
+
+
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(arrSubjectReceived);
+                    for(int i=0; i<jsonArray.length(); i++)
+                    {
+                        System.out.println(jsonArray.get(i));
+                        TutorSubject tutorSubject = gson.fromJson(String.valueOf(jsonArray.get(i)),TutorSubject.class);
+                        tutorSubjectList.add(tutorSubject);
+                    }
+
+                    adapterTutorSubject.notifyDataSetChanged();
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+
+
+
+                tutorFullname.setText(tutor.tutorName);
+
+                shortDescription.setText(tutor.tutorDescription);
+                URL url,url2;
+                Bitmap bmp = null;
+                try {
+                    url = new URL(tutor.profilePic);
+                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                profilePic.setImageBitmap(bmp);
+
+                Bitmap bmp2 = null;
+                try {
+                    url2 = new URL(tutor.backgroundProfilePic);
+                    bmp2 = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                backgroundProfilePic.setImageBitmap(bmp2);
+            }
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        mTutorProfile.addValueEventListener(this);
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-        Log.w("ERRROR FIRE", "Failed to read value.", databaseError.toException());
+
     }
 }

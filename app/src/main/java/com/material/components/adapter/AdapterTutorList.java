@@ -44,10 +44,10 @@ public class AdapterTutorList extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public OriginalViewHolder(View itemView) {
             super(itemView);
-            tutorProfilePic = (ImageView) itemView.findViewById(R.id.tutor_image);
-            tutorName = (TextView) itemView.findViewById(R.id.tutor_name);
-            totalStudentsEnrolled = (TextView) itemView.findViewById(R.id.total_students_enrolled);
-            lyt_parent = (View) itemView.findViewById(R.id.lyt_parent);
+            tutorProfilePic = itemView.findViewById(R.id.tutor_image);
+            tutorName = itemView.findViewById(R.id.tutor_name);
+            totalStudentsEnrolled = itemView.findViewById(R.id.total_students_enrolled);
+            lyt_parent = itemView.findViewById(R.id.lyt_parent);
         }
     }
 
