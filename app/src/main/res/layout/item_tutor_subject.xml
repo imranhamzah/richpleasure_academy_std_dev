@@ -28,5 +28,15 @@
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             tools:text="Subject"></TextView>
+
+        <TextView
+            android:id="@+id/eduYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="11sp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            tools:text="Education Year"></TextView>
     </LinearLayout>
 </RelativeLayout>

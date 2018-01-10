@@ -1,5 +1,6 @@
 package com.material.components.activity.profile;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
     public TextView tutorFullname, shortDescription, subjectLabel;
     public ImageView profilePic, backgroundProfilePic;
     private View parent_view;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,11 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
             }
         });
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
     }
 
 
@@ -130,9 +137,18 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
 
             String key = dataSnapshot.getKey();
             if(key.equals("tutor_profile"))

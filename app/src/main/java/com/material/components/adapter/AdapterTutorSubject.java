@@ -30,11 +30,12 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
         public View lyt_parent_tutor_subject;
-        public TextView subjectNameTextView;
+        public TextView subjectNameTextView,eduYear;
         public ImageView iconUrl;
         public OriginalViewHolder(View itemView) {
             super(itemView);
             subjectNameTextView = itemView.findViewById(R.id.tutorSubject);
+            eduYear = itemView.findViewById(R.id.eduYear);
             iconUrl = itemView.findViewById(R.id.iconUrl);
             lyt_parent_tutor_subject = itemView.findViewById(R.id.lyt_parent_tutor_subject);
         }
@@ -56,6 +57,7 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
             OriginalViewHolder view = (OriginalViewHolder) holder;
             final TutorSubject ts = tutorSubjectList.get(position);
             view.subjectNameTextView.setText(ts.subjectName);
+            view.eduYear.setText(ts.eduYear);
 
             URL url0;
             Bitmap bmp = null;

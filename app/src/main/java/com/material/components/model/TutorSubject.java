@@ -12,4 +12,8 @@ public class TutorSubject {
     @SerializedName("icon_url")
     @Expose
     public String iconUrl;
+
+    @SerializedName("edu_year")
+    @Expose
+    public String eduYear;
 }
