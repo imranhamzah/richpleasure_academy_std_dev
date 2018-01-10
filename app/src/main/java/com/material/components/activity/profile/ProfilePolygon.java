@@ -8,19 +8,14 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +33,6 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -85,9 +79,10 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         tutorSubjectListRecyclerView.setHasFixedSize(true);
         tutorSubjectListRecyclerView.setNestedScrollingEnabled(false);
 
-        RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
         tutorSubjectListRecyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getApplicationContext(),8),true));
-        tutorSubjectListRecyclerView.setLayoutManager(layoutManagerSubject);
+        int numberOfColumns = 3;
+
+        tutorSubjectListRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         tutorSubjectListRecyclerView.setItemAnimator(new DefaultItemAnimator());
         tutorSubjectListRecyclerView.setAdapter(adapterTutorSubject);
 
@@ -115,7 +110,7 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         ((AppBarLayout) findViewById(R.id.app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                int min_height = (int) (ViewCompat.getMinimumHeight(collapsing_toolbar) * 1.5);
+                int min_height = (int) (ViewCompat.getMinimumHeight(collapsing_toolbar) * 2);
                 float scale = (float) (min_height + verticalOffset) / min_height;
                 image.setScaleX(scale >= 0 ? scale : 0);
                 image.setScaleY(scale >= 0 ? scale : 0);
@@ -142,15 +137,18 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
                 String arrSubjectReceived = gson.toJson(dataSnapshot.child("subjects").getValue());
 
 
-                JSONArray jsonArray = null;
+                JSONArray jsonArray;
                 try {
                     jsonArray = new JSONArray(arrSubjectReceived);
+                    tutorSubjectList.clear();
                     for(int i=0; i<jsonArray.length(); i++)
                     {
                         System.out.println(jsonArray.get(i));
                         TutorSubject tutorSubject = gson.fromJson(String.valueOf(jsonArray.get(i)),TutorSubject.class);
+
                         tutorSubjectList.add(tutorSubject);
                     }
+
 
                     adapterTutorSubject.notifyDataSetChanged();
 
@@ -204,5 +202,11 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
     @Override
     public void onCancelled(DatabaseError databaseError) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTutorProfile.addValueEventListener(this);
     }
 }

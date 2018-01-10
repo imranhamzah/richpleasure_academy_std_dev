@@ -8,4 +8,8 @@ public class TutorSubject {
     @SerializedName("subject")
     @Expose
     public String subjectName;
+
+    @SerializedName("icon_url")
+    @Expose
+    public String iconUrl;
 }
