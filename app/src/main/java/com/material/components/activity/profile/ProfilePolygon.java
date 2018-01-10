@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,9 +52,10 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
     public List<Tutor> tutorList = new ArrayList<>();
     public List<TutorSubject> tutorSubjectList = new ArrayList<>();
     public RecyclerView tutorSubjectListRecyclerView;
-    private AdapterTutorSubject adapterTutorSubject;
+    public AdapterTutorSubject adapterTutorSubject;
     public TextView tutorFullname, shortDescription, subjectLabel;
     public ImageView profilePic, backgroundProfilePic;
+    private View parent_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         profilePic = findViewById(R.id.image);
         backgroundProfilePic = findViewById(R.id.backgroundProfilePic);
         subjectLabel = findViewById(R.id.subjectLabel);
+        parent_view = findViewById(R.id.parent_view);
 
         SpannableString content = new SpannableString("My Subjects");
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -86,8 +90,16 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         tutorSubjectListRecyclerView.setItemAnimator(new DefaultItemAnimator());
         tutorSubjectListRecyclerView.setAdapter(adapterTutorSubject);
 
+        adapterTutorSubject.setOnClickListener(new AdapterTutorSubject.OnClickListener() {
+            @Override
+            public void onItemClick(View view, TutorSubject obj, int pos) {
+                Snackbar.make(parent_view, "Item " + obj.subjectName + " clicked", Snackbar.LENGTH_SHORT).show();
+            }
+        });
 
     }
+
+
 
 
     @Override
@@ -209,4 +221,6 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         super.onResume();
         mTutorProfile.addValueEventListener(this);
     }
+
+
 }

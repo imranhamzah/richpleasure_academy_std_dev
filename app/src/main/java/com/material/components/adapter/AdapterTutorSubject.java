@@ -1,6 +1,5 @@
 package com.material.components.adapter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,8 @@ import java.util.List;
 
 public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private List<TutorSubject> tutorSubjectList = new ArrayList<>();;
+
+    private List<TutorSubject> tutorSubjectList = new ArrayList<>();
 
     public AdapterTutorSubject(List<TutorSubject> tutorSubjectList) {
         this.tutorSubjectList = tutorSubjectList;
@@ -29,12 +29,14 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
+        public View lyt_parent_tutor_subject;
         public TextView subjectNameTextView;
         public ImageView iconUrl;
         public OriginalViewHolder(View itemView) {
             super(itemView);
             subjectNameTextView = itemView.findViewById(R.id.tutorSubject);
             iconUrl = itemView.findViewById(R.id.iconUrl);
+            lyt_parent_tutor_subject = itemView.findViewById(R.id.lyt_parent_tutor_subject);
         }
     }
 
@@ -46,8 +48,9 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
         return vh;
     }
 
+    private OnClickListener onClickListener = null;
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof OriginalViewHolder)
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
@@ -65,11 +68,29 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
                 e.printStackTrace();
             }
             view.iconUrl.setImageBitmap(bmp);
+            view.lyt_parent_tutor_subject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickListener == null) return;
+                    onClickListener.onItemClick(v,ts,position);
+                }
+            });
+
         }
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     @Override
     public int getItemCount() {
         return tutorSubjectList.size();
     }
+
+    public interface OnClickListener {
+        void onItemClick(View view, TutorSubject obj, int pos);
+    }
+
+
 }

@@ -49,7 +49,7 @@ public class AdapterSubjectList extends RecyclerView.Adapter<RecyclerView.ViewHo
             view.subjectTitle.setText(s.getSubjectName());
 
 
-            ((OriginalViewHolder) holder).lyt_parent.setOnClickListener(new View.OnClickListener() {
+            view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onClickListener == null) return;
@@ -86,7 +86,7 @@ public class AdapterSubjectList extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
             subjectIcon = itemView.findViewById(R.id.subject_icon);
             subjectTitle = itemView.findViewById(R.id.subject_title);
-            lyt_parent = (View) itemView.findViewById(R.id.lyt_parent);
+            lyt_parent = itemView.findViewById(R.id.lyt_parent);
         }
     }
 
