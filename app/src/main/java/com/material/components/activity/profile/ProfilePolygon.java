@@ -110,7 +110,7 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         ((AppBarLayout) findViewById(R.id.app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                int min_height = (int) (ViewCompat.getMinimumHeight(collapsing_toolbar) * 2);
+                int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
                 float scale = (float) (min_height + verticalOffset) / min_height;
                 image.setScaleX(scale >= 0 ? scale : 0);
                 image.setScaleY(scale >= 0 ? scale : 0);
