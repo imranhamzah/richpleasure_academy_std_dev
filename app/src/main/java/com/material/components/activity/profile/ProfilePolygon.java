@@ -1,6 +1,7 @@
 package com.material.components.activity.profile;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -27,7 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.activity.chapters.ChapterListActivity;
 import com.material.components.adapter.AdapterTutorSubject;
+import com.material.components.model.ChapterList;
 import com.material.components.model.Tutor;
 import com.material.components.model.TutorSubject;
 import com.material.components.utils.Tools;
@@ -96,6 +99,8 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
             @Override
             public void onItemClick(View view, TutorSubject obj, int pos) {
                 Snackbar.make(parent_view, "Item " + obj.subjectName + " clicked", Snackbar.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ChapterListActivity.class);
+                startActivity(intent);
             }
         });
 

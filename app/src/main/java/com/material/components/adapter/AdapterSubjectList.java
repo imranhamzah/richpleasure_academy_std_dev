@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterSubjectList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public MenuDrawerNews.GetSubjectList context;
     private List<Subjects> subjectsList = new ArrayList<>();
+    public MenuDrawerNews.GetSubjectList context;
     public View lyt_parent;
 
     public AdapterSubjectList(MenuDrawerNews.GetSubjectList context, List<Subjects> subjectsList) {
