@@ -1,5 +1,6 @@
 package com.material.components.activity.chapters;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.activity.toolbar.ToolbarCollapsePin;
 import com.material.components.adapter.AdapterChapterList;
 import com.material.components.model.ChapterList;
 import com.material.components.utils.Tools;
@@ -68,9 +70,19 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
             public void onItemClick(View view, ChapterList obj, int pos) {
                 final Snackbar snackbar = Snackbar.make(parent_view_chapter, "Item " + obj.chapterTitle + " clicked", Snackbar.LENGTH_SHORT);
                 snackbar.show();
+                snackbar.addCallback(new Snackbar.Callback(){
+                    @Override
+                    public void onShown(Snackbar sb) {
+                        super.onShown(sb);
+                    }
 
-                System.out.println("Keluar x ni?");
-
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        Intent gotoContent = new Intent(getApplicationContext(), ToolbarCollapsePin.class);
+                        gotoContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        getApplicationContext().startActivity(gotoContent);
+                    }
+                });
             }
         });
 
