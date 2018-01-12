@@ -22,6 +22,7 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private List<TutorSubject> tutorSubjectList = new ArrayList<>();
+    private OnClickListener onClickListener = null;
 
     public AdapterTutorSubject(List<TutorSubject> tutorSubjectList) {
         this.tutorSubjectList = tutorSubjectList;
@@ -49,7 +50,7 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
         return vh;
     }
 
-    private OnClickListener onClickListener = null;
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof OriginalViewHolder)

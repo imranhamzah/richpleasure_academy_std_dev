@@ -25,13 +25,16 @@ public class AdapterChapterList extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
+        public View lyt_parent_chapter_list;
         public TextView chapterNumber,chapterTitle;
         public DonutProgress learningProgress;
         public OriginalViewHolder(View itemView) {
             super(itemView);
             chapterNumber = itemView.findViewById(R.id.chapterNumber);
             chapterTitle = itemView.findViewById(R.id.chapterTitle);
+            lyt_parent_chapter_list = itemView.findViewById(R.id.lyt_parent_chapter_list);
             learningProgress = itemView.findViewById(R.id.donut_progress);
+            learningProgress.setTextSize(40);
         }
     }
 
@@ -45,7 +48,7 @@ public class AdapterChapterList extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof OriginalViewHolder)
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
@@ -53,6 +56,14 @@ public class AdapterChapterList extends RecyclerView.Adapter<RecyclerView.ViewHo
             view.chapterNumber.setText(c.chapterNumber);
             view.chapterTitle.setText(c.chapterTitle);
             view.learningProgress.setDonut_progress(String.valueOf(c.learningProgress));
+
+            view.lyt_parent_chapter_list.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickListener == null) return;
+                    onClickListener.onItemClick(v,c,position);
+                }
+            });
         }
     }
 

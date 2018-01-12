@@ -216,9 +216,23 @@ public class MenuDrawerNews extends AppCompatActivity {
         mTutorAdapter.setOnItemClickListener(new AdapterTutorList.OnItemClickListener() {
             @Override
             public void onItemClick(View view, TutorList obj, int pos) {
-                Snackbar.make(parent_view, "Item " + obj.tutorName + " clicked", Snackbar.LENGTH_SHORT).show();
-                Intent gotoProfile = new Intent(getApplicationContext(), ProfilePolygon.class);
-                startActivity(gotoProfile);
+                final Snackbar snackbar = Snackbar.make(parent_view, "Item " + obj.tutorName + " clicked", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+
+                snackbar.addCallback(new Snackbar.Callback() {
+
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        //see Snackbar.Callback docs for event details
+                        Intent gotoProfile = new Intent(getApplicationContext(), ProfilePolygon.class);
+                        startActivity(gotoProfile);
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+                    }
+                });
+
             }
 
         });

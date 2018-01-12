@@ -66,7 +66,11 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
         adapterListChapters.setOnClickListener(new AdapterChapterList.OnClickListener() {
             @Override
             public void onItemClick(View view, ChapterList obj, int pos) {
-                Snackbar.make(parent_view_chapter, "Item " + obj.chapterTitle + " clicked", Snackbar.LENGTH_SHORT).show();
+                final Snackbar snackbar = Snackbar.make(parent_view_chapter, "Item " + obj.chapterTitle + " clicked", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+
+                System.out.println("Keluar x ni?");
+
             }
         });
 
@@ -80,6 +84,12 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 
     @Override
