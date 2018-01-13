@@ -56,7 +56,7 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
 
-        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
+//        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

@@ -219,7 +219,7 @@ public class MenuDrawerNews extends AppCompatActivity implements ValueEventListe
         });
 
         RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
-        subjectRecyclerView.addItemDecoration(new SpacingItemDecoration(2,Tools.dpToPx(getApplicationContext(),8),true));
+//        subjectRecyclerView.addItemDecoration(new SpacingItemDecoration(2,Tools.dpToPx(getApplicationContext(),8),true));
         subjectRecyclerView.setLayoutManager(layoutManagerSubject);
         subjectRecyclerView.setItemAnimator(new DefaultItemAnimator());
         subjectRecyclerView.setAdapter(adapterSubject);

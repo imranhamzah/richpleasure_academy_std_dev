@@ -60,7 +60,7 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewChapters.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
+//        recyclerViewChapters.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
         recyclerViewChapters.setLayoutManager(layoutManager);
         recyclerViewChapters.setItemAnimator(new DefaultItemAnimator());
         recyclerViewChapters.setAdapter(adapterListChapters);
