@@ -98,23 +98,8 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         adapterTutorSubject.setOnClickListener(new AdapterTutorSubject.OnClickListener() {
             @Override
             public void onItemClick(View view, TutorSubject obj, int pos) {
-                final Snackbar snackbar = Snackbar.make(parent_view, "Item " + obj.subjectName + " clicked", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-
-                snackbar.addCallback(new Snackbar.Callback() {
-
-                    @Override
-                    public void onDismissed(Snackbar snackbar, int event) {
-                        //see Snackbar.Callback docs for event details
-                        Intent intent = new Intent(getApplicationContext(), ChapterListActivity.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onShown(Snackbar snackbar) {
-
-                    }
-                });
+                Intent intent = new Intent(getApplicationContext(), ChapterListActivity.class);
+                startActivity(intent);
             }
 
         });

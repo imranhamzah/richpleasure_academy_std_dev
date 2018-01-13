@@ -60,7 +60,6 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-//        recyclerViewChapters.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
         recyclerViewChapters.setLayoutManager(layoutManager);
         recyclerViewChapters.setItemAnimator(new DefaultItemAnimator());
         recyclerViewChapters.setAdapter(adapterListChapters);
@@ -69,21 +68,9 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
         adapterListChapters.setOnClickListener(new AdapterChapterList.OnClickListener() {
             @Override
             public void onItemClick(View view, ChapterList obj, int pos) {
-                final Snackbar snackbar = Snackbar.make(parent_view_chapter, "Item " + obj.chapterTitle + " clicked", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-                snackbar.addCallback(new Snackbar.Callback(){
-                    @Override
-                    public void onShown(Snackbar sb) {
-                        super.onShown(sb);
-                    }
-
-                    @Override
-                    public void onDismissed(Snackbar transientBottomBar, int event) {
-                        Intent gotoContent = new Intent(getApplicationContext(), LessonActivity.class);
-                        gotoContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                        getApplicationContext().startActivity(gotoContent);
-                    }
-                });
+                Intent gotoContent = new Intent(getApplicationContext(), LessonActivity.class);
+                gotoContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                getApplicationContext().startActivity(gotoContent);
             }
         });
 
