@@ -3,7 +3,7 @@ package com.material.components.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tutor {
+public class TutorProfile {
     @SerializedName("tutor_name")
     @Expose
     public String tutorName;

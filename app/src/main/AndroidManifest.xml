@@ -29,6 +29,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".activity.dashboard.Dashboard"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.MainMenu"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -134,9 +138,7 @@
         <activity
             android:name=".activity.list.ListAnimation"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.menu.MenuDrawerNews"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.picker.PickerDateLight"
             android:screenOrientation="portrait" />

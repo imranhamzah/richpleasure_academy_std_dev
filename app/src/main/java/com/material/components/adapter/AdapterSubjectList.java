@@ -2,7 +2,6 @@ package com.material.components.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.material.components.R;
-import com.material.components.activity.chapters.Chapters;
-import com.material.components.activity.menu.MenuDrawerNews;
+import com.material.components.activity.dashboard.Dashboard;
 import com.material.components.activity.subject.Subjects;
 
 
@@ -24,10 +22,10 @@ import java.util.List;
 
 public class AdapterSubjectList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Subjects> subjectsList = new ArrayList<>();
-    public MenuDrawerNews.GetSubjectList context;
+    public Dashboard.GetSubjectList context;
     public View lyt_parent;
 
-    public AdapterSubjectList(MenuDrawerNews.GetSubjectList context, List<Subjects> subjectsList) {
+    public AdapterSubjectList(Dashboard.GetSubjectList context, List<Subjects> subjectsList) {
         this.context = context;
         this.subjectsList = subjectsList;
     }

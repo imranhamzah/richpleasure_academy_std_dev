@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,8 +29,7 @@ import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.chapters.ChapterListActivity;
 import com.material.components.adapter.AdapterTutorSubject;
-import com.material.components.model.ChapterList;
-import com.material.components.model.Tutor;
+import com.material.components.model.TutorProfile;
 import com.material.components.model.TutorSubject;
 import com.material.components.utils.Tools;
 import com.material.components.widget.SpacingItemDecoration;
@@ -53,7 +51,7 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
     private DatabaseReference mRootReference = firebaseDatabase.getReference();
     private DatabaseReference mTutorProfile = mRootReference.child("tutor_profile");
 
-    public List<Tutor> tutorList = new ArrayList<>();
+    public List<TutorProfile> tutorList = new ArrayList<>();
     public List<TutorSubject> tutorSubjectList = new ArrayList<>();
     public RecyclerView tutorSubjectListRecyclerView;
     public AdapterTutorSubject adapterTutorSubject;
@@ -88,7 +86,6 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
         tutorSubjectListRecyclerView.setHasFixedSize(true);
         tutorSubjectListRecyclerView.setNestedScrollingEnabled(false);
 
-        tutorSubjectListRecyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getApplicationContext(),8),true));
         int numberOfColumns = 3;
 
         tutorSubjectListRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
@@ -163,7 +160,7 @@ public class ProfilePolygon extends AppCompatActivity  implements ValueEventList
 
                 String dataTutor = gson.toJson(dataSnapshot.getValue());
 
-                Tutor tutor = gson.fromJson(dataTutor,Tutor.class);
+                TutorProfile tutor = gson.fromJson(dataTutor,TutorProfile.class);
                 tutorList.add(tutor);
 
 

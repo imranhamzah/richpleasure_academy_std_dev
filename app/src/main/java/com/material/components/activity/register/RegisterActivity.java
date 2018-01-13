@@ -19,7 +19,7 @@ import com.material.components.R;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
-import com.material.components.activity.menu.MenuDrawerNews;
+import com.material.components.activity.dashboard.Dashboard;
 import com.material.components.config.AppConfig;
 
 import org.json.JSONException;
@@ -64,7 +64,7 @@ public class RegisterActivity extends Activity {
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
             Intent intent = new Intent(RegisterActivity.this,
-                    MenuDrawerNews.class);
+                    Dashboard.class);
             startActivity(intent);
             finish();
         }

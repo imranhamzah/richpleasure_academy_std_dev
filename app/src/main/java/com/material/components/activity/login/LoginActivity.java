@@ -16,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.material.components.AppController;
 import com.material.components.R;
-import com.material.components.activity.menu.MenuDrawerNews;
+import com.material.components.activity.dashboard.Dashboard;
 import com.material.components.activity.register.RegisterActivity;
 import com.material.components.config.AppConfig;
 
@@ -59,7 +59,7 @@ public class LoginActivity extends Activity {
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
-            Intent intent = new Intent(LoginActivity.this, MenuDrawerNews.class);
+            Intent intent = new Intent(LoginActivity.this, Dashboard.class);
             startActivity(intent);
             finish();
         }
@@ -140,7 +140,7 @@ public class LoginActivity extends Activity {
 
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,
-                                MenuDrawerNews.class);
+                                Dashboard.class);
                         startActivity(intent);
                         finish();
                     } else {

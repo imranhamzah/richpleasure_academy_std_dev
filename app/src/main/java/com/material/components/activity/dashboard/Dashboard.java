@@ -1,4 +1,4 @@
-package com.material.components.activity.menu;
+package com.material.components.activity.dashboard;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -43,7 +43,6 @@ import com.material.components.activity.subject.Subjects;
 import com.material.components.activity.tutor.TutorList;
 import com.material.components.adapter.AdapterGridShopProductCard;
 import com.material.components.adapter.AdapterSubject;
-import com.material.components.adapter.AdapterSubjectList;
 import com.material.components.adapter.AdapterTutorList;
 import com.material.components.config.AppConfig;
 import com.material.components.data.DataGenerator;
@@ -62,7 +61,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MenuDrawerNews extends AppCompatActivity implements ValueEventListener {
+public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
     private ActionBar actionBar;
     private Toolbar toolbar;
@@ -186,7 +185,7 @@ public class MenuDrawerNews extends AppCompatActivity implements ValueEventListe
         db.deleteUsers();
 
         // Launching the login activity
-        Intent intent = new Intent(MenuDrawerNews.this, LoginActivity.class);
+        Intent intent = new Intent(Dashboard.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
@@ -353,7 +352,7 @@ public class MenuDrawerNews extends AppCompatActivity implements ValueEventListe
     }
 
     ProgressDialog progressDialog;
-    private static final String TAG = MenuDrawerNews.class.getSimpleName();
+    private static final String TAG = Dashboard.class.getSimpleName();
 
 
     public class GetSubjectList extends AsyncTask<Void, Void, List<Subjects>> {
@@ -361,7 +360,7 @@ public class MenuDrawerNews extends AppCompatActivity implements ValueEventListe
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(MenuDrawerNews.this);
+            progressDialog = new ProgressDialog(Dashboard.this);
             progressDialog.setMessage("Please wait...");
             progressDialog.setCancelable(false);
             progressDialog.show();

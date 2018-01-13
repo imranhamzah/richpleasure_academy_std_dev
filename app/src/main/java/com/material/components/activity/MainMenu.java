@@ -67,7 +67,6 @@ import com.material.components.activity.list.ListExpand;
 import com.material.components.activity.list.ListMultiSelection;
 import com.material.components.activity.list.ListSectioned;
 import com.material.components.activity.list.ListSwipe;
-import com.material.components.activity.menu.MenuDrawerNews;
 import com.material.components.activity.noitem.NoItemArchived;
 import com.material.components.activity.noitem.NoItemBgCactus;
 import com.material.components.activity.noitem.NoItemBgCity;
@@ -347,10 +346,7 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(new Intent(this, ListMultiSelection.class));
                 break;
 
-            // Menu --------------------------------------------------------------------------------
-            case 2001:
-                startActivity(new Intent(this, MenuDrawerNews.class));
-                break;
+
             // Pickers -----------------------------------------------------------------------------
             case 1001:
                 startActivity(new Intent(this, PickerDateLight.class));
