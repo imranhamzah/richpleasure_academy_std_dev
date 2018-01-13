@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,27 +30,21 @@ import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
 import com.material.components.activity.chapters.ChapterListActivity;
-import com.material.components.activity.chapters.ListChapter;
-import com.material.components.activity.chapters.ListChapters;
-import com.material.components.activity.list.ListMultiSelection;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
-import com.material.components.activity.profile.ProfilePolygon;
+import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.activity.subject.Subjects;
-import com.material.components.activity.tutor.TutorList;
 import com.material.components.adapter.AdapterGridShopProductCard;
 import com.material.components.adapter.AdapterSubject;
+import com.material.components.adapter.AdapterTutor;
 import com.material.components.adapter.AdapterTutorList;
 import com.material.components.config.AppConfig;
-import com.material.components.data.DataGenerator;
 import com.material.components.helper.HttpHandler;
-import com.material.components.model.ShopProduct;
 import com.material.components.model.Subject;
+import com.material.components.model.Tutor;
 import com.material.components.provider.SubjectServiceProvider;
-import com.material.components.utils.Tools;
-import com.material.components.widget.SpacingItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +63,6 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     private AdapterGridShopProductCard mAdapter;
     private View parent_view;
 
-    private RecyclerView tutorRecyclerView;
     private AdapterTutorList mTutorAdapter;
 
     private SessionManager session;
@@ -82,7 +74,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_drawer_news);
+        setContentView(R.layout.activity_dashboard);
         parent_view = findViewById(R.id.parent_view);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -90,7 +82,6 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
         initToolbar();
         initNavigationMenu();
-        initComponent();
         displayTutorList();
         displaySubjectList();
 
@@ -159,7 +150,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
                 if(id == R.id.nav_profile)
                 {
-                    Intent intentProfile = new Intent(getApplicationContext(), ProfilePolygon.class);
+                    Intent intentProfile = new Intent(getApplicationContext(), TutorProfileDetails.class);
                     startActivity(intentProfile);
                 }
 
@@ -198,6 +189,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     public DatabaseReference mRootReference = firebaseDatabase.getReference();
     public DatabaseReference mSubject = mRootReference.child("subjects");
+    public DatabaseReference mTutors = mRootReference.child("tutors");
 
 
 
@@ -218,13 +210,40 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         });
 
         RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
-//        subjectRecyclerView.addItemDecoration(new SpacingItemDecoration(2,Tools.dpToPx(getApplicationContext(),8),true));
         subjectRecyclerView.setLayoutManager(layoutManagerSubject);
         subjectRecyclerView.setItemAnimator(new DefaultItemAnimator());
         subjectRecyclerView.setAdapter(adapterSubject);
         LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
         linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
 
+    }
+
+    public AdapterTutor adapterTutor;
+    public RecyclerView tutorRecyclerView;
+    public List<Tutor> tutorList = new ArrayList<>();
+
+    private void displayTutorList()
+    {
+        adapterTutor = new AdapterTutor(tutorList);
+        tutorRecyclerView = findViewById(R.id.tutorRecylerView);
+        tutorRecyclerView.setHasFixedSize(true);
+        tutorRecyclerView.setNestedScrollingEnabled(false);
+
+        adapterTutor.setOnClickListener(new AdapterTutor.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Tutor obj, int pos) {
+                Intent gotoTutorProfile = new Intent(getApplicationContext(), TutorProfileDetails.class);
+                startActivity(gotoTutorProfile);
+            }
+
+        });
+
+        RecyclerView.LayoutManager layoutManagerTutor = new LinearLayoutManager(getApplicationContext());
+        tutorRecyclerView.setLayoutManager(layoutManagerTutor);
+        tutorRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        tutorRecyclerView.setAdapter(adapterTutor);
+        LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerTutor;
+        linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
     }
 
     @Override
@@ -250,6 +269,26 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
                 e.printStackTrace();
             }
 
+        }else if(key.equals("tutors")){
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+
+            String arrTutors = gson.toJson(dataSnapshot.getValue());
+
+            JSONArray jsonArray;
+            try {
+                jsonArray = new JSONArray(arrTutors);
+                tutorList.clear();
+                for(int i=0; i<jsonArray.length(); i++)
+                {
+                    Tutor tutor = gson.fromJson(String.valueOf(jsonArray.get(i)),Tutor.class);
+                    tutorList.add(tutor);
+                }
+                adapterTutor.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -262,94 +301,11 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     protected void onStart() {
         super.onStart();
         mSubject.addValueEventListener(this);
-    }
-
-    private void displayTutorList(){
-        List<TutorList> tutorLists = DataGenerator.getTutorList(this);
-
-        mTutorAdapter = new AdapterTutorList(tutorLists, this);
-        tutorRecyclerView = findViewById(R.id.tutorRecylerView);
-        tutorRecyclerView.setHasFixedSize(true);
-        tutorRecyclerView.setNestedScrollingEnabled(false);
-
-        RecyclerView.LayoutManager layoutManagerTutor = new LinearLayoutManager(getApplicationContext());
-        tutorRecyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
-        tutorRecyclerView.setLayoutManager(layoutManagerTutor);
-        tutorRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        tutorRecyclerView.setAdapter(mTutorAdapter);
-        LinearLayoutManager linearLayoutManagerTutor = (LinearLayoutManager) layoutManagerTutor;
-        linearLayoutManagerTutor.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-
-        // on item list clicked
-        mTutorAdapter.setOnItemClickListener(new AdapterTutorList.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, TutorList obj, int pos) {
-                final Snackbar snackbar = Snackbar.make(parent_view, "Item " + obj.tutorName + " clicked", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-
-                snackbar.addCallback(new Snackbar.Callback() {
-
-                    @Override
-                    public void onDismissed(Snackbar snackbar, int event) {
-                        //see Snackbar.Callback docs for event details
-                        Intent gotoProfile = new Intent(getApplicationContext(), ProfilePolygon.class);
-                        startActivity(gotoProfile);
-                    }
-
-                    @Override
-                    public void onShown(Snackbar snackbar) {
-                    }
-                });
-
-            }
-
-        });
-
-
-
+        mTutors.addValueEventListener(this);
     }
 
 
 
-
-    private void initComponent() {
-
-        List<ShopProduct> items = DataGenerator.getShoppingProduct(this);
-
-        //set data and list adapter
-        mAdapter = new AdapterGridShopProductCard(this, items);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);
-
-        RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
-        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
-        recyclerView.setLayoutManager(layoutManagerSubject);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
-        LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
-        linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-        // on item list clicked
-        mAdapter.setOnItemClickListener(new AdapterGridShopProductCard.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, ShopProduct obj, int position) {
-                Snackbar.make(parent_view, "Item " + obj.title + " clicked", Snackbar.LENGTH_SHORT).show();
-                Intent gotoChapter = new Intent(getApplicationContext(), ListMultiSelection.class);
-                startActivity(gotoChapter);
-            }
-        });
-
-        mAdapter.setOnMoreButtonClickListener(new AdapterGridShopProductCard.OnMoreButtonClickListener() {
-            @Override
-            public void onItemClick(View view, ShopProduct obj, MenuItem item) {
-                Snackbar.make(parent_view, obj.title + " (" + item.getTitle() + ") clicked", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
     ProgressDialog progressDialog;
     private static final String TAG = Dashboard.class.getSimpleName();

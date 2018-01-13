@@ -310,7 +310,7 @@
             android:name=".activity.card.CardWizardOverlap"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.profile.ProfilePolygon"
+            android:name=".activity.profile.TutorProfileDetails"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.noitem.NoItemArchived"

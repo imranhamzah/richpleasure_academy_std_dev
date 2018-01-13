@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TutorProfile {
-    @SerializedName("tutor_name")
+    @SerializedName("profile_tutor_name")
     @Expose
     public String tutorName;
 

@@ -63,7 +63,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-            <include android:id="@+id/parent_view" layout="@layout/include_drawer_content" />
+            <include android:id="@+id/parent_view" layout="@layout/include_dashboard_content" />
 
 
         </android.support.v4.widget.NestedScrollView>

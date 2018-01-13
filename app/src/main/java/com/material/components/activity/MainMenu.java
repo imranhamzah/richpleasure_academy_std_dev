@@ -89,7 +89,7 @@ import com.material.components.activity.player.PlayerMusicLight;
 import com.material.components.activity.player.PlayerMusicSongList;
 import com.material.components.activity.player.PlayerMusicTabs;
 import com.material.components.activity.player.PlayerMusicTabsIcon;
-import com.material.components.activity.profile.ProfilePolygon;
+import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.progressactivity.ProgressBasic;
 import com.material.components.activity.progressactivity.ProgressCircleCenter;
 import com.material.components.activity.progressactivity.ProgressLinearCenter;
@@ -494,7 +494,7 @@ public class MainMenu extends AppCompatActivity {
 
             // Profile -----------------------------------------------------------------------------
             case 1801:
-                startActivity(new Intent(this, ProfilePolygon.class));
+                startActivity(new Intent(this, TutorProfileDetails.class));
                 break;
             // No Item Page ------------------------------------------------------------------------
             case 19001:

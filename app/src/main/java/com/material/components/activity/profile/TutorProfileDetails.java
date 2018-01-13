@@ -44,7 +44,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfilePolygon extends AppCompatActivity  implements ValueEventListener{
+public class TutorProfileDetails extends AppCompatActivity  implements ValueEventListener{
 
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
