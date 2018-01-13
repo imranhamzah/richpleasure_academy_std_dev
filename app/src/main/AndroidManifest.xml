@@ -468,6 +468,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.chapters.ChapterListActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.lesson.LessonActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 `
 </manifest>

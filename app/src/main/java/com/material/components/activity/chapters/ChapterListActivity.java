@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.activity.toolbar.ToolbarCollapsePin;
 import com.material.components.adapter.AdapterChapterList;
 import com.material.components.model.ChapterList;
@@ -78,7 +79,7 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
 
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {
-                        Intent gotoContent = new Intent(getApplicationContext(), ToolbarCollapsePin.class);
+                        Intent gotoContent = new Intent(getApplicationContext(), LessonActivity.class);
                         gotoContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                         getApplicationContext().startActivity(gotoContent);
                     }
