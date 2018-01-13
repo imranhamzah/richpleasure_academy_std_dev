@@ -1,8 +1,6 @@
 package com.material.components.activity.dashboard;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -14,12 +12,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,19 +33,13 @@ import com.material.components.activity.login.SessionManager;
 import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.activity.subject.Subjects;
-import com.material.components.adapter.AdapterGridShopProductCard;
 import com.material.components.adapter.AdapterSubject;
 import com.material.components.adapter.AdapterTutor;
-import com.material.components.adapter.AdapterTutorList;
-import com.material.components.config.AppConfig;
-import com.material.components.helper.HttpHandler;
 import com.material.components.model.Subject;
 import com.material.components.model.Tutor;
-import com.material.components.provider.SubjectServiceProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,23 +50,23 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     private ActionBar actionBar;
     private Toolbar toolbar;
 
-    private RecyclerView recyclerView;
-    private AdapterGridShopProductCard mAdapter;
-    private View parent_view;
-
-    private AdapterTutorList mTutorAdapter;
-
     private SessionManager session;
     private SQLiteHandler db;
-    private SubjectServiceProvider subjectServiceProvider;
 
-    public List<Subjects> subjectsList = new ArrayList<>();
+    public AdapterSubject adapterSubject;
+    public RecyclerView subjectRecyclerView;
+    public List<Subject> subjectList = new ArrayList<>();
+
+    public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    public DatabaseReference mRootReference = firebaseDatabase.getReference();
+    public DatabaseReference mSubject = mRootReference.child("subjects");
+    public DatabaseReference mTutors = mRootReference.child("tutors");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        parent_view = findViewById(R.id.parent_view);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -95,11 +85,6 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             logoutUser();
         }
 
-
-
-
-        subjectServiceProvider = new SubjectServiceProvider();
-        subjectServiceProvider.loadSubjects();
     }
 
     private void initToolbar() {
@@ -193,18 +178,6 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         startActivity(intent);
         finish();
     }
-
-
-    public AdapterSubject adapterSubject;
-    public RecyclerView subjectRecyclerView;
-    public List<Subject> subjectList = new ArrayList<>();
-
-    public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    public DatabaseReference mRootReference = firebaseDatabase.getReference();
-    public DatabaseReference mSubject = mRootReference.child("subjects");
-    public DatabaseReference mTutors = mRootReference.child("tutors");
-
-
 
     private void displaySubjectList(){
 
@@ -315,77 +288,5 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         super.onStart();
         mSubject.addValueEventListener(this);
         mTutors.addValueEventListener(this);
-    }
-
-
-
-
-    ProgressDialog progressDialog;
-    private static final String TAG = Dashboard.class.getSimpleName();
-
-
-    public class GetSubjectList extends AsyncTask<Void, Void, List<Subjects>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(Dashboard.this);
-            progressDialog.setMessage("Please wait...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        @Override
-        protected List<Subjects> doInBackground(Void... voids) {
-            HttpHandler sh = new HttpHandler();
-            String jsonStr = sh.makeServiceCall(AppConfig.URL_API_STD+"/lesson/main_subject");
-            Log.d(TAG,"Response from URL:"+jsonStr);
-
-            if(jsonStr != null)
-            {
-                try {
-                    JSONObject jsonObject = new JSONObject(jsonStr);
-                    JSONObject obj_result = jsonObject.getJSONObject("result");
-                    JSONArray arr_subjects = obj_result.getJSONArray("subjects");
-
-
-                    GsonBuilder builder = new GsonBuilder();
-                    Gson gson = builder.create();
-
-                    for(int i=0; i<arr_subjects.length(); i++)
-                    {
-                        Subjects subjects = gson.fromJson(String.valueOf(arr_subjects.get(i)),Subjects.class);
-                        subjectsList.add(subjects);
-                    }
-                } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Json parsing error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
-
-                }
-            }else
-            {
-                Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                });
-            }
-            return null;
-        }
-
-
     }
 }
