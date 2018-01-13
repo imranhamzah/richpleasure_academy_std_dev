@@ -82,13 +82,13 @@ public class AdapterTutorSubject extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
 
     @Override
     public int getItemCount() {
         return tutorSubjectList.size();
+    }
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     public interface OnClickListener {

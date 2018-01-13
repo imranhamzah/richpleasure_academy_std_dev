@@ -21,10 +21,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
+import com.material.components.activity.chapters.ChapterListActivity;
 import com.material.components.activity.chapters.ListChapter;
 import com.material.components.activity.chapters.ListChapters;
 import com.material.components.activity.list.ListMultiSelection;
@@ -36,12 +42,14 @@ import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.activity.subject.Subjects;
 import com.material.components.activity.tutor.TutorList;
 import com.material.components.adapter.AdapterGridShopProductCard;
+import com.material.components.adapter.AdapterSubject;
 import com.material.components.adapter.AdapterSubjectList;
 import com.material.components.adapter.AdapterTutorList;
 import com.material.components.config.AppConfig;
 import com.material.components.data.DataGenerator;
 import com.material.components.helper.HttpHandler;
 import com.material.components.model.ShopProduct;
+import com.material.components.model.Subject;
 import com.material.components.provider.SubjectServiceProvider;
 import com.material.components.utils.Tools;
 import com.material.components.widget.SpacingItemDecoration;
@@ -54,7 +62,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MenuDrawerNews extends AppCompatActivity {
+public class MenuDrawerNews extends AppCompatActivity implements ValueEventListener {
 
     private ActionBar actionBar;
     private Toolbar toolbar;
@@ -184,15 +192,77 @@ public class MenuDrawerNews extends AppCompatActivity {
     }
 
 
-    public AdapterSubjectList adapterSubjectList;
-    public RecyclerView recyclerViewSubject;
+    public AdapterSubject adapterSubject;
+    public RecyclerView subjectRecyclerView;
+    public List<Subject> subjectList = new ArrayList<>();
 
-    ArrayList<HashMap<String,String>> subjectList;
+    public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    public DatabaseReference mRootReference = firebaseDatabase.getReference();
+    public DatabaseReference mSubject = mRootReference.child("subjects");
+
+
 
     private void displaySubjectList(){
 
-        new GetSubjectList().execute();
+        adapterSubject = new AdapterSubject(subjectList);
+        subjectRecyclerView = findViewById(R.id.subjectRecyclerView);
+        subjectRecyclerView.setHasFixedSize(true);
+        subjectRecyclerView.setNestedScrollingEnabled(false);
 
+        adapterSubject.setOnClickListener(new AdapterSubject.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Subject obj, int pos) {
+                Intent gotoChapter = new Intent(getApplicationContext(), ChapterListActivity.class);
+                startActivity(gotoChapter);
+            }
+
+        });
+
+        RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
+        subjectRecyclerView.addItemDecoration(new SpacingItemDecoration(2,Tools.dpToPx(getApplicationContext(),8),true));
+        subjectRecyclerView.setLayoutManager(layoutManagerSubject);
+        subjectRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        subjectRecyclerView.setAdapter(adapterSubject);
+        LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
+        linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        String key = dataSnapshot.getKey();
+        if(key.equals("subjects")){
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+
+            String arrSubjects = gson.toJson(dataSnapshot.getValue());
+
+            JSONArray jsonArray;
+            try {
+                jsonArray = new JSONArray(arrSubjects);
+                subjectList.clear();
+                for(int i=0; i<jsonArray.length(); i++)
+                {
+                    Subject subject = gson.fromJson(String.valueOf(jsonArray.get(i)),Subject.class);
+                    subjectList.add(subject);
+                }
+                adapterSubject.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSubject.addValueEventListener(this);
     }
 
     private void displayTutorList(){
@@ -241,6 +311,9 @@ public class MenuDrawerNews extends AppCompatActivity {
 
     }
 
+
+
+
     private void initComponent() {
 
         List<ShopProduct> items = DataGenerator.getShoppingProduct(this);
@@ -281,6 +354,7 @@ public class MenuDrawerNews extends AppCompatActivity {
 
     ProgressDialog progressDialog;
     private static final String TAG = MenuDrawerNews.class.getSimpleName();
+
 
     public class GetSubjectList extends AsyncTask<Void, Void, List<Subjects>> {
 
@@ -344,36 +418,6 @@ public class MenuDrawerNews extends AppCompatActivity {
             return null;
         }
 
-        @Override
-        protected void onPostExecute(List<Subjects> aVoid) {
-            super.onPostExecute(aVoid);
-            if(progressDialog.isShowing()){
-                progressDialog.dismiss();
-            }
 
-        adapterSubjectList = new AdapterSubjectList(this,subjectsList);
-        recyclerViewSubject = findViewById(R.id.subjectRecyclerView);
-        recyclerViewSubject.setHasFixedSize(true);
-        recyclerViewSubject.setNestedScrollingEnabled(false);
-
-        adapterSubjectList.setOnClickListener(new AdapterSubjectList.OnClickListener() {
-            @Override
-            public void onItemClick(View view, Subjects obj, int pos) {
-                Intent gotoChapter = new Intent(getApplicationContext(), ListChapters.class);
-                startActivity(gotoChapter);
-            }
-        });
-
-        RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getApplicationContext());
-        recyclerViewSubject.addItemDecoration(new SpacingItemDecoration(2,Tools.dpToPx(getApplicationContext(),8),true));
-        recyclerViewSubject.setLayoutManager(layoutManagerSubject);
-        recyclerViewSubject.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewSubject.setAdapter(adapterSubjectList);
-        LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
-        linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-
-
-        }
     }
 }
