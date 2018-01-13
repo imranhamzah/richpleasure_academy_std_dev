@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -85,8 +86,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         displayTutorList();
         displaySubjectList();
 
-        // SqLite database handler
-        db = new SQLiteHandler(getApplicationContext());
+
 
         // session manager
         session = new SessionManager(getApplicationContext());
@@ -95,11 +95,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             logoutUser();
         }
 
-        // Fetching user details from sqlite
-        HashMap<String, String> user = db.getUserDetails();
 
-        String name = user.get("name");
-        String email = user.get("email");
 
 
         subjectServiceProvider = new SubjectServiceProvider();
@@ -134,6 +130,23 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
     private void initNavigationMenu() {
         NavigationView nav_view = findViewById(R.id.nav_view);
+        View v = nav_view.getHeaderView(0);
+        TextView studentName = v.findViewById(R.id.studentName);
+        TextView studentEmail = v.findViewById(R.id.email);
+
+        // SqLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // Fetching user details from sqlite
+        HashMap<String, String> user = db.getUserDetails();
+
+        String name = user.get("name");
+        String email = user.get("email");
+
+        studentName.setText(name);
+        studentEmail.setText(email);
+
+
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
