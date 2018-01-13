@@ -1,12 +1,16 @@
 package com.material.components.activity.dashboard;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,7 +36,6 @@ import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
 import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
-import com.material.components.activity.subject.Subjects;
 import com.material.components.adapter.AdapterSubject;
 import com.material.components.adapter.AdapterTutor;
 import com.material.components.model.Subject;
@@ -85,15 +88,29 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             logoutUser();
         }
 
+
+
     }
 
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        View logo = getLayoutInflater().inflate(R.layout.actionbar_title, null);
+        toolbar.addView(logo);
+        TextView actionbarTitle = findViewById(R.id.actionbarTitle);
+        actionbarTitle.setText("Dashboard");
+        actionbarTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChooseEduYear();
+            }
+        });
+
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("Dashboard");
+        actionBar.setTitle("");
     }
 
     @Override
@@ -281,6 +298,34 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     @Override
     public void onCancelled(DatabaseError databaseError) {
 
+    }
+
+    private String single_choice_selected;
+    private static final String[] RINGTONE = new String[]{
+            "Form 1","Form 2","Form 3","Form 4", "Form 5"
+    };
+
+
+    private void showChooseEduYear() {
+        single_choice_selected = RINGTONE[0];
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Education Years");
+        builder.setSingleChoiceItems(RINGTONE, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                single_choice_selected = RINGTONE[i];
+            }
+        });
+        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                System.out.println("Tingkatan kat sini: "+single_choice_selected);
+                TextView actionbarTitle = findViewById(R.id.actionbarTitle);
+                actionbarTitle.setText(single_choice_selected);
+            }
+        });
+        builder.setNegativeButton(R.string.CANCEL, null);
+        builder.show();
     }
 
     @Override
