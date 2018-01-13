@@ -102,6 +102,12 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     public void openSubMenu(View v)
     {
         PopupMenu popup = new PopupMenu(v.getContext(), v);

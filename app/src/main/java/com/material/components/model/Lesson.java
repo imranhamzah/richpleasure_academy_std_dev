@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Lesson {
     @SerializedName("content")
     @Expose
-    public String[] content;
+    public String[] subContent;
 
     @SerializedName("lesson_id")
     @Expose
