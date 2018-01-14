@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +16,10 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.material.components.AppController;
 import com.material.components.R;
 import com.material.components.activity.login.LoginActivity;
@@ -39,16 +45,18 @@ public class RegisterActivity extends Activity {
     private SessionManager session;
     private SQLiteHandler db;
 
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        inputFullName = (EditText) findViewById(R.id.name);
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
+        inputEmail = findViewById(R.id.email);
+        inputFullName = findViewById(R.id.name);
+        inputPassword = findViewById(R.id.password);
+        btnRegister = findViewById(R.id.btnRegister);
+        btnLinkToLogin = findViewById(R.id.btnLinkToLoginScreen);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -77,7 +85,8 @@ public class RegisterActivity extends Activity {
                 String password = inputPassword.getText().toString().trim();
 
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(name, email, password);
+//                    registerUser(name, email, password);
+                    registerUserWithFirebase(name,email,password);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)
@@ -97,6 +106,44 @@ public class RegisterActivity extends Activity {
             }
         });
 
+    }
+
+    private void registerUserWithFirebase(final String name, String email, String password) {
+        pDialog.setMessage("Registering ...");
+        showDialog();
+
+        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                hideDialog();
+                if(task.isSuccessful())
+                {
+                    String uid = firebaseAuth.getUid();
+
+                    String email = firebaseAuth.getCurrentUser().getEmail();
+                    String created_at = null;
+                    // Inserting row in users table
+                    db.addUser(name, email, uid, created_at);
+
+                    final Toast responseRegister = Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG);
+                    responseRegister.show();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, Toast.LENGTH_LONG);
+
+
+                }else
+                {
+                    Toast.makeText(getApplicationContext(), "Could not register...try again!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     /**

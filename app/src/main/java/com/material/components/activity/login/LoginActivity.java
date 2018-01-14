@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,13 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.material.components.AppController;
 import com.material.components.R;
 import com.material.components.activity.dashboard.Dashboard;
@@ -26,7 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements ValueEventListener{
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private Button btnLogin;
     private Button btnLinkToRegister;
@@ -36,15 +44,17 @@ public class LoginActivity extends Activity {
     private SessionManager session;
     private SQLiteHandler db;
 
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
+        inputEmail = findViewById(R.id.email);
+        inputPassword = findViewById(R.id.password);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLinkToRegister = findViewById(R.id.btnLinkToRegisterScreen);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -57,7 +67,7 @@ public class LoginActivity extends Activity {
         session = new SessionManager(getApplicationContext());
 
         // Check if user is already logged in or not
-        if (session.isLoggedIn()) {
+        if (session.isLoggedIn()/* && firebaseAuth.getCurrentUser() != null*/) {
             // User is already logged in. Take him to main activity
             Intent intent = new Intent(LoginActivity.this, Dashboard.class);
             startActivity(intent);
@@ -74,7 +84,8 @@ public class LoginActivity extends Activity {
                 // Check for empty data in the form
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // login user
-                    checkLogin(email, password);
+                    checkLoginWithFirebase(email,password);
+//                    checkLogin(email, password);
                 } else {
                     // Prompt user to enter credentials
                     Toast.makeText(getApplicationContext(),
@@ -96,6 +107,38 @@ public class LoginActivity extends Activity {
             }
         });
 
+    }
+
+    private void checkLoginWithFirebase(final String email, final String password)
+    {
+        pDialog.setMessage("Logging in ...");
+        showDialog();
+        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                hideDialog();
+                if(task.isSuccessful())
+                {
+                    session.setLogin(true);
+
+                    // Now store the user in SQLite
+                    String uid = firebaseAuth.getUid();
+
+                    String name = firebaseAuth.getCurrentUser().getDisplayName();
+                    String email = firebaseAuth.getCurrentUser().getEmail();
+                    String created_at = null;
+                    // Inserting row in users table
+                    db.addUser(name, email, uid, created_at);
+
+                    Intent gotoDashboard = new Intent(getApplicationContext(),Dashboard.class);
+                    startActivity(gotoDashboard);
+                    finish();
+                }else
+                {
+                    Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     /**
@@ -193,4 +236,13 @@ public class LoginActivity extends Activity {
             pDialog.dismiss();
     }
 
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
 }

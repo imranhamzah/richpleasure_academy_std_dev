@@ -2,6 +2,7 @@ package com.material.components.activity.dashboard;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,6 +69,12 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     public Integer eduYearValue = 0;
 
 
+    private SharedPreferences eduYearSharedPreferences;
+    private SharedPreferences.Editor editorEduYear;
+
+    private TextView actionbarTitle;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +88,8 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         displayTutorList();
         displaySubjectList();
 
+        eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
+        editorEduYear = eduYearSharedPreferences.edit();
 
 
         // session manager
@@ -89,9 +99,16 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             logoutUser();
         }
 
-        if(eduYear == null)
+
+        if(eduYearSharedPreferences.getInt("eduYearValue",0)==0)
         {
             showChooseEduYear();
+        }else
+        {
+            eduYearValue = eduYearSharedPreferences.getInt("eduYearValue",0);
+            String eduYearTitle = eduYearSharedPreferences.getString("eduYearTitle","Dashboard");
+            actionbarTitle = findViewById(R.id.actionbarTitle);
+            actionbarTitle.setText(eduYearTitle);
         }
 
 
@@ -191,10 +208,12 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     }
 
 
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private void logoutUser() {
         session.setLogin(false);
 
         db.deleteUsers();
+        firebaseAuth.signOut();
 
         // Launching the login activity
         Intent intent = new Intent(Dashboard.this, LoginActivity.class);
@@ -328,6 +347,8 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             public void onClick(DialogInterface dialogInterface, int i) {
                 single_choice_selected = RINGTONE[i];
                 eduYearValue = i;
+                editorEduYear.putInt("eduYearValue",i);
+                editorEduYear.commit();
             }
         });
         builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
@@ -336,6 +357,8 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
                 eduYear = single_choice_selected;
                 TextView actionbarTitle = findViewById(R.id.actionbarTitle);
                 actionbarTitle.setText(eduYear);
+                editorEduYear.putString("eduYearTitle",eduYear);
+                editorEduYear.commit();
             }
         });
         builder.setNegativeButton(R.string.CANCEL, null);
