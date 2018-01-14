@@ -2,11 +2,9 @@ package com.material.components.activity.dashboard;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -65,6 +63,9 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     public DatabaseReference mSubject = mRootReference.child("subjects");
     public DatabaseReference mTutors = mRootReference.child("tutors");
 
+    public String eduYear = null;
+    public Integer eduYearValue = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,11 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
         if (!session.isLoggedIn()) {
             logoutUser();
+        }
+
+        if(eduYear == null)
+        {
+            showChooseEduYear();
         }
 
 
@@ -307,21 +313,29 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
 
     private void showChooseEduYear() {
-        single_choice_selected = RINGTONE[0];
+        if(eduYear == null)
+        {
+            single_choice_selected = RINGTONE[0];
+        }else
+        {
+            eduYear = single_choice_selected;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Education Years");
-        builder.setSingleChoiceItems(RINGTONE, 0, new DialogInterface.OnClickListener() {
+
+        builder.setSingleChoiceItems(RINGTONE, eduYearValue, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 single_choice_selected = RINGTONE[i];
+                eduYearValue = i;
             }
         });
         builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                System.out.println("Tingkatan kat sini: "+single_choice_selected);
+                eduYear = single_choice_selected;
                 TextView actionbarTitle = findViewById(R.id.actionbarTitle);
-                actionbarTitle.setText(single_choice_selected);
+                actionbarTitle.setText(eduYear);
             }
         });
         builder.setNegativeButton(R.string.CANCEL, null);
