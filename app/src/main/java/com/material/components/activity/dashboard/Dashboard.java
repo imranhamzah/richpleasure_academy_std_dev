@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -18,8 +19,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,11 +78,21 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
     private TextView actionbarTitle;
 
+    private FiftyShadesOf fiftyShadesOf;
+
+    public LinearLayout layout1,layout2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        layout1 = findViewById(R.id.layout1);
+        layout2 = findViewById(R.id.layout2);
+
+        fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.layout1,R.id.layout2).start();
+
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -90,6 +104,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
         eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
         editorEduYear = eduYearSharedPreferences.edit();
+
 
 
         // session manager
@@ -276,8 +291,10 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+        fiftyShadesOf.stop();
         String key = dataSnapshot.getKey();
         if(key.equals("subjects")){
+            layout1.setVisibility(RelativeLayout.GONE);
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
 
@@ -298,6 +315,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             }
 
         }else if(key.equals("tutors")){
+            layout2.setVisibility(RelativeLayout.GONE);
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
 

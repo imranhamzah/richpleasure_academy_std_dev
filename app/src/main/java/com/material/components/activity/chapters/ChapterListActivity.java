@@ -9,7 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,9 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
     private Toolbar toolbar;
 
 
+    private FiftyShadesOf fiftyShadesOf;
+    private LinearLayout chapterLinearLayout;
+
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRootReference = firebaseDatabase.getReference();
     private DatabaseReference mChapters = mRootReference.child("chapters");
@@ -51,6 +56,9 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
         parent_view_chapter = findViewById(R.id.parent_view_chapter);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.chapterLayout).start();
+        chapterLinearLayout = findViewById(R.id.chapterLayout);
 
         adapterListChapters = new AdapterChapterList(chaptersList);
 
@@ -103,6 +111,8 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
         String key = dataSnapshot.getKey();
         if(key.equals("chapters"))
         {
+            fiftyShadesOf.stop();
+            chapterLinearLayout.setVisibility(View.GONE);
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
 

@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,12 +60,15 @@ public class TutorProfileDetails extends AppCompatActivity  implements ValueEven
     public ImageView profilePic, backgroundProfilePic;
     private View parent_view;
     ProgressDialog progressDialog;
+    private FiftyShadesOf fiftyShadesOf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_polygon);
+
+        fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.tutorFullname,R.id.tutorShortDescription, R.id.subjectLabel).start();
 
         tutorFullname = findViewById(R.id.tutorFullname);
         shortDescription = findViewById(R.id.tutorShortDescription);
@@ -155,6 +159,7 @@ public class TutorProfileDetails extends AppCompatActivity  implements ValueEven
             String key = dataSnapshot.getKey();
             if(key.equals("tutor_profile"))
             {
+                fiftyShadesOf.stop();
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
 

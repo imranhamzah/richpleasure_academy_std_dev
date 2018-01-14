@@ -25,6 +25,29 @@
             android:layout_height="1px"
             android:background="@color/grey_10" />
 
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+            <include
+                android:id="@+id/subjectOne"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                layout="@layout/item_subject"/>
+            <include
+                android:id="@+id/subjectTwo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                layout="@layout/item_subject"/>
+            <include
+                android:id="@+id/subjectThree"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                layout="@layout/item_subject"/>
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/subjectRecyclerView"
             android:layout_width="match_parent"
@@ -45,6 +68,29 @@
             android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:text="Tutors"/>
+
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+            <include
+                android:id="@+id/tutorOne"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                layout="@layout/item_tutor"/>
+            <include
+                android:id="@+id/tutorTwo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                layout="@layout/item_tutor"/>
+            <include
+                android:id="@+id/tutorThree"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                layout="@layout/item_tutor"/>
+        </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView

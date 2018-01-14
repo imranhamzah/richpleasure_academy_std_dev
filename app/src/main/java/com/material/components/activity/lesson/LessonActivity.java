@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,11 +45,17 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
     private DatabaseReference mRootReference = firebaseDatabase.getReference();
     private DatabaseReference lessonReference = mRootReference.child("lessons");
 
+    private LinearLayout lessonLinearLayout;
+    private FiftyShadesOf fiftyShadesOf;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
         context = getApplicationContext();
+
+        fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.lessonLayout).start();
+        lessonLinearLayout = findViewById(R.id.lessonLayout);
 
         adapterLesson = new AdapterLesson(lessonList);
         recyclerView = findViewById(R.id.lessonRecyclerView);
@@ -77,6 +85,8 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
     public void onDataChange(DataSnapshot dataSnapshot) {
         String key = dataSnapshot.getKey();
         if (key.equals("lessons")) {
+            fiftyShadesOf.stop();
+            lessonLinearLayout.setVisibility(View.GONE);
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             String arrDataLesson = gson.toJson(dataSnapshot.getValue());
