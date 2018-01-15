@@ -57,14 +57,13 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
         fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.lessonLayout).start();
         lessonLinearLayout = findViewById(R.id.lessonLayout);
 
-        adapterLesson = new AdapterLesson(lessonList);
+        adapterLesson = new AdapterLesson(lessonList,this);
         recyclerView = findViewById(R.id.lessonRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
 
-//        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
