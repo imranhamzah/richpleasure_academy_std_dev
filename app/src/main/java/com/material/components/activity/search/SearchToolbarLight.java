@@ -1,6 +1,7 @@
 package com.material.components.activity.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
@@ -35,9 +36,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.adapter.AdapterSearchResult;
 import com.material.components.adapter.AdapterSuggestionSearch;
 import com.material.components.model.Tutor;
+import com.material.components.model.TutorProfile;
 import com.material.components.utils.Tools;
 import com.material.components.utils.ViewAnimation;
 
@@ -98,6 +101,13 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
         tutorSearchRecyclerView.setLayoutManager(layoutManager);
         tutorSearchRecyclerView.setItemAnimator(new DefaultItemAnimator());
         tutorSearchRecyclerView.setAdapter(mAdapterSearchResult);
+        mAdapterSearchResult.setOnClickListener(new AdapterSearchResult.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Tutor obj, int pos) {
+                Intent gotoTutorProfile = new Intent(SearchToolbarLight.this, TutorProfileDetails.class);
+                startActivity(gotoTutorProfile);
+            }
+        });
     }
 
     private void initToolbar() {

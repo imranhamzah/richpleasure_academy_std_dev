@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lyt_parent_chapter_list"
+    android:id="@+id/lyt_parent_result_tutor_list"
     style="@style/RippleStyleBlack"
     android:layout_gravity="center_horizontal"
     android:layout_width="match_parent"

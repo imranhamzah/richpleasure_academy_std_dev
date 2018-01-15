@@ -21,6 +21,7 @@ import java.util.List;
 public class AdapterSearchResult extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Tutor> tutorList = new ArrayList<>();
+    private OnClickListener onClickListener = null;
 
     public AdapterSearchResult(List<Tutor> tutorList) {
         this.tutorList = tutorList;
@@ -36,23 +37,32 @@ public class AdapterSearchResult extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
+        public View lyt_parent_result_tutor_list;
         public ImageView tutorSearchProfilePic;
         public TextView tutorSearchName;
         public OriginalViewHolder(View itemView) {
             super(itemView);
             tutorSearchProfilePic = itemView.findViewById(R.id.tutorSearchProfilePic);
             tutorSearchName = itemView.findViewById(R.id.tutorSearchName);
+            lyt_parent_result_tutor_list = itemView.findViewById(R.id.lyt_parent_result_tutor_list);
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof OriginalViewHolder)
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
             final Tutor t = tutorList.get(position);
 
             view.tutorSearchName.setText(t.tutorName);
+            view.lyt_parent_result_tutor_list.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickListener == null) return;
+                    onClickListener.onItemClick(v,t,position);
+                }
+            });
 
             URL url;
             Bitmap bmp = null;
@@ -72,5 +82,14 @@ public class AdapterSearchResult extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         return tutorList.size();
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+
+    public interface OnClickListener {
+        void onItemClick(View view, Tutor obj, int pos);
     }
 }
