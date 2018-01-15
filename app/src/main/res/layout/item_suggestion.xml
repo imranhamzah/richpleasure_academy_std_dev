@@ -18,7 +18,7 @@
         android:layout_width="@dimen/spacing_mlarge"
         android:layout_height="@dimen/spacing_mlarge"
         android:tint="@color/grey_40"
-        app:srcCompat="@drawable/ic_history" />
+        app:srcCompat="@drawable/ic_search" />
 
     <View
         android:layout_width="@dimen/spacing_smlarge"

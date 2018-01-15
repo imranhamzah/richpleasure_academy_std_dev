@@ -1,12 +1,9 @@
 package com.material.components.activity.search;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.os.Handler;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,8 +28,6 @@ import com.material.components.adapter.AdapterSuggestionSearch;
 import com.material.components.utils.Tools;
 import com.material.components.utils.ViewAnimation;
 
-import java.util.ArrayList;
-
 public class SearchToolbarLight extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -56,23 +51,23 @@ public class SearchToolbarLight extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Tools.setSystemBarColor(this, R.color.grey_20);
+        Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
 
     private void initComponent() {
-        progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
-        lyt_no_result = (LinearLayout) findViewById(R.id.lyt_no_result);
+        progress_bar = findViewById(R.id.progress_bar);
+        lyt_no_result = findViewById(R.id.lyt_no_result);
 
-        lyt_suggestion = (LinearLayout) findViewById(R.id.lyt_suggestion);
-        et_search = (EditText) findViewById(R.id.et_search);
+        lyt_suggestion = findViewById(R.id.lyt_suggestion);
+        et_search = findViewById(R.id.et_search);
         et_search.addTextChangedListener(textWatcher);
 
-        bt_clear = (ImageButton) findViewById(R.id.bt_clear);
+        bt_clear = findViewById(R.id.bt_clear);
         bt_clear.setVisibility(View.GONE);
-        recyclerSuggestion = (RecyclerView) findViewById(R.id.recyclerSuggestion);
+        recyclerSuggestion = findViewById(R.id.recyclerSuggestion);
 
         recyclerSuggestion.setLayoutManager(new LinearLayoutManager(this));
         recyclerSuggestion.setHasFixedSize(true);
@@ -162,6 +157,7 @@ public class SearchToolbarLight extends AppCompatActivity {
                 @Override
                 public void run() {
                     progress_bar.setVisibility(View.GONE);
+                    System.out.println("Result here:- "+query);
                     lyt_no_result.setVisibility(View.VISIBLE);
                 }
             }, 2000);

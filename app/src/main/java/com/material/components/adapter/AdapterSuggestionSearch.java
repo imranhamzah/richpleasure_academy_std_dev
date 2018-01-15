@@ -32,8 +32,8 @@ public class AdapterSuggestionSearch extends RecyclerView.Adapter<AdapterSuggest
 
         public ViewHolder(View v) {
             super(v);
-            title = (TextView) v.findViewById(R.id.title);
-            lyt_parent = (LinearLayout) v.findViewById(R.id.lyt_parent);
+            title = v.findViewById(R.id.title);
+            lyt_parent = v.findViewById(R.id.lyt_parent);
         }
     }
 
