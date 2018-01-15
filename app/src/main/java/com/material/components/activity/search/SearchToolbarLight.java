@@ -1,9 +1,12 @@
 package com.material.components.activity.search;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,12 +26,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.adapter.AdapterSearchResult;
 import com.material.components.adapter.AdapterSuggestionSearch;
+import com.material.components.model.Tutor;
 import com.material.components.utils.Tools;
 import com.material.components.utils.ViewAnimation;
 
-public class SearchToolbarLight extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchToolbarLight extends AppCompatActivity implements ValueEventListener {
 
     private Toolbar toolbar;
     private EditText et_search;
@@ -39,7 +58,25 @@ public class SearchToolbarLight extends AppCompatActivity {
 
     private RecyclerView recyclerSuggestion;
     private AdapterSuggestionSearch mAdapterSuggestion;
+
+    private RecyclerView tutorSearchRecyclerView;
+    private AdapterSearchResult mAdapterSearchResult;
+    private List<Tutor> tutorList = new ArrayList<>();
+
+
+
+
     private LinearLayout lyt_suggestion;
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mRootReference = firebaseDatabase.getReference();
+    private Query mTutors;
+    private String query = null;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +85,19 @@ public class SearchToolbarLight extends AppCompatActivity {
 
         initToolbar();
         initComponent();
+        initSearchResult();
+    }
+
+    private void initSearchResult() {
+        mAdapterSearchResult = new AdapterSearchResult(tutorList);
+        tutorSearchRecyclerView = findViewById(R.id.tutorSearchRecyclerView);
+        tutorSearchRecyclerView.setHasFixedSize(true);
+        tutorSearchRecyclerView.setNestedScrollingEnabled(false);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        tutorSearchRecyclerView.setLayoutManager(layoutManager);
+        tutorSearchRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        tutorSearchRecyclerView.setAdapter(mAdapterSearchResult);
     }
 
     private void initToolbar() {
@@ -151,16 +201,56 @@ public class SearchToolbarLight extends AppCompatActivity {
         ViewAnimation.collapse(lyt_suggestion);
         lyt_no_result.setVisibility(View.GONE);
 
-        final String query = et_search.getText().toString().trim();
+        query = et_search.getText().toString().trim();
         if (!query.equals("")) {
-            new Handler().postDelayed(new Runnable() {
+
+            mTutors = mRootReference
+                    .child("tutors")
+                    .orderByChild("tutor_name")
+                    .startAt(query);
+            mTutors.addListenerForSingleValueEvent(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
-                public void run() {
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+
+                    String arr_result = gson.toJson(dataSnapshot.getValue());
+
+                    if(String.valueOf(dataSnapshot.getValue()) != "null")
+                    {
+                        JSONArray jsonArray;
+
+                        try {
+                            jsonArray = new JSONArray(arr_result);
+                            tutorList.clear();
+                            for(int i=0; i<jsonArray.length(); i++)
+                            {
+                                if(String.valueOf(jsonArray.get(i)) != "null")
+                                {
+                                    Tutor tutor = gson.fromJson(String.valueOf(jsonArray.get(i)),Tutor.class);
+                                    tutorList.add(tutor);
+                                }
+                            }
+                            mAdapterSearchResult.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else
+                    {
+                        lyt_no_result.setVisibility(View.VISIBLE);
+                        tutorList.clear();
+                        mAdapterSearchResult.notifyDataSetChanged();
+                    }
                     progress_bar.setVisibility(View.GONE);
-                    System.out.println("Result here:- "+query);
-                    lyt_no_result.setVisibility(View.VISIBLE);
                 }
-            }, 2000);
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             mAdapterSuggestion.addSearchHistory(query);
         } else {
             Toast.makeText(this, "Please fill search input", Toast.LENGTH_SHORT).show();
@@ -175,5 +265,21 @@ public class SearchToolbarLight extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        String key = dataSnapshot.getKey();
+        if(key.equals("tutors"))
+        {
+
+        }
+    }
+
+
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
     }
 }

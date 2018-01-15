@@ -61,6 +61,11 @@
         android:layout_height="match_parent"
         android:background="@color/grey_10">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tutorSearchRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
@@ -114,12 +119,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:textColor="@color/grey_500"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     android:text="Recent Searches"
+                    android:textStyle="bold"
                     android:gravity="left"
                     android:layout_gravity="left"
                     />
@@ -128,10 +135,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:textColor="@color/grey_500"
                     android:layout_toRightOf="@+id/recentSearches"
-                    android:paddingRight="10dp"
                     android:paddingTop="10dp"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
                     android:text="Clear History"
                     android:gravity="right"
                     android:layout_gravity="right"
