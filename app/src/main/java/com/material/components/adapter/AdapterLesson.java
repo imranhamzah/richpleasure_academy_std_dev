@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -26,6 +28,7 @@ public class AdapterLesson extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private List<Lesson> lessonList = new ArrayList<>();
     public Context context;
+    public ProgressBar progressBar;
 
     public AdapterLesson(List<Lesson> lessonList, Context context) {
         this.lessonList = lessonList;
@@ -41,12 +44,14 @@ public class AdapterLesson extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
+
         public TextView lessonId,lessonNo,lessonTitle;
         public WebView contentWebView;
         public OriginalViewHolder(View itemView) {
             super(itemView);
             lessonTitle = itemView.findViewById(R.id.lesson_title);
             contentWebView = itemView.findViewById(R.id.contentWebView);
+            progressBar = itemView.findViewById(R.id.progressBarContent);
         }
     }
 
@@ -71,6 +76,8 @@ public class AdapterLesson extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         System.out.println(String.valueOf(jsonArray.get(i)));
                         dataDisplay += jsonArray.get(i)+"<p></p>";
                     }
+                    view.contentWebView.getSettings().setJavaScriptEnabled(true);
+                    view.contentWebView.setWebViewClient(new AppWebViewClients(progressBar));
                     view.contentWebView.loadData(String.valueOf(dataDisplay),"text/html", "UTF-8");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -81,30 +88,29 @@ public class AdapterLesson extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private class ImageGetter implements Html.ImageGetter {
 
-        public Drawable getDrawable(String source) {
-            int id;
+    public class AppWebViewClients extends WebViewClient {
+        private ProgressBar progressBar;
 
-            id =  context.getResources().getIdentifier(source, "drawable", context.getPackageName());
-
-            if (id == 0) {
-                // the drawable resource wasn't found in our package, maybe it is a stock android drawable?
-                id = context.getResources().getIdentifier(source, "drawable", "android");
-            }
-
-            if (id == 0) {
-                // prevent a crash if the resource still can't be found
-                return null;
-            }
-            else {
-                Drawable d = context.getResources().getDrawable(id);
-                d.setBounds(0,0,d.getIntrinsicWidth(),d.getIntrinsicHeight());
-                return d;
-            }
+        public AppWebViewClients(ProgressBar progressBar) {
+            this.progressBar=progressBar;
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            view.loadUrl(url);
+            return true;
         }
 
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
+            progressBar.setVisibility(View.GONE);
+        }
     }
+
 
     @Override
     public int getItemCount() {
