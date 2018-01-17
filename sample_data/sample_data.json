@@ -1,212 +1,302 @@
 {
-  "subjects": {
-    "1": {
+  "subjects": [
+    {
       "subject_id": "1",
       "subject_no": "1",
       "subject_code": "3472",
-      "subject_title": "Additional Mathematics",
       "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
+      "edu_year_id": "10",
+      "subject_short_form": "MT",
+      "subject_title": "Additional Mathematics",
       "subject_remark": "",
-      "chapters": {
-        "1": {
+      "chapters": [
+        {
           "chapter_id": "1",
           "chapter_no": "1",
+          "subject_id": "1",
+          "edu_year_id": "10",
           "chapter_title": "Fungsi",
           "chapter_remark": null,
-          "subchapters": {
-            "1": {
+          "subchapters": [
+            {
               "subchapter_id": "1",
               "subchapter_no": "1",
+              "subject_id": "1",
+              "edu_year_id": "10",
+              "chapter_id": "1",
               "subchapter_title": "Hubungan",
               "subchapter_remark": "",
-              "outcome": {
-                "1": {
+              "outcome": [
+                {
                   "outcome_id": "1",
                   "outcome_no": "1.1",
-                  "outcome_level": "1",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "1",
                   "outcome_description": "Mewakilkan sesuatu hubungan.",
+                  "outcome_level": "1",
                   "suggested_activity": "Pendedahan idea tentang set diperlukan. Contoh-contoh hubungan dalam kehidupan harian perlu dibincangkan.\r\n",
                   "outcome_remark": null
                 },
-                "2": {
+                {
                   "outcome_id": "2",
                   "outcome_no": "1.2",
-                  "outcome_level": "2",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "1",
                   "outcome_description": "Menentukan domain, kodomain, objek, imej dan julat bagi sesuatu hubungan.",
+                  "outcome_level": "2",
                   "suggested_activity": "Kes hubungan meliputi gambar rajah anak panah, pasangan bertertib dan graf.\r\n",
                   "outcome_remark": null
                 },
-                "3": {
+                {
                   "outcome_id": "3",
                   "outcome_no": "1.3",
-                  "outcome_level": "3",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "1",
                   "outcome_description": "Mengelaskan sesuatu hubungan yang ditunjukkan dalam rajah pemetaan sebagai jenis: satu kepada satu, banyak kepada satu, satu kepada banyak dan banyak kepada banyak.",
+                  "outcome_level": "3",
                   "suggested_activity": null,
                   "outcome_remark": null
                 }
-              }
+              ]
             },
-            "2": {
+            {
               "subchapter_id": "2",
               "subchapter_no": "2",
+              "subject_id": "1",
+              "edu_year_id": "10",
+              "chapter_id": "1",
               "subchapter_title": "Fungsi",
               "subchapter_remark": "",
-              "outcome": {
-                "4": {
+              "outcome": [
+                {
                   "outcome_id": "4",
                   "outcome_no": "2.1",
-                  "outcome_level": "1",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "2",
                   "outcome_description": "Mengenal pasti fungsi sebagai sejenis hubungan khas.",
+                  "outcome_level": "1",
                   "suggested_activity": "Fungsi diwakilkan dalam bentuk gambar rajah anak panah, pasangan bertertib atau graf.\r\n",
                   "outcome_remark": null
                 },
-                "5": {
+                {
                   "outcome_id": "5",
                   "outcome_no": "2.2",
-                  "outcome_level": "2",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "2",
                   "outcome_description": "Menulis sesuatu fungsi dengan menggunakan tatatanda fungsi.",
+                  "outcome_level": "2",
                   "suggested_activity": "Contoh : f: x ? 2x f(x) = 2x “f: x ? 2x” boleh dibaca sebagai “fungsi f yang memetakan x kepada 2x”. Contoh fungsi yang bukan berasaskan matematik diberikan juga.\r\n",
                   "outcome_remark": null
                 },
-                "6": {
+                {
                   "outcome_id": "6",
                   "outcome_no": "2.3",
-                  "outcome_level": "2",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "2",
                   "outcome_description": "Menentukan domain, julat, objek dan imej sesuatu fungsi.",
+                  "outcome_level": "2",
                   "suggested_activity": "Contoh fungsi meliputi fungsi algebra dan trigonometri, termasuk fungsi nilai mutlak f:x ? | f(x) |, f(x) ialah fungsi linear, kuadratik atau trigonometri.\r\n",
                   "outcome_remark": null
                 },
-                "7": {
+                {
                   "outcome_id": "7",
                   "outcome_no": "2.4",
-                  "outcome_level": "3",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "2",
                   "outcome_description": "Menentukan imej sesuatu fungsi apabila objek diberi dan sebaliknya.",
+                  "outcome_level": "3",
                   "suggested_activity": "Nama jenis-jenis fungsi tidak perlu ditegaskan.\r\n",
                   "outcome_remark": null
                 }
-              }
+              ]
             },
-            "3": {
+            {
               "subchapter_id": "3",
               "subchapter_no": "3",
+              "subject_id": "1",
+              "edu_year_id": "10",
+              "chapter_id": "1",
               "subchapter_title": "Fungsi Gubahan",
               "subchapter_remark": "",
-              "outcome": {
-                "8": {
+              "outcome": [
+                {
                   "outcome_id": "8",
                   "outcome_no": "3.1",
-                  "outcome_level": "2",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "3",
                   "outcome_description": "Menentukan gubahan dua fungsi.",
+                  "outcome_level": "2",
                   "suggested_activity": "Fungsi yang terlibat terhad kepada fungsi algebra. fg(x) bermakna f(g(x) ). Kaedah gambar rajah anak panah atau algebra boleh digunakan.\r\n",
                   "outcome_remark": null
                 },
-                "9": {
+                {
                   "outcome_id": "9",
                   "outcome_no": "3.2",
-                  "outcome_level": "2",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "3",
                   "outcome_description": "Menentukan imej sesuatu fungsi gubahan apabila objek diberi dan sebaliknya.",
+                  "outcome_level": "2",
                   "suggested_activity": "Imej fungsi gubahan termasuk nilai tunggal atau sesuatu julat.\r\n",
                   "outcome_remark": null
                 },
-                "10": {
+                {
                   "outcome_id": "10",
                   "outcome_no": "3.3",
-                  "outcome_level": "3",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "3",
                   "outcome_description": "Mencari satu fungsi berkaitan apabila diberi fungsi gubahan dan salah satu fungsinya.",
+                  "outcome_level": "3",
                   "suggested_activity": null,
                   "outcome_remark": null
                 }
-              }
+              ]
             },
-            "4": {
+            {
               "subchapter_id": "4",
               "subchapter_no": "4",
+              "subject_id": "1",
+              "edu_year_id": "10",
+              "chapter_id": "1",
               "subchapter_title": "Fungsi songsangan",
               "subchapter_remark": "",
-              "outcome": {
-                "11": {
+              "outcome": [
+                {
                   "outcome_id": "11",
                   "outcome_no": "4.1",
-                  "outcome_level": "2",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "4",
                   "outcome_description": "Mencari nilai dalam domain yang sepadan dengan sesuatu nilai dalam julat melalui pemetaan songsangan apabila fungsinya diberi.",
+                  "outcome_level": "2",
                   "suggested_activity": "Fungsi yang terlibat terhad kepada fungsi algebra. Songsangan bagi fungsi gubahan tidak diperlukan.\r\n",
                   "outcome_remark": null
                 },
-                "12": {
+                {
                   "outcome_id": "12",
                   "outcome_no": "4.2",
-                  "outcome_level": "3",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "4",
                   "outcome_description": "Menentukan fungsi songsangan secara algebra.",
+                  "outcome_level": "3",
                   "suggested_activity": "Perlu diterangkan bahawa songsangan sesuatu fungsi itu tidak semestinya suatu fungsi juga.\r\n",
                   "outcome_remark": null
                 },
-                "13": {
+                {
                   "outcome_id": "13",
                   "outcome_no": "4.3",
-                  "outcome_level": "3",
+                  "edu_year_id": "10",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "4",
                   "outcome_description": "Menentukan dan menyatakan syarat untuk kewujudan fungsi songsangan.",
+                  "outcome_level": "3",
                   "suggested_activity": null,
                   "outcome_remark": null
                 }
-              }
+              ]
             }
-          }
+          ]
+        },
+        {
+          "chapter_id": "2",
+          "chapter_no": "2",
+          "subject_id": "1",
+          "edu_year_id": "10",
+          "chapter_title": "Persamaan Kuadratik",
+          "chapter_remark": null
         }
-      }
+      ]
+    },
+    {
+      "subject_id": "2",
+      "subject_no": "2",
+      "subject_code": "3472",
+      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
+      "edu_year_id": "11",
+      "subject_short_form": "MT",
+      "subject_title": "Additional Mathematics",
+      "subject_remark": ""
     }
-  },
-  "tutors": {
-    "1": {
+  ],
+  "tutors": [
+    {
       "tutor_id": "1",
       "tutor_registered_no": "RPT100001",
       "tutor_name": "Imran Hamzah",
+      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/46.jpg",
       "short_description": "Kenapa saya? Berpengalaman lebih 5 tahun dalam pen",
       "mobile_phoneno": "0183954840",
       "tutor_remark": "test",
-      "tutor_subjects": {
-        "1": {
+      "tutor_subjects": [
+        {
           "tutor_subject_id": "1",
           "tutor_id": "1",
           "subject_id": "1",
           "tutor_subject_remark": null,
           "dt_created": "2018-01-17 10:29:07"
         },
-        "2": {
+        {
           "tutor_subject_id": "2",
           "tutor_id": "1",
           "subject_id": "2",
           "tutor_subject_remark": null,
           "dt_created": "2018-01-17 10:29:07"
         }
-      }
+      ]
     },
-    "2": {
+    {
       "tutor_id": "2",
       "tutor_registered_no": "RPT100002",
       "tutor_name": "Ahmad Yusoff",
+      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/85.jpg",
       "short_description": "Yup belajar!",
       "mobile_phoneno": "0183954841",
       "tutor_remark": "test"
     },
-    "3": {
+    {
       "tutor_id": "3",
       "tutor_registered_no": "RPT100003",
       "tutor_name": "Muhammad Naim",
+      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/37.jpg",
       "short_description": "Jom belajar ABC",
       "mobile_phoneno": "0183954842",
       "tutor_remark": "test"
     },
-    "4": {
+    {
       "tutor_id": "4",
       "tutor_registered_no": "RPT100004",
       "tutor_name": "Muhammad Hassan Husni",
+      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/67.jpg",
       "short_description": "Jom belajar DEF",
       "mobile_phoneno": "0183954843",
       "tutor_remark": "test"
     }
-  },
-  "students": {
-    "1": {
+  ],
+  "students": [
+    {
       "student_id": "1",
       "student_reg_no": "STD0000001",
       "student_email": "dayangkusri@gmail.com",
@@ -215,17 +305,17 @@
       "mobile_phoneno": "0143635185",
       "student_remark": "Mak",
       "dt_created": "2018-01-17 10:33:05",
-      "student_subjects": {
-        "1": {
+      "student_subjects": [
+        {
           "student_subject_id": "1",
           "student_id": "1",
           "subject_id": "1",
           "student_subject_remark": null,
           "dt_created": "2018-01-17 10:34:54"
         }
-      }
+      ]
     },
-    "2": {
+    {
       "student_id": "2",
       "student_reg_no": "STD0000002",
       "student_email": "hanif@gmail.com",
@@ -235,5 +325,5 @@
       "student_remark": "Anak Baru",
       "dt_created": "2018-01-17 10:33:05"
     }
-  }
+  ]
 }

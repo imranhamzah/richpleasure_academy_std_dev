@@ -21,95 +21,64 @@ class Welcome extends CI_Controller {
 	{
 		$obj = $this->db->select("*")
 			  ->from("000subjects as a")
-			  ->join("001chapters as b","b.subject_id=a.subject_id","left")
-			  ->join("002sub_chapters as c","c.chapter_id=b.chapter_id","left")
-			  ->join("003learning_outcome as d","d.subchapter_id=c.subchapter_id","left")
+			  // ->join("001chapters as b","b.subject_id=a.subject_id","left")
+			  // ->join("002sub_chapters as c","c.chapter_id=b.chapter_id","left")
+			  // ->join("003learning_outcome as d","d.subchapter_id=c.subchapter_id","left")
 			  
 			  ->get();
 	    $output = [];
 		$output2 = [];
+		
+		$a=-1;
+		
 		foreach($obj->result() as $row)
 		{	
+			
 			if($row->subject_id != "")
 			{				
-				$output2["subjects"][$row->subject_id] = 
-					[
-						"subject_id" => $row->subject_id,
-						"subject_no" => $row->subject_no,
-						"subject_code" => $row->subject_code,
-						"subject_title" => $row->subject_title,
-						"subject_icon_url" => $row->subject_icon_url,
-						"subject_remark" => $row->subject_remark
-					];
+				$a++;
+				$output2["subjects"][$a] = (array) $row;
+				$obj_chapters = $this->db->where("subject_id",$row->subject_id)->get("001chapters")->result();
+				$b=-1;
+				foreach($obj_chapters as $row_chapters)
+				{
+					$b++;
+					$output2["subjects"][$a]["chapters"][$b] = (array) $row_chapters;
+					$obj_subchapters = $this->db->where("chapter_id",$row_chapters->chapter_id)->get("002sub_chapters")->result();
+					$c = -1;
+					foreach($obj_subchapters as $row_subchapters)
+					{
+						$c++;
+						$output2["subjects"][$a]["chapters"][$b]["subchapters"][$c] = (array) $row_subchapters;
+						
+						$obj_learning_outcome = $this->db->where("subchapter_id",$row_subchapters->subchapter_id)->get("003learning_outcome")->result();
+						$d=-1;
+						foreach($obj_learning_outcome as $row_learning_outcome)
+						{
+							$d++;
+							$output2["subjects"][$a]["chapters"][$b]["subchapters"][$c]["outcome"][$d] = (array) $row_learning_outcome;
+						}
+					}
+				}
 			}
 		}
 		
-		foreach($obj->result() as $row)
-		{	 
-			 if($row->subject_id != "")
-			{
-			 $output2["subjects"][$row->subject_id]["chapters"][$row->chapter_id] = 
-			 [
-				"chapter_id" => $row->chapter_id,
-				"chapter_no" => $row->chapter_no,
-				"chapter_title"=> $row->chapter_title,
-				"chapter_remark" => $row->chapter_remark
-			 ];
-			}
-			 
-		}
-		
-		foreach($obj->result() as $row)
-		{
-			if($row->subject_id != "")
-			{
-			$output2["subjects"][$row->subject_id]["chapters"][$row->chapter_id]["subchapters"][$row->subchapter_id] = 
-			[
-				"subchapter_id" => $row->subchapter_id,
-				"subchapter_no" => $row->subchapter_no,
-				"subchapter_title" => $row->subchapter_title,
-				"subchapter_remark" => $row->subchapter_remark
-			];
-			}
-		}
-		
-		foreach($obj->result() as $row)
-		{
-			if($row->subject_id != "")
-			{
-			$output2
-			["subjects"]
-			[$row->subject_id]
-			["chapters"]
-			[$row->chapter_id]
-			["subchapters"]
-			[$row->subchapter_id]
-			["outcome"]
-			[$row->outcome_id]=
-			[
-				"outcome_id"=> $row->outcome_id,
-				"outcome_no"=> $row->outcome_no,
-				"outcome_level"=> $row->outcome_level,
-				"outcome_description" => $row->outcome_description,
-				"suggested_activity" => $row->suggested_activity,
-				"outcome_remark" => $row->outcome_remark
-			]
-			;
-			}
-			
-		}
 		$obj_tutor = $this->db->from("tutors as t")
 		->get()
 		->result();
 		
+		$e=-1;
 		foreach($obj_tutor as $row_tutor)
 		{
+			$e++;
 			if($row_tutor->tutor_id != ""){
-				$output2["tutors"][$row_tutor->tutor_id] = (array) $row_tutor;
+				$output2["tutors"][$e] = (array) $row_tutor;
 				$obj_tutor_subjects = $this->db->where("tutor_id",$row_tutor->tutor_id)->get("tutor_subjects")->result();
+				$f=-1;
 				foreach($obj_tutor_subjects as $row_tutor_subjects)
 				{
-						$output2["tutors"][$row_tutor->tutor_id]["tutor_subjects"][$row_tutor_subjects->tutor_subject_id]= (array) $row_tutor_subjects ;
+					$f++;
+					$output2["tutors"][$e]["tutor_subjects"][$f]= (array) $row_tutor_subjects ;
 				}
 				
 			}
@@ -119,14 +88,18 @@ class Welcome extends CI_Controller {
 		->get()
 		->result();
 		
+		$g=-1;
 		foreach($obj_std as $row_std)
 		{
 			if($row_std->student_id != ""){
-				$output2["students"][$row_std->student_id] = (array) $row_std;
+				$g++;
+				$output2["students"][$g] = (array) $row_std;
 				$obj_student_subjects = $this->db->where("student_id",$row_std->student_id)->get("student_subjects")->result();
+				$h=-1;
 				foreach($obj_student_subjects as $row_std_subjects)
 				{
-						$output2["students"][$row_std->student_id]["student_subjects"][$row_std_subjects->student_subject_id]= (array) $row_std_subjects ;
+					$h++;
+					$output2["students"][$g]["student_subjects"][$h]= (array) $row_std_subjects ;
 				}
 				
 			}
