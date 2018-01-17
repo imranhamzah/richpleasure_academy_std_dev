@@ -1,284 +1,239 @@
 {
-  "subjects": [
-    {
-      "subject_icon": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
-      "subject_id": 1,
+  "subjects": {
+    "1": {
+      "subject_id": "1",
+      "subject_no": "1",
+      "subject_code": "3472",
+      "subject_title": "Additional Mathematics",
+      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
+      "subject_remark": "",
       "chapters": {
         "1": {
-          "chapter_no": 1,
+          "chapter_id": "1",
+          "chapter_no": "1",
           "chapter_title": "Fungsi",
-          "sub_chapters": {
-            "1_1": {
-              "sub_chapter_id": "1_1",
-              "sub_chapter_title": "Hubungan",
-              "level": {
+          "chapter_remark": null,
+          "subchapters": {
+            "1": {
+              "subchapter_id": "1",
+              "subchapter_no": "1",
+              "subchapter_title": "Hubungan",
+              "subchapter_remark": "",
+              "outcome": {
                 "1": {
-                  "1_1": "Mewakilkan sesuatu hubungan"
+                  "outcome_id": "1",
+                  "outcome_no": "1.1",
+                  "outcome_level": "1",
+                  "outcome_description": "Mewakilkan sesuatu hubungan.",
+                  "suggested_activity": "Pendedahan idea tentang set diperlukan. Contoh-contoh hubungan dalam kehidupan harian perlu dibincangkan.\r\n",
+                  "outcome_remark": null
                 },
                 "2": {
-                  "2_1": "Menentukan domain, kodomain, objek,imej dan julat bagi sesuatu hubungan."
+                  "outcome_id": "2",
+                  "outcome_no": "1.2",
+                  "outcome_level": "2",
+                  "outcome_description": "Menentukan domain, kodomain, objek, imej dan julat bagi sesuatu hubungan.",
+                  "suggested_activity": "Kes hubungan meliputi gambar rajah anak panah, pasangan bertertib dan graf.\r\n",
+                  "outcome_remark": null
                 },
                 "3": {
-                  "3_1": "Mengelaskan sesuatu hubungan yang ditunjukkan dalam rajah pemetaan sebagai jenis: satu kepada satu, banyak kepada satu, satu kepada banyak dan banyak kepada banyak."
+                  "outcome_id": "3",
+                  "outcome_no": "1.3",
+                  "outcome_level": "3",
+                  "outcome_description": "Mengelaskan sesuatu hubungan yang ditunjukkan dalam rajah pemetaan sebagai jenis: satu kepada satu, banyak kepada satu, satu kepada banyak dan banyak kepada banyak.",
+                  "suggested_activity": null,
+                  "outcome_remark": null
                 }
               }
             },
-            "1_2": {
-              "sub_chapter_id": "1_2",
-              "sub_chapter_title": "Fungsi",
-              "level": {
-                "1": {
-                  "1_1": "Mengenal pasti fungsi sebagai sejenis hubungan khas."
+            "2": {
+              "subchapter_id": "2",
+              "subchapter_no": "2",
+              "subchapter_title": "Fungsi",
+              "subchapter_remark": "",
+              "outcome": {
+                "4": {
+                  "outcome_id": "4",
+                  "outcome_no": "2.1",
+                  "outcome_level": "1",
+                  "outcome_description": "Mengenal pasti fungsi sebagai sejenis hubungan khas.",
+                  "suggested_activity": "Fungsi diwakilkan dalam bentuk gambar rajah anak panah, pasangan bertertib atau graf.\r\n",
+                  "outcome_remark": null
                 },
-                "2": {
-                  "2_1": "Menulis sesuatu fungsi dengan menggunakan tatatanda fungsi.",
-                  "2_2": "Menentukan domain, julat, objek dan imej sesuatu fungsi."
+                "5": {
+                  "outcome_id": "5",
+                  "outcome_no": "2.2",
+                  "outcome_level": "2",
+                  "outcome_description": "Menulis sesuatu fungsi dengan menggunakan tatatanda fungsi.",
+                  "suggested_activity": "Contoh : f: x ? 2x f(x) = 2x “f: x ? 2x” boleh dibaca sebagai “fungsi f yang memetakan x kepada 2x”. Contoh fungsi yang bukan berasaskan matematik diberikan juga.\r\n",
+                  "outcome_remark": null
                 },
-                "3": {
-                  "3_1": "Menentukan imej sesuatu fungsi apabila objek diberi dan sebaliknya."
+                "6": {
+                  "outcome_id": "6",
+                  "outcome_no": "2.3",
+                  "outcome_level": "2",
+                  "outcome_description": "Menentukan domain, julat, objek dan imej sesuatu fungsi.",
+                  "suggested_activity": "Contoh fungsi meliputi fungsi algebra dan trigonometri, termasuk fungsi nilai mutlak f:x ? | f(x) |, f(x) ialah fungsi linear, kuadratik atau trigonometri.\r\n",
+                  "outcome_remark": null
+                },
+                "7": {
+                  "outcome_id": "7",
+                  "outcome_no": "2.4",
+                  "outcome_level": "3",
+                  "outcome_description": "Menentukan imej sesuatu fungsi apabila objek diberi dan sebaliknya.",
+                  "suggested_activity": "Nama jenis-jenis fungsi tidak perlu ditegaskan.\r\n",
+                  "outcome_remark": null
                 }
               }
             },
-            "1_3": {
-              "sub_chapter_id": "1_3",
-              "sub_chapter_title": "Fungsi gubahan",
-              "level": {
-                "1": {
-                  "1_1": "Menentukan gubahan dua fungsi."
+            "3": {
+              "subchapter_id": "3",
+              "subchapter_no": "3",
+              "subchapter_title": "Fungsi Gubahan",
+              "subchapter_remark": "",
+              "outcome": {
+                "8": {
+                  "outcome_id": "8",
+                  "outcome_no": "3.1",
+                  "outcome_level": "2",
+                  "outcome_description": "Menentukan gubahan dua fungsi.",
+                  "suggested_activity": "Fungsi yang terlibat terhad kepada fungsi algebra. fg(x) bermakna f(g(x) ). Kaedah gambar rajah anak panah atau algebra boleh digunakan.\r\n",
+                  "outcome_remark": null
                 },
-                "2": {
-                  "2_1": "Menentukan imej sesuatu fungsi gubahan apabila objek diberi dan sebaliknya."
+                "9": {
+                  "outcome_id": "9",
+                  "outcome_no": "3.2",
+                  "outcome_level": "2",
+                  "outcome_description": "Menentukan imej sesuatu fungsi gubahan apabila objek diberi dan sebaliknya.",
+                  "suggested_activity": "Imej fungsi gubahan termasuk nilai tunggal atau sesuatu julat.\r\n",
+                  "outcome_remark": null
                 },
-                "3": {
-                  "3_1": "Mencari satu fungsi berkaitan apabila diberi fungsi gubahan dan salah satu fungsinya."
+                "10": {
+                  "outcome_id": "10",
+                  "outcome_no": "3.3",
+                  "outcome_level": "3",
+                  "outcome_description": "Mencari satu fungsi berkaitan apabila diberi fungsi gubahan dan salah satu fungsinya.",
+                  "suggested_activity": null,
+                  "outcome_remark": null
                 }
               }
             },
-            "1_4": {
-              "sub_chapter_id": "1_4",
-              "sub_chapter_title": "Fungsi songsangan",
-              "level": {
-                "1": {
-                  "1_1": "Mencari nilai dalam domain yang sepadan dengan sesuatu nilai dalam julat melalui pemetaan songsangan apabila fungsinya diberi."
+            "4": {
+              "subchapter_id": "4",
+              "subchapter_no": "4",
+              "subchapter_title": "Fungsi songsangan",
+              "subchapter_remark": "",
+              "outcome": {
+                "11": {
+                  "outcome_id": "11",
+                  "outcome_no": "4.1",
+                  "outcome_level": "2",
+                  "outcome_description": "Mencari nilai dalam domain yang sepadan dengan sesuatu nilai dalam julat melalui pemetaan songsangan apabila fungsinya diberi.",
+                  "suggested_activity": "Fungsi yang terlibat terhad kepada fungsi algebra. Songsangan bagi fungsi gubahan tidak diperlukan.\r\n",
+                  "outcome_remark": null
                 },
-                "2": {
-                  "2_1": "Menentukan fungsi songsangan secara algebra.",
-                  "2_2": "Menentukan dan menyatakan syarat untuk kewujudan fungsi songsangan."
-                }
-              }
-            }
-          }
-        },
-        "2": {
-          "chapter_no": 2,
-          "chapter_title": "PERSAMAAN KUADRATIK",
-          "sub_chapters": {
-            "2_1": {
-              "sub_chapter_id": "2_1",
-              "sub_chapter_title": "Persamaan kuadratik dan\npuncanya",
-              "level": {
-                "1": {
-                  "1_1": "Mengenal pasti sesuatu persamaan kuadratik dan menyatakannya dalam bentuk am.",
-                  "1_2": "Menentukan sama ada nilai yang\ndiberikan adalah punca suatu\npersamaan kuadratik atau tidak melalui\nkaedah:\na. Penggantian.\nb. Pemerinyuan.",
-                  "1_3": "Menentukan punca suatu persamaan kuadratik dengan kaedah cuba-jaya."
-                }
-              }
-            },
-            "2_2": {
-              "sub_chapter_id": "2_2",
-              "sub_chapter_title": "Penyelesaian persamaan kuadratik",
-              "level": {
-                "2": {
-                  "2_1": "Menentukan punca persamaan\nkuadratik melalui:\na. Pemfaktoran.\nb. Penyempurnaan kuasa dua.\nc. Rumus.",
-                  "2_2": "Membentuk persamaan kuadratik daripada punca."
-                }
-              }
-            },
-            "2_3": {
-              "sub_chapter_id": "2_3",
-              "sub_chapter_title": "Syarat untuk persamaan\nkuadratik mempunyai\na. dua punca berbeza\nb. dua punca sama\nc. tiada punca",
-              "level": {
-                "2": {
-                  "2_1": "Menentukan jenis punca sesuatu\npersamaan kuadratik daripada nilai\nb2 − 4ac."
+                "12": {
+                  "outcome_id": "12",
+                  "outcome_no": "4.2",
+                  "outcome_level": "3",
+                  "outcome_description": "Menentukan fungsi songsangan secara algebra.",
+                  "suggested_activity": "Perlu diterangkan bahawa songsangan sesuatu fungsi itu tidak semestinya suatu fungsi juga.\r\n",
+                  "outcome_remark": null
                 },
-                "3": {
-                  "3_1": " Menggunakan syarat b2 − 4ac dalam\npersamaan kuadratik untuk:\na. Mencari sesuatu nilai yang tidak\ndiketahui.\nb. Menerbitkan sesuatu perkaitan."
-                }
-              }
-            },
-            "1_4": {
-              "sub_chapter_id": "1_4",
-              "sub_chapter_title": "Fungsi songsangan",
-              "level": {
-                "1": {
-                  "1_1": "Mencari nilai dalam domain yang sepadan dengan sesuatu nilai dalam julat melalui pemetaan songsangan apabila fungsinya diberi."
-                },
-                "2": {
-                  "2_1": "Menentukan fungsi songsangan secara algebra.",
-                  "2_2": "Menentukan dan menyatakan syarat untuk kewujudan fungsi songsangan."
+                "13": {
+                  "outcome_id": "13",
+                  "outcome_no": "4.3",
+                  "outcome_level": "3",
+                  "outcome_description": "Menentukan dan menyatakan syarat untuk kewujudan fungsi songsangan.",
+                  "suggested_activity": null,
+                  "outcome_remark": null
                 }
               }
             }
           }
         }
-      },
-      "subject_name": "Additional Mathematics"
-    },
-    {
-      "subject_icon": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_sc.png",
-      "subject_id": 3,
-      "subject_name": "Science"
-    },
-    {
-      "subject_icon": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_en.png",
-      "subject_id": 4,
-      "subject_name": "English"
-    },
-    {
-      "subject_icon": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_phy.png",
-      "subject_id": 5,
-      "subject_name": "Physics"
-    },
-    {
-      "subject_icon": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
-      "subject_id": 2,
-      "subject_name": "Mathematics"
-    },
-    {
-      "subject_icon": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_che.png",
-      "subject_id": 6,
-      "subject_name": "Chemistry"
+      }
     }
-  ],
-  "tutors": [
-    {
+  },
+  "tutors": {
+    "1": {
+      "tutor_id": "1",
+      "tutor_registered_no": "RPT100001",
+      "tutor_name": "Imran Hamzah",
+      "short_description": "Kenapa saya? Berpengalaman lebih 5 tahun dalam pen",
       "mobile_phoneno": "0183954840",
-      "tutor_id": 1,
-      "tutor_name": "Imran",
-      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/52.jpg"
+      "tutor_remark": "test",
+      "tutor_subjects": {
+        "1": {
+          "tutor_subject_id": "1",
+          "tutor_id": "1",
+          "subject_id": "1",
+          "tutor_subject_remark": null,
+          "dt_created": "2018-01-17 10:29:07"
+        },
+        "2": {
+          "tutor_subject_id": "2",
+          "tutor_id": "1",
+          "subject_id": "2",
+          "tutor_subject_remark": null,
+          "dt_created": "2018-01-17 10:29:07"
+        }
+      }
     },
-    {
-      "mobile_phoneno": "0143635185",
-      "tutor_id": 2,
+    "2": {
+      "tutor_id": "2",
+      "tutor_registered_no": "RPT100002",
       "tutor_name": "Ahmad Yusoff",
-      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/4.jpg"
+      "short_description": "Yup belajar!",
+      "mobile_phoneno": "0183954841",
+      "tutor_remark": "test"
     },
-    {
-      "mobile_phoneno": "0143635185",
-      "tutor_id": 3,
+    "3": {
+      "tutor_id": "3",
+      "tutor_registered_no": "RPT100003",
       "tutor_name": "Muhammad Naim",
-      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/37.jpg"
+      "short_description": "Jom belajar ABC",
+      "mobile_phoneno": "0183954842",
+      "tutor_remark": "test"
+    },
+    "4": {
+      "tutor_id": "4",
+      "tutor_registered_no": "RPT100004",
+      "tutor_name": "Muhammad Hassan Husni",
+      "short_description": "Jom belajar DEF",
+      "mobile_phoneno": "0183954843",
+      "tutor_remark": "test"
     }
-  ],
-  "chapters": [
-    {
-      "chapter_no": "Chapter 1",
-      "chapter_title": "Standard Form ",
-      "progress": 40,
-      "sub_chapters": {
-        "1_1": "Significant Figures",
-        "1_2": "Standard Form"
+  },
+  "students": {
+    "1": {
+      "student_id": "1",
+      "student_reg_no": "STD0000001",
+      "student_email": "dayangkusri@gmail.com",
+      "student_username": "dayangku",
+      "student_fullname": "Dayangku Sri Arjuna",
+      "mobile_phoneno": "0143635185",
+      "student_remark": "Mak",
+      "dt_created": "2018-01-17 10:33:05",
+      "student_subjects": {
+        "1": {
+          "student_subject_id": "1",
+          "student_id": "1",
+          "subject_id": "1",
+          "student_subject_remark": null,
+          "dt_created": "2018-01-17 10:34:54"
+        }
       }
     },
-    {
-      "chapter_no": "Chapter 2",
-      "chapter_title": "Quadratic Expression and Equations",
-      "progress": 30,
-      "sub_chapters": {
-        "2_1": "Quadratic Expression",
-        "2_2": "Factorisation of Quadratic Expression",
-        "2_3": "Quadratic Equations",
-        "2_4": "Roots of Quadratic Equations"
-      }
-    },
-    {
-      "chapter_no": "Chapter 3",
-      "chapter_title": "Simultaneous Equations",
-      "progress": 90,
-      "sub_chapters": {
-        "3_1": "Quadratic Expression",
-        "3_2": "Factorisation of Quadratic Expression",
-        "3_3": "Quadratic Equations",
-        "3_4": "Roots of Quadratic Equations"
-      }
-    },
-    {
-      "chapter_no": "Chapter 4",
-      "chapter_title": "Geometry",
-      "progress": 100,
-      "sub_chapters": {
-        "4_1": "Quadratic Expression",
-        "4_2": "Factorisation of Quadratic Expression",
-        "4_3": "Quadratic Equations",
-        "4_4": "Roots of Quadratic Equations"
-      }
+    "2": {
+      "student_id": "2",
+      "student_reg_no": "STD0000002",
+      "student_email": "hanif@gmail.com",
+      "student_username": "hanif2018",
+      "student_fullname": "Muhammad Hanif",
+      "mobile_phoneno": "0143635186",
+      "student_remark": "Anak Baru",
+      "dt_created": "2018-01-17 10:33:05"
     }
-  ],
-  "lessons": [
-    {
-      "content": [
-        "orizzle generates some \"gangsta\" dummy text, so your content can look funky fresh while waiting on the approved text:\n\"Lorizzle ipsum bling bling sit amizzle, consectetuer adipiscing elit. Nizzle sapien velizzle, bling bling volutpat, suscipit , gravida vel, arcu. Check it out hizzle that's the shizzle. We gonna chung erizzle. Fo izzle dolor fo turpis tempizzle tempor. Gangsta boom shackalack mofo et turpizzle. Sizzle izzle tortor. Pellentesque uhuh ... yih!\"",
-        "orizzle generates some \"gangsta\" dummy text, so your content can look funky fresh while waiting on the approved text:\n\"Lorizzle ipsum bling bling sit amizzle, consectetuer adipiscing elit. Nizzle sapien velizzle, bling bling volutpat, suscipit , gravida vel, arcu. Check it out hizzle that's the shizzle. We gonna chung erizzle. Fo izzle dolor fo turpis tempizzle tempor. Gangsta boom shackalack mofo et turpizzle. Sizzle izzle tortor. Pellentesque uhuh ... yih!\""
-      ],
-      "lesson_id": 101,
-      "lesson_no": 6.1,
-      "lesson_title": "Air Pressure"
-    },
-    {
-      "content": [
-        "<iframe width=\"100%\" height=\"250px\" src=\"https://www.youtube.com/embed/SdBSgo23au0?rel=0&amp;showinfo=0\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>",
-        "<iframe width=\"100%\" height=\"250px\" src=\"https://www.youtube.com/embed/B_ZoRgap18s?rel=0&amp;showinfo=0\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>",
-        "aaaaaaaaaaaaaaaaaaaato show that air exerts pressure"
-      ],
-      "lesson_id": 102,
-      "lesson_no": 6.2,
-      "lesson_title": "Application of the Principle of Air Pressure"
-    }
-  ],
-  "tutor_profile": {
-    "background_profile_pic": "https://images.pexels.com/photos/159844/cellular-education-classroom-159844.jpeg?w=940&h=650&auto=compress&cs=tinysrgb",
-    "has_whatsapp": 1,
-    "phone_number": "0183954840",
-    "profile_pic": "https://scontent.fkul6-1.fna.fbcdn.net/v/t1.0-9/13590366_1029934567082822_7217625828658638684_n.jpg?_nc_eui2=v1%3AAeGb6FxmfTsp1tsLQurGYeMwhPzEBFFlS8y5TsZniR5J8W4ZrSoq-TPDhaaHbnR-tu-nXsjZQhdgzLAjadIA-CxAOsV16NoMciaP9_KqiCV0GQ&oh=d88f80f2ae6f2f650a9ec2510326546b&oe=5AEEDA5A",
-    "profile_tutor_name": "Cikgu Imran",
-    "short_description": "Kenapa saya? Berpengalaman lebih 5 tahun dalam pendidikan. Jangan risau..saya sedia membantu anda!",
-    "subjects": [
-      {
-        "edu_year": "Form 4",
-        "icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
-        "subject": "AddMath"
-      },
-      {
-        "edu_year": "Form 5",
-        "icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_phy.png",
-        "subject": "Physics"
-      },
-      {
-        "edu_year": "Form 4",
-        "icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_sc.png",
-        "subject": "Science"
-      },
-      {
-        "edu_year": "Form 4",
-        "icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_bio.png",
-        "subject": "Biology"
-      },
-      {
-        "edu_year": "Form 4",
-        "icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_che.png",
-        "subject": "Chemistry"
-      },
-      {
-        "edu_year": "Form 4",
-        "icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_en.png",
-        "subject": "English"
-      },
-      {
-        "edu_year": "Form 5",
-        "icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
-        "subject": "Mathematics"
-      }
-    ],
-    "tutor_name": "Cikgu Imran"
   }
 }
