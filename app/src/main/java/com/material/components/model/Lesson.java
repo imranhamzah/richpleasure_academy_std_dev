@@ -4,19 +4,19 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Lesson {
-    @SerializedName("content")
+    @SerializedName("lessons")
     @Expose
-    public String[] subContent;
+    public Object lessons;
 
-    @SerializedName("lesson_id")
+    @SerializedName("subchapter_id")
     @Expose
-    public String lessonId;
+    public String subchapterId;
 
-    @SerializedName("lesson_no")
+    @SerializedName("subchapter_no")
     @Expose
-    public String lessonNo;
+    public String subchapterNo;
 
-    @SerializedName("lesson_title")
+    @SerializedName("subchapter_title")
     @Expose
-    public String lessonTitle;
+    public String subchapterTitle;
 }

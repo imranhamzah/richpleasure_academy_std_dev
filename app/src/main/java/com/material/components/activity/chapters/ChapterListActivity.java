@@ -23,17 +23,19 @@ import com.material.components.R;
 import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.activity.toolbar.ToolbarCollapsePin;
 import com.material.components.adapter.AdapterChapterList;
+import com.material.components.helper.DataHolder;
 import com.material.components.model.ChapterList;
 import com.material.components.utils.Tools;
 import com.material.components.widget.SpacingItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChapterListActivity extends AppCompatActivity implements ValueEventListener{
+public class ChapterListActivity extends AppCompatActivity{
 
     public List<ChapterList> chaptersList = new ArrayList<>();
     public AdapterChapterList adapterListChapters;
@@ -41,13 +43,9 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
     private View parent_view_chapter;
     private Toolbar toolbar;
 
-
     private FiftyShadesOf fiftyShadesOf;
     private LinearLayout chapterLinearLayout;
-
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mRootReference = firebaseDatabase.getReference();
-    private DatabaseReference mChapters = mRootReference.child("chapters");
+    private JSONArray subChaptersArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +75,7 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
             @Override
             public void onItemClick(View view, ChapterList obj, int pos) {
                 Intent gotoContent = new Intent(getApplicationContext(), LessonActivity.class);
+                gotoContent.putExtra("subChaptersArray", String.valueOf(subChaptersArray));
                 gotoContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 getApplicationContext().startActivity(gotoContent);
             }
@@ -86,6 +85,43 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        displayChapterList();
+
+    }
+
+
+
+    private void displayChapterList() {
+        fiftyShadesOf.stop();
+        chapterLinearLayout.setVisibility(View.GONE);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+
+        try {
+            String strChapterArray = getIntent().getStringExtra("chapterArray");
+            JSONArray chapterArray = new JSONArray(strChapterArray);
+
+            for(int i = 0; i<chapterArray.length(); i++)
+            {
+                ChapterList chapter = gson.fromJson(String.valueOf(chapterArray.get(i)),ChapterList.class);
+                chaptersList.add(chapter);
+
+                JSONObject obj = new JSONObject(String.valueOf(chapterArray.get(i)));
+
+
+                if(obj.has("subchapters"))
+                {
+                    subChaptersArray = new JSONArray(obj.getString("subchapters"));
+                    System.out.println("start here-----------");
+                    System.out.println(subChaptersArray);
+                    System.out.println("end here-----------");
+                }
+            }
+            adapterListChapters.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -94,56 +130,5 @@ public class ChapterListActivity extends AppCompatActivity implements ValueEvent
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mChapters.addValueEventListener(this);
-    }
-
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        String key = dataSnapshot.getKey();
-        if(key.equals("chapters"))
-        {
-            fiftyShadesOf.stop();
-            chapterLinearLayout.setVisibility(View.GONE);
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            String arrChapterReceived = gson.toJson(dataSnapshot.getValue());
-
-            JSONArray jsonArray;
-            try {
-                jsonArray = new JSONArray(arrChapterReceived);
-                chaptersList.clear();
-
-                for(int i = 0; i<jsonArray.length(); i++)
-                {
-                    ChapterList chapter = gson.fromJson(String.valueOf(jsonArray.get(i)),ChapterList.class);
-                    chaptersList.add(chapter);
-                }
-
-                adapterListChapters.notifyDataSetChanged();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mChapters.addValueEventListener(this);
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
 }

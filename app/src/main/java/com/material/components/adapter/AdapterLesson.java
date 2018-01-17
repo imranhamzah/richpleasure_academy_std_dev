@@ -15,11 +15,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.internal.LinkedTreeMap;
 import com.material.components.R;
 import com.material.components.model.Lesson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +47,11 @@ public class AdapterLesson extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView lessonId,lessonNo,lessonTitle;
+        public TextView subchapterId,subchapterNo,subchapterTitle;
         public WebView contentWebView;
         public OriginalViewHolder(View itemView) {
             super(itemView);
-            lessonTitle = itemView.findViewById(R.id.lesson_title);
+            subchapterTitle = itemView.findViewById(R.id.lesson_title);
             contentWebView = itemView.findViewById(R.id.contentWebView);
             progressBar = itemView.findViewById(R.id.progressBarContent);
         }
@@ -61,27 +63,28 @@ public class AdapterLesson extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
             final Lesson l = lessonList.get(position);
-            view.lessonTitle.setText(l.lessonId+". "+l.lessonTitle);
+            view.subchapterTitle.setText(l.subchapterId+". "+l.subchapterTitle);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
-                String arrSubContentReceived = gson.toJson(l.subContent);
-                JSONArray jsonArray;
-                try {
-                    jsonArray = new JSONArray(arrSubContentReceived);
-                    String dataDisplay="";
-                    for(int i = 0; i<jsonArray.length(); i++)
-                    {
-                        System.out.println(String.valueOf(jsonArray.get(i)));
-                        dataDisplay += jsonArray.get(i)+"<p></p>";
+
+                List de = (List) l.lessons;
+                String dataDisplay="";
+                for(Object newD : de)
+                {
+                    String a = gson.toJson(newD);
+                    try {
+                        JSONObject abc = new JSONObject(a);
+                        dataDisplay += abc.getString("content_text")+"<p></p>";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    view.contentWebView.getSettings().setJavaScriptEnabled(true);
-                    view.contentWebView.setWebViewClient(new AppWebViewClients(progressBar));
-                    view.contentWebView.loadData(String.valueOf(dataDisplay),"text/html", "UTF-8");
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
+                view.contentWebView.getSettings().setJavaScriptEnabled(true);
+                view.contentWebView.setWebViewClient(new AppWebViewClients(progressBar));
+                view.contentWebView.loadData(String.valueOf(dataDisplay),"text/html", "UTF-8");
 
             }
 

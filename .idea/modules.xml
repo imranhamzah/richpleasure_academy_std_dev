@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MaterialX.iml" filepath="$PROJECT_DIR$/MaterialX.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\AndroidProjects\materialx_mainfile_1.0\MaterialX\app\app.iml" filepath="D:\AndroidProjects\materialx_mainfile_1.0\MaterialX\app\app.iml" />
     </modules>
   </component>
 </project>

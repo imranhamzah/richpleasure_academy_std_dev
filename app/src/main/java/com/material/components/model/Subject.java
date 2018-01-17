@@ -8,11 +8,11 @@ public class Subject {
     @Expose
     public String subjectId;
 
-    @SerializedName("subject_icon")
+    @SerializedName("subject_icon_url")
     @Expose
     public String subjectIcon;
 
-    @SerializedName("subject_name")
+    @SerializedName("subject_title")
     @Expose
     public String subjectName;
 

@@ -33,17 +33,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LessonActivity extends AppCompatActivity implements ValueEventListener {
+public class LessonActivity extends AppCompatActivity{
 
     public List<Lesson> lessonList = new ArrayList<>();
     private RecyclerView recyclerView;
     private AdapterLesson adapterLesson;
     private Context context;
-
-
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mRootReference = firebaseDatabase.getReference();
-    private DatabaseReference lessonReference = mRootReference.child("lessons");
 
     private LinearLayout lessonLinearLayout;
     private FiftyShadesOf fiftyShadesOf;
@@ -70,6 +65,39 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
         recyclerView.setAdapter(adapterLesson);
 
         initToolbar();
+        displayContent();
+    }
+
+    private void displayContent() {
+        String strSubChaptersArray = getIntent().getStringExtra("subChaptersArray");
+
+
+        fiftyShadesOf.stop();
+        lessonLinearLayout.setVisibility(View.GONE);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        lessonList.clear();
+
+        try {
+            JSONArray subChaptersArray = new JSONArray(strSubChaptersArray);
+
+            System.out.println("here.....");
+            System.out.println(subChaptersArray);
+            System.out.println("here.....2");
+
+            for (int i = 0; i < subChaptersArray.length(); i++) {
+
+                System.out.println("ddddd----------------");
+                System.out.println(subChaptersArray.get(i));
+                System.out.println("ddddd----------------end");
+                Lesson lesson = gson.fromJson(String.valueOf(subChaptersArray.get(i)), Lesson.class);
+                lessonList.add(lesson);
+            }
+            adapterLesson.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initToolbar() {
@@ -78,37 +106,6 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Chapter 1: Plants");
-    }
-
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        String key = dataSnapshot.getKey();
-        if (key.equals("lessons")) {
-            fiftyShadesOf.stop();
-            lessonLinearLayout.setVisibility(View.GONE);
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            String arrDataLesson = gson.toJson(dataSnapshot.getValue());
-            lessonList.clear();
-
-
-            JSONArray jsonArray;
-            try {
-                jsonArray = new JSONArray(arrDataLesson);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    System.out.println(jsonArray.get(i));
-                    Lesson lesson = gson.fromJson(String.valueOf(jsonArray.get(i)), Lesson.class);
-                    lessonList.add(lesson);
-                }
-
-
-                adapterLesson.notifyDataSetChanged();
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
@@ -127,14 +124,4 @@ public class LessonActivity extends AppCompatActivity implements ValueEventListe
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        lessonReference.addValueEventListener(this);
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
 }

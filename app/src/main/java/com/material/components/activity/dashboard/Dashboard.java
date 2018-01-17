@@ -47,6 +47,7 @@ import com.material.components.model.Tutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,6 +82,8 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     private FiftyShadesOf fiftyShadesOf;
 
     public LinearLayout layout1,layout2;
+
+    public JSONArray chapterArray;
 
 
     @Override
@@ -246,7 +249,8 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         adapterSubject.setOnClickListener(new AdapterSubject.OnClickListener() {
             @Override
             public void onItemClick(View view, Subject obj, int pos) {
-                Intent gotoChapter = new Intent(getApplicationContext(), ChapterListActivity.class);
+                Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
+                gotoChapter.putExtra("chapterArray", String.valueOf(chapterArray));
                 startActivity(gotoChapter);
             }
 
@@ -304,10 +308,21 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             try {
                 jsonArray = new JSONArray(arrSubjects);
                 subjectList.clear();
+
                 for(int i=0; i<jsonArray.length(); i++)
                 {
+                    System.out.println(jsonArray.get(i));
+
                     Subject subject = gson.fromJson(String.valueOf(jsonArray.get(i)),Subject.class);
                     subjectList.add(subject);
+
+                        JSONObject obj = new JSONObject(String.valueOf(jsonArray.get(i)));
+
+
+                        if(obj.has("chapters"))
+                        {
+                            chapterArray = new JSONArray(obj.getString("chapters"));
+                        }
                 }
                 adapterSubject.notifyDataSetChanged();
             } catch (JSONException e) {

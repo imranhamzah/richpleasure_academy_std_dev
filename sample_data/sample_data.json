@@ -17,6 +17,7 @@
           "edu_year_id": "10",
           "chapter_title": "Fungsi",
           "chapter_remark": null,
+          "progress": 35,
           "subchapters": [
             {
               "subchapter_id": "1",
@@ -62,6 +63,26 @@
                   "outcome_level": "3",
                   "suggested_activity": null,
                   "outcome_remark": null
+                }
+              ],
+              "lessons": [
+                {
+                  "lesson_id": "1",
+                  "lesson_no": "1",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "1",
+                  "content_text": "Content A part 1",
+                  "lesson_remark": null
+                },
+                {
+                  "lesson_id": "2",
+                  "lesson_no": "2",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "1",
+                  "content_text": "Content A part 2",
+                  "lesson_remark": null
                 }
               ]
             },
@@ -122,6 +143,26 @@
                   "suggested_activity": "Nama jenis-jenis fungsi tidak perlu ditegaskan.\r\n",
                   "outcome_remark": null
                 }
+              ],
+              "lessons": [
+                {
+                  "lesson_id": "3",
+                  "lesson_no": "1",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "2",
+                  "content_text": "Content B part 1",
+                  "lesson_remark": null
+                },
+                {
+                  "lesson_id": "4",
+                  "lesson_no": "2",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "2",
+                  "content_text": "Content B part 2",
+                  "lesson_remark": null
+                }
               ]
             },
             {
@@ -168,6 +209,17 @@
                   "outcome_level": "3",
                   "suggested_activity": null,
                   "outcome_remark": null
+                }
+              ],
+              "lessons": [
+                {
+                  "lesson_id": "5",
+                  "lesson_no": "1",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "3",
+                  "content_text": "Content C",
+                  "lesson_remark": null
                 }
               ]
             },
@@ -216,6 +268,17 @@
                   "suggested_activity": null,
                   "outcome_remark": null
                 }
+              ],
+              "lessons": [
+                {
+                  "lesson_id": "6",
+                  "lesson_no": "1",
+                  "subject_id": "1",
+                  "chapter_id": "1",
+                  "subchapter_id": "4",
+                  "content_text": "Content D",
+                  "lesson_remark": null
+                }
               ]
             }
           ]
@@ -226,7 +289,8 @@
           "subject_id": "1",
           "edu_year_id": "10",
           "chapter_title": "Persamaan Kuadratik",
-          "chapter_remark": null
+          "chapter_remark": null,
+          "progress": 66
         }
       ]
     },
@@ -238,6 +302,26 @@
       "edu_year_id": "11",
       "subject_short_form": "MT",
       "subject_title": "Additional Mathematics",
+      "subject_remark": ""
+    },
+    {
+      "subject_id": "3",
+      "subject_no": "3",
+      "subject_code": "3473",
+      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_en.png",
+      "edu_year_id": "11",
+      "subject_short_form": "EN",
+      "subject_title": "English",
+      "subject_remark": ""
+    },
+    {
+      "subject_id": "5",
+      "subject_no": "4",
+      "subject_code": "3474",
+      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_che.png",
+      "edu_year_id": "10",
+      "subject_short_form": "SC",
+      "subject_title": "Science",
       "subject_remark": ""
     }
   ],
