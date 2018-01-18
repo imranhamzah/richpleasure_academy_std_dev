@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ChapterListActivity extends AppCompatActivity{
@@ -46,6 +47,8 @@ public class ChapterListActivity extends AppCompatActivity{
     private FiftyShadesOf fiftyShadesOf;
     private LinearLayout chapterLinearLayout;
     private JSONArray subChaptersArray;
+    private String[] chapterTitle;
+    private HashMap<String,String> chapterDataTitle=new HashMap<String,String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +77,19 @@ public class ChapterListActivity extends AppCompatActivity{
         adapterListChapters.setOnClickListener(new AdapterChapterList.OnClickListener() {
             @Override
             public void onItemClick(View view, ChapterList obj, int pos) {
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
                 Intent gotoContent = new Intent(getApplicationContext(), LessonActivity.class);
-                gotoContent.putExtra("subChaptersArray", String.valueOf(subChaptersArray));
+                gotoContent.putExtra("subChaptersArray", gson.toJson(obj.subChapters));
+                gotoContent.putExtra("chapterTitle", obj.chapterTitle);
+                gotoContent.putExtra("chapterId", obj.chapterId);
                 gotoContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 getApplicationContext().startActivity(gotoContent);
             }
         });
 
-        setTitle("Mathematics");
+        String subjectTitle = getIntent().getStringExtra("subjectTitle");
+        setTitle(subjectTitle);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

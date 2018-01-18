@@ -105,7 +105,8 @@ public class LessonActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Chapter 1: Plants");
+        String chapterTitle = getIntent().getStringExtra("chapterTitle");
+        setTitle(chapterTitle);
     }
 
     @Override

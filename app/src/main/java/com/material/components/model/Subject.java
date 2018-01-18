@@ -16,4 +16,8 @@ public class Subject {
     @Expose
     public String subjectName;
 
+    @SerializedName("chapters")
+    @Expose
+    public Object chapters;
+
 }

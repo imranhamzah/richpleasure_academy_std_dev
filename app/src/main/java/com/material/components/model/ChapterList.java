@@ -4,6 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ChapterList {
+
+    @SerializedName("chapter_id")
+    @Expose
+    public String chapterId;
+
     @SerializedName("chapter_no")
     @Expose
     public String chapterNumber;
@@ -15,4 +20,8 @@ public class ChapterList {
     @SerializedName("progress")
     @Expose
     public Integer learningProgress;
+
+    @SerializedName("subchapters")
+    @Expose
+    public Object subChapters;
 }

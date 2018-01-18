@@ -246,12 +246,18 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         subjectRecyclerView.setHasFixedSize(true);
         subjectRecyclerView.setNestedScrollingEnabled(false);
 
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
         adapterSubject.setOnClickListener(new AdapterSubject.OnClickListener() {
             @Override
             public void onItemClick(View view, Subject obj, int pos) {
-                Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
-                gotoChapter.putExtra("chapterArray", String.valueOf(chapterArray));
-                startActivity(gotoChapter);
+                if(obj.chapters != null){
+                    Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
+                    gotoChapter.putExtra("chapterArray", String.valueOf(gson.toJson(obj.chapters)));
+                    gotoChapter.putExtra("subjectTitle",obj.subjectName);
+                    startActivity(gotoChapter);
+                }
             }
 
         });
