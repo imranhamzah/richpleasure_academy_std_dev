@@ -73,9 +73,10 @@
                 android:id="@+id/tutorShortDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_large"
-                android:layout_marginRight="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="@string/medium_lorem_ipsum"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
@@ -103,17 +104,92 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
-
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/tutorSubjectListRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
-                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/grey_600"
+                        android:text="STUDENT REVIEWS"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/studentProfilePic"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/pic_user"
+                            app:civ_border="true"
+                            app:civ_border_width="1dp" />
+
+                        <LinearLayout
+                            android:id="@+id/ratingData"
+                            android:layout_toRightOf="@id/studentProfilePic"
+                            android:layout_marginLeft="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:orientation="vertical">
+                            <TextView
+                                android:text="Hassan Husni"
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <RatingBar
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:rating="4"
+                                    style="@style/Widget.AppCompat.RatingBar.Small"
+                                    android:layout_marginLeft="4dp"/>
+                                <TextView
+                                    android:layout_marginLeft="5dp"
+                                    android:textSize="12sp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1/18/2018"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:textStyle="italic"
+                                android:layout_height="wrap_content"
+                                android:text="Alhmadulillah hebat cikgu ni!"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/feedBack"
+                            android:layout_toRightOf="@id/ratingData"
+                            android:gravity="right"
+                            android:layout_gravity="right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_more_vert"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 

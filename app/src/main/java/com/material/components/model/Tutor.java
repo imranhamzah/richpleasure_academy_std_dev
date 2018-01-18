@@ -27,6 +27,13 @@ public class Tutor implements Parcelable {
     @Expose
     public String shortDescription;
 
+
+    @SerializedName("tutor_subjects")
+    @Expose
+    public Object tutorSubjects;
+
+
+
     protected Tutor(Parcel in) {
         mobilePhoneNo = in.readString();
         tutorId = in.readString();

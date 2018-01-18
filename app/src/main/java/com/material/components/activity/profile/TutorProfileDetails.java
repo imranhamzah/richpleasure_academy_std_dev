@@ -76,6 +76,7 @@ public class TutorProfileDetails extends AppCompatActivity{
         profilePic = findViewById(R.id.image);
         backgroundProfilePic = findViewById(R.id.backgroundProfilePic);
         subjectLabel = findViewById(R.id.subjectLabel);
+        subjectLabel.setVisibility(View.GONE);
         parent_view = findViewById(R.id.parent_view);
 
         SpannableString content = new SpannableString("My Subjects");
@@ -131,6 +132,38 @@ public class TutorProfileDetails extends AppCompatActivity{
         }
         profilePic.setImageBitmap(bmp);
 
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+
+        String tutorSubjects = getIntent().getStringExtra("tutorSubjects");
+        System.out.println("tutorSubjects----open");
+        System.out.println(tutorSubjects.getClass().getName());
+        System.out.println(tutorSubjects);
+        if (!tutorSubjects.equals("null")) {
+            subjectLabel.setVisibility(View.VISIBLE);
+            System.out.println("dataTutorSubejcts");
+            System.out.println(tutorSubjects);
+            JSONArray jsonArray;
+            try {
+                jsonArray = new JSONArray(tutorSubjects);
+                tutorSubjectList.clear();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    System.out.println(jsonArray.get(i));
+                    TutorSubject tutorSubject = gson.fromJson(String.valueOf(jsonArray.get(i)), TutorSubject.class);
+
+                    tutorSubjectList.add(tutorSubject);
+                }
+
+
+                adapterTutorSubject.notifyDataSetChanged();
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         fiftyShadesOf.stop();
 
     }
@@ -171,102 +204,5 @@ public class TutorProfileDetails extends AppCompatActivity{
         onBackPressed();
         return true;
     }
-
-//    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-
-            if(progressDialog.isShowing()){
-                progressDialog.dismiss();
-            }
-
-            String key = dataSnapshot.getKey();
-            if(key.equals("tutor_profile"))
-            {
-                fiftyShadesOf.stop();
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
-
-                String dataTutor = gson.toJson(dataSnapshot.getValue());
-
-                TutorProfile tutor = gson.fromJson(dataTutor,TutorProfile.class);
-                tutorList.add(tutor);
-
-
-                String arrSubjectReceived = gson.toJson(dataSnapshot.child("subjects").getValue());
-
-
-                JSONArray jsonArray;
-                try {
-                    jsonArray = new JSONArray(arrSubjectReceived);
-                    tutorSubjectList.clear();
-                    for(int i=0; i<jsonArray.length(); i++)
-                    {
-                        System.out.println(jsonArray.get(i));
-                        TutorSubject tutorSubject = gson.fromJson(String.valueOf(jsonArray.get(i)),TutorSubject.class);
-
-                        tutorSubjectList.add(tutorSubject);
-                    }
-
-
-                    adapterTutorSubject.notifyDataSetChanged();
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-
-
-
-
-
-                tutorFullname.setText(tutor.tutorName);
-
-                shortDescription.setText(tutor.tutorDescription);
-                URL url,url2;
-                Bitmap bmp = null;
-                try {
-                    url = new URL(tutor.profilePic);
-                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                profilePic.setImageBitmap(bmp);
-
-                Bitmap bmp2 = null;
-                try {
-                    url2 = new URL(tutor.backgroundProfilePic);
-                    bmp2 = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                backgroundProfilePic.setImageBitmap(bmp2);
-            }
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        mTutorProfile.addValueEventListener(this);
-    }
-
-//    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        mTutorProfile.addValueEventListener(this);
-    }
-
 
 }

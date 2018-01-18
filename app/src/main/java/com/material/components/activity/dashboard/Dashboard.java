@@ -285,8 +285,11 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         adapterTutor.setOnClickListener(new AdapterTutor.OnClickListener() {
             @Override
             public void onItemClick(View view, Tutor obj, int pos) {
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
                 Intent gotoTutorProfile = new Intent(getApplicationContext(), TutorProfileDetails.class);
                 gotoTutorProfile.putExtra("tutorProfileData",obj);
+                gotoTutorProfile.putExtra("tutorSubjects",gson.toJson(obj.tutorSubjects));
                 startActivity(gotoTutorProfile);
             }
 
