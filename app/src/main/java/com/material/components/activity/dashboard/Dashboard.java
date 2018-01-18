@@ -286,6 +286,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             @Override
             public void onItemClick(View view, Tutor obj, int pos) {
                 Intent gotoTutorProfile = new Intent(getApplicationContext(), TutorProfileDetails.class);
+                gotoTutorProfile.putExtra("tutorProfileData",obj);
                 startActivity(gotoTutorProfile);
             }
 

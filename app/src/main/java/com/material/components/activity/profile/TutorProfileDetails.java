@@ -30,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.chapters.ChapterListActivity;
 import com.material.components.adapter.AdapterTutorSubject;
+import com.material.components.model.Tutor;
 import com.material.components.model.TutorProfile;
 import com.material.components.model.TutorSubject;
 import com.material.components.utils.Tools;
@@ -45,7 +46,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorProfileDetails extends AppCompatActivity  implements ValueEventListener{
+public class TutorProfileDetails extends AppCompatActivity{
 
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -108,7 +109,29 @@ public class TutorProfileDetails extends AppCompatActivity  implements ValueEven
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+//        progressDialog.show();
+
+        Tutor dataReceived = getIntent().getParcelableExtra("tutorProfileData");
+
+        System.out.println(dataReceived.tutorName);
+        System.out.println(dataReceived.shortDescription);
+        tutorFullname.setText(dataReceived.tutorName);
+        shortDescription.setText(dataReceived.shortDescription);
+
+        shortDescription.setText(dataReceived.shortDescription);
+        URL url;
+        Bitmap bmp = null;
+        try {
+            url = new URL(dataReceived.tutorProfilePic);
+            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        profilePic.setImageBitmap(bmp);
+
+        fiftyShadesOf.stop();
 
     }
 
@@ -149,7 +172,7 @@ public class TutorProfileDetails extends AppCompatActivity  implements ValueEven
         return true;
     }
 
-    @Override
+//    @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
 
             if(progressDialog.isShowing()){
@@ -231,10 +254,10 @@ public class TutorProfileDetails extends AppCompatActivity  implements ValueEven
     @Override
     protected void onStart() {
         super.onStart();
-        mTutorProfile.addValueEventListener(this);
+//        mTutorProfile.addValueEventListener(this);
     }
 
-    @Override
+//    @Override
     public void onCancelled(DatabaseError databaseError) {
 
     }
@@ -242,7 +265,7 @@ public class TutorProfileDetails extends AppCompatActivity  implements ValueEven
     @Override
     protected void onResume() {
         super.onResume();
-        mTutorProfile.addValueEventListener(this);
+//        mTutorProfile.addValueEventListener(this);
     }
 
 
