@@ -1,6 +1,7 @@
 package com.material.components.activity.subchapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,10 +9,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.adapter.AdapterSubChapter;
 import com.material.components.model.SubChapter;
 
@@ -52,6 +55,19 @@ public class SubchapterActivity extends AppCompatActivity {
         subChapterRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         subChapterRecyclerView.setItemAnimator(new DefaultItemAnimator());
         subChapterRecyclerView.setAdapter(adapterSubChapter);
+
+        adapterSubChapter.setOnClickListener(new AdapterSubChapter.OnClickListener() {
+            @Override
+            public void onItemClick(View view, SubChapter subchapter, int pos) {
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                Intent gotoLesson = new Intent(SubchapterActivity.this, LessonActivity.class);
+                gotoLesson.putExtra("lessons",gson.toJson(subchapter.lessons));
+                gotoLesson.putExtra("subChapterTitle",subchapter.subchapterTitle);
+                startActivity(gotoLesson);
+            }
+        });
+
 
 
         String strSubChaptersArray = getIntent().getStringExtra("subChaptersArray");

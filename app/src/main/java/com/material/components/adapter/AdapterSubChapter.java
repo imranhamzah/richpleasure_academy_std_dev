@@ -14,6 +14,7 @@ import java.util.List;
 
 public class AdapterSubChapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public List<SubChapter> subChapterList = new ArrayList<>();
+    public OnClickListener onClickListener = null;
 
     public AdapterSubChapter(List<SubChapter> subChapterList) {
         this.subChapterList = subChapterList;
@@ -30,27 +31,45 @@ public class AdapterSubChapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
         public TextView subChapterTitle, subChapterNo;
+        public View lyt_parent_short_content;
 
         public OriginalViewHolder(View itemView) {
             super(itemView);
             subChapterTitle = itemView.findViewById(R.id.subchapterTitle);
             subChapterNo = itemView.findViewById(R.id.subChapterNo);
+            lyt_parent_short_content = itemView.findViewById(R.id.lyt_parent_short_content);
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof OriginalViewHolder)
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
-            SubChapter subChapter = subChapterList.get(position);
+            final SubChapter subChapter = subChapterList.get(position);
             view.subChapterNo.setText(subChapter.subchapterNo);
             view.subChapterTitle.setText(subChapter.subchapterTitle);
+
+            view.lyt_parent_short_content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickListener == null) return;
+                    onClickListener.onItemClick(v,subChapter,position);
+                }
+            });
         }
     }
 
     @Override
     public int getItemCount() {
         return subChapterList.size();
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener{
+        void onItemClick(View view, SubChapter subchapter, int pos);
     }
 }
