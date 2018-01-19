@@ -16,19 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.adapter.AdapterLesson;
 import com.material.components.model.Lesson;
-import com.material.components.model.TutorSubject;
-import com.material.components.utils.Tools;
-import com.material.components.widget.SpacingItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,14 +31,6 @@ import java.util.List;
 
 public class LessonActivity extends AppCompatActivity{
 
-    public List<Lesson> lessonList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private AdapterLesson adapterLesson;
-    private Context context;
-
-    private LinearLayout lessonLinearLayout;
-    private FiftyShadesOf fiftyShadesOf;
-
     public WebView contentWebView;
 
     public ProgressBar progressBar;
@@ -55,12 +39,8 @@ public class LessonActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
-        context = getApplicationContext();
         contentWebView = findViewById(R.id.contentWebView);
         progressBar = findViewById(R.id.progressBarContent);
-
-        fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.lessonLayout).start();
-        lessonLinearLayout = findViewById(R.id.lessonLayout);
 
         initToolbar();
         displayLesson();
@@ -69,23 +49,10 @@ public class LessonActivity extends AppCompatActivity{
     private void displayLesson() {
         String lesson = getIntent().getStringExtra("lessons");
 
-        fiftyShadesOf.stop();
-        lessonLinearLayout.setVisibility(View.GONE);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        lessonList.clear();
-
-        System.out.println("xxxxlesson_data");
-        System.out.println(lesson);
-
-        System.out.println(lesson.getClass().getName());
-
         String dataDisplay = "";
         String dataDisplay2 = "";
         try {
             JSONArray abc = new JSONArray(lesson);
-            System.out.println(abc);
-            System.out.println(abc.getClass().getName());
 
             for(int i=0; i<abc.length(); i++)
             {
@@ -93,10 +60,35 @@ public class LessonActivity extends AppCompatActivity{
                 JSONObject obj = new JSONObject(dataDisplay);
                 dataDisplay2 += obj.getString("content_text")+"<p></p>";
             }
-                System.out.println(dataDisplay2);
-
 
             contentWebView.getSettings().setJavaScriptEnabled(true);
+            contentWebView.getSettings().setLoadWithOverviewMode(true);
+            if (android.os.Build.VERSION.SDK_INT < 19)
+            {
+                contentWebView.loadDataWithBaseURL("http://bar","<script type='text/javascript' "
+                                +"src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>" +
+                                "<script type='text/x-mathjax-config'>" +
+                                "                MathJax.Hub.Config({" +
+                                "                showProcessingMessages: false," +
+                                "                tex2jax: { inlineMath: [['`','`'],['\\\\(','\\\\)']] }," +
+                                "                \"HTML-CSS\": { scale: 120}" +
+                                "                });" +
+                                "    </script>",
+                        "text/html","utf-8","");
+            }
+            else
+            {
+                contentWebView.loadDataWithBaseURL("http://bar","<script type='text/javascript' "
+                                +"src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>" +
+                                "<script'>" +
+                                "                MathJax.Hub.Config({" +
+                                "                showProcessingMessages: false," +
+                                "                tex2jax: { inlineMath: [['`','`'],['\\\\(','\\\\)']] }," +
+                                "                \"HTML-CSS\": { scale: 120}" +
+                                "                });" +
+                                "    </script>",
+                        "text/html","utf-8","");
+            }
             contentWebView.setWebViewClient(new AppWebViewClients(progressBar));
             contentWebView.loadData(String.valueOf(dataDisplay2),"text/html", "UTF-8");
         } catch (JSONException e) {
@@ -125,40 +117,6 @@ public class LessonActivity extends AppCompatActivity{
             super.onPageFinished(view, url);
             progressBar.setVisibility(View.GONE);
         }
-    }
-
-    private void displayContent() {
-
-
-        String strSubChaptersArray = getIntent().getStringExtra("subChaptersArray");
-
-
-        fiftyShadesOf.stop();
-        lessonLinearLayout.setVisibility(View.GONE);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        lessonList.clear();
-
-        try {
-            JSONArray subChaptersArray = new JSONArray(strSubChaptersArray);
-
-            System.out.println("here.....");
-            System.out.println(subChaptersArray);
-            System.out.println("here.....2");
-
-            for (int i = 0; i < subChaptersArray.length(); i++) {
-
-                System.out.println("ddddd----------------");
-                System.out.println(subChaptersArray.get(i));
-                System.out.println("ddddd----------------end");
-                Lesson lesson = gson.fromJson(String.valueOf(subChaptersArray.get(i)), Lesson.class);
-                lessonList.add(lesson);
-            }
-            adapterLesson.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void initToolbar() {

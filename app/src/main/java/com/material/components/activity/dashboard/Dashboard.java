@@ -414,4 +414,18 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         mSubject.addValueEventListener(this);
         mTutors.addValueEventListener(this);
     }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Dashboard.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 }
