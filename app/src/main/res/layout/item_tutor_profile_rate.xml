@@ -1,0 +1,85 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="40dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/studentProfilePic"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:src="@drawable/pic_user"
+        app:civ_border="true"
+        app:civ_border_width="1dp" />
+
+    <LinearLayout
+        android:id="@+id/ratingData"
+        android:paddingLeft="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/studentProfilePic"
+        android:gravity="left"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hassan Husni" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RatingBar
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:rating="4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="1/18/2018"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:text="Alhmadulillah hebat cikgu ni!"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_alignRight="@+id/ratingData"
+        android:id="@+id/feedBack"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_marginRight="15dp"
+            android:id="@+id/thumbsUp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/spacing_xlarge"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="openSubMenu"
+            android:tint="@color/grey_60"
+            app:srcCompat="@drawable/ic_thumbs_up" />
+
+        <ImageButton
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/spacing_xlarge"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="openSubMenu"
+            android:tint="@color/grey_60"
+            app:srcCompat="@drawable/ic_more_vert" />
+    </LinearLayout>
+
+</RelativeLayout>
