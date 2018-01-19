@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.lesson.LessonActivity;
+import com.material.components.activity.subchapter.SubchapterActivity;
 import com.material.components.activity.toolbar.ToolbarCollapsePin;
 import com.material.components.adapter.AdapterChapterList;
 import com.material.components.helper.DataHolder;
@@ -79,7 +80,7 @@ public class ChapterListActivity extends AppCompatActivity{
             public void onItemClick(View view, ChapterList obj, int pos) {
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
-                Intent gotoContent = new Intent(getApplicationContext(), LessonActivity.class);
+                Intent gotoContent = new Intent(getApplicationContext(), SubchapterActivity.class);
                 gotoContent.putExtra("subChaptersArray", gson.toJson(obj.subChapters));
                 gotoContent.putExtra("chapterTitle", obj.chapterTitle);
                 gotoContent.putExtra("chapterId", obj.chapterId);
