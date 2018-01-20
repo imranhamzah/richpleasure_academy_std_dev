@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/discuss"
+        android:icon="@drawable/ic_view_stream"
+        android:orderInCategory="100"
+        android:title="Ask Teacher"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/practice"
+        android:icon="@drawable/ic_view_stream"
+        android:orderInCategory="100"
+        android:title="Practice"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/pastYears"
+        android:icon="@drawable/ic_view_stream"
+        android:orderInCategory="100"
+        android:title="Past Years"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_report"
         android:icon="@drawable/ic_refresh"
         android:orderInCategory="100"
         android:title="Report"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/bookmark"
-        android:icon="@drawable/ic_view_stream"
-        android:orderInCategory="100"
-        android:title="Bookmark"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/questions"
-        android:icon="@drawable/ic_view_stream"
-        android:orderInCategory="100"
-        android:title="Questions"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

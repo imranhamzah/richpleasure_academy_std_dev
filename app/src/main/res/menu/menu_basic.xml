@@ -14,4 +14,10 @@
         android:orderInCategory="100"
         android:title="Settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/lessons_discuss_with_teacher"
+        android:orderInCategory="100"
+        android:title="Ask Teacher List"
+        app:showAsAction="never" />
 </menu>
