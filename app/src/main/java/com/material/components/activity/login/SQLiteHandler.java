@@ -68,6 +68,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(KEY_UID, uid); // Email
         values.put(KEY_CREATED_AT, created_at); // Created At
 
+        System.out.println("Values added:"+values);
+
         // Inserting Row
         long id = db.insert(TABLE_USER, null, values);
         db.close(); // Closing database connection

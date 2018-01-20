@@ -1,40 +1,38 @@
 package com.material.components.activity.lesson;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.github.florent37.fiftyshadesof.FiftyShadesOf;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.material.components.R;
-import com.material.components.adapter.AdapterLesson;
-import com.material.components.model.Lesson;
+import com.material.components.model.SubChapter;
+import com.material.components.model.Tutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class LessonActivity extends AppCompatActivity{
 
     public WebView contentWebView;
 
     public ProgressBar progressBar;
+    public String chapterTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +123,7 @@ public class LessonActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String chapterTitle = getIntent().getStringExtra("subChapterTitle");
+        chapterTitle = getIntent().getStringExtra("subChapterTitle");
         setTitle(chapterTitle);
     }
 
@@ -146,6 +144,46 @@ public class LessonActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_lesson,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        SubChapter dataSubChapter = getIntent().getParcelableExtra("dataAnalysis");
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser currentFirebaseUser  = FirebaseAuth.getInstance().getCurrentUser();
+        String uuid = currentFirebaseUser.getUid();
+
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference analysis_by_students = databaseReference.child("analysis/students/"+uuid+"/subjects/"+dataSubChapter.subjectId+"/chapters/"+dataSubChapter.chapterId+"/subchapters/"+dataSubChapter.subchapterId);
+        final DatabaseReference analysis_by_subjects = databaseReference.child("analysis/subjects/"+dataSubChapter.subjectId+"/chapters/"+dataSubChapter.chapterId+"/subchapters/"+dataSubChapter.subchapterId+"/students/"+uuid);
+
+
+        int id = item.getItemId();
+        if(id == R.id.askTeacher)
+        {
+            final SubChapter s = new SubChapter(dataSubChapter.subjectId,dataSubChapter.chapterId,dataSubChapter.subchapterId,"d",dataSubChapter.subchapterTitle);
+            analysis_by_students.setValue(s, new DatabaseReference.CompletionListener(){
+
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                    analysis_by_subjects.setValue(s, new DatabaseReference.CompletionListener(){
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            Toast.makeText(LessonActivity.this, "Successfully added to Ask Teacher list", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            });
+
+        }
+
         return true;
     }
 }

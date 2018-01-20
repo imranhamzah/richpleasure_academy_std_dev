@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.material.components.AppController;
 import com.material.components.R;
 import com.material.components.activity.login.LoginActivity;
@@ -27,6 +30,7 @@ import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
 import com.material.components.activity.dashboard.Dashboard;
 import com.material.components.config.AppConfig;
+import com.material.components.model.Student;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,10 +124,24 @@ public class RegisterActivity extends Activity {
                 {
                     String uid = firebaseAuth.getUid();
 
+                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    DatabaseReference databaseReference = firebaseDatabase.getReference();
+                    DatabaseReference studentReference = databaseReference.child("students/"+uid);
+
+
+
                     String email = firebaseAuth.getCurrentUser().getEmail();
                     String created_at = null;
                     // Inserting row in users table
                     db.addUser(name, email, uid, created_at);
+
+                    Map<String,Object> value = new HashMap<>();
+                    value.put("student_fullname",name);
+                    value.put("student_email",email);
+                    value.put("student_id",uid);
+                    value.put("created_at",ServerValue.TIMESTAMP);
+
+                    studentReference.setValue(value);
 
                     final Toast responseRegister = Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG);
                     responseRegister.show();

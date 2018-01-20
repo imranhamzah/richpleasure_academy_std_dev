@@ -311,6 +311,9 @@
             android:name=".activity.profile.TutorProfileDetails"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.profile.StudentProfileDetails"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.noitem.NoItemArchived"
             android:screenOrientation="portrait" />
         <activity

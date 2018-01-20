@@ -67,4 +67,8 @@ public class Tutor implements Parcelable {
         dest.writeString(tutorProfilePic);
         dest.writeString(shortDescription);
     }
+
+    public Tutor(String tutorName) {
+        this.tutorName = tutorName;
+    }
 }

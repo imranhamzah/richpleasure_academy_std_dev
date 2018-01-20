@@ -48,18 +48,11 @@ import java.util.List;
 
 public class TutorProfileDetails extends AppCompatActivity{
 
-
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mRootReference = firebaseDatabase.getReference();
-    private DatabaseReference mTutorProfile = mRootReference.child("tutor_profile");
-
-    public List<TutorProfile> tutorList = new ArrayList<>();
     public List<TutorSubject> tutorSubjectList = new ArrayList<>();
     public RecyclerView tutorSubjectListRecyclerView;
     public AdapterTutorSubject adapterTutorSubject;
     public TextView tutorFullname, shortDescription, subjectLabel;
     public ImageView profilePic, backgroundProfilePic;
-    private View parent_view;
     ProgressDialog progressDialog;
     private FiftyShadesOf fiftyShadesOf;
 
@@ -77,7 +70,6 @@ public class TutorProfileDetails extends AppCompatActivity{
         backgroundProfilePic = findViewById(R.id.backgroundProfilePic);
         subjectLabel = findViewById(R.id.subjectLabel);
         subjectLabel.setVisibility(View.GONE);
-        parent_view = findViewById(R.id.parent_view);
 
         SpannableString content = new SpannableString("My Subjects");
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -110,7 +102,6 @@ public class TutorProfileDetails extends AppCompatActivity{
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
-//        progressDialog.show();
 
         Tutor dataReceived = getIntent().getParcelableExtra("tutorProfileData");
 

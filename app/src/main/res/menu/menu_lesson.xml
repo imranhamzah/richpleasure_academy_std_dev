@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/discuss"
+        android:id="@+id/askTeacher"
         android:icon="@drawable/ic_view_stream"
         android:orderInCategory="100"
         android:title="Ask Teacher"

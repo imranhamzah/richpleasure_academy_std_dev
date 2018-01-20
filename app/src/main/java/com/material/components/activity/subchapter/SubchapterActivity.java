@@ -64,6 +64,7 @@ public class SubchapterActivity extends AppCompatActivity {
                 Intent gotoLesson = new Intent(SubchapterActivity.this, LessonActivity.class);
                 gotoLesson.putExtra("lessons",gson.toJson(subchapter.lessons));
                 gotoLesson.putExtra("subChapterTitle",subchapter.subchapterTitle);
+                gotoLesson.putExtra("dataAnalysis",subchapter);
                 startActivity(gotoLesson);
             }
         });

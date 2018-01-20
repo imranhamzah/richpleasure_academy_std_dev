@@ -38,6 +38,7 @@ import com.material.components.activity.chapters.ChapterListActivity;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
+import com.material.components.activity.profile.StudentProfileDetails;
 import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.adapter.AdapterSubject;
@@ -206,7 +207,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
                 if(id == R.id.nav_profile)
                 {
-                    Intent intentProfile = new Intent(getApplicationContext(), TutorProfileDetails.class);
+                    Intent intentProfile = new Intent(getApplicationContext(), StudentProfileDetails.class);
                     startActivity(intentProfile);
                 }
 
