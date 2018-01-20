@@ -1,6 +1,9 @@
 package com.material.components.activity.profile;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -12,6 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.material.components.R;
+import com.mikhaellopez.circularimageview.CircularImageView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,9 +39,25 @@ public class StudentProfileDetails extends AppCompatActivity implements ValueEve
         studentFullname = findViewById(R.id.tutorFullname);
 
         initToolbar();
+        initComponent();
 
         uuid = firebaseAuth.getUid();
         mStudentRef = databaseReference.child("students/"+uuid);
+
+    }
+
+    private void initComponent() {
+        final CircularImageView image = findViewById(R.id.image);
+        final CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        ((AppBarLayout) findViewById(R.id.app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
+                float scale = (float) (min_height + verticalOffset) / min_height;
+                image.setScaleX(scale >= 0 ? scale : 0);
+                image.setScaleY(scale >= 0 ? scale : 0);
+            }
+        });
     }
 
     private void initToolbar() {

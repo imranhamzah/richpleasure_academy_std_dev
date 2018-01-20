@@ -1,5 +1,6 @@
 package com.material.components.activity.lesson;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -19,8 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.material.components.R;
+import com.material.components.activity.practice.Practice;
 import com.material.components.model.SubChapter;
-import com.material.components.model.Tutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,33 +62,6 @@ public class LessonActivity extends AppCompatActivity{
             }
 
             contentWebView.getSettings().setJavaScriptEnabled(true);
-            contentWebView.getSettings().setLoadWithOverviewMode(true);
-            if (android.os.Build.VERSION.SDK_INT < 19)
-            {
-                contentWebView.loadDataWithBaseURL("http://bar","<script type='text/javascript' "
-                                +"src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>" +
-                                "<script type='text/x-mathjax-config'>" +
-                                "                MathJax.Hub.Config({" +
-                                "                showProcessingMessages: false," +
-                                "                tex2jax: { inlineMath: [['`','`'],['\\\\(','\\\\)']] }," +
-                                "                \"HTML-CSS\": { scale: 120}" +
-                                "                });" +
-                                "    </script>",
-                        "text/html","utf-8","");
-            }
-            else
-            {
-                contentWebView.loadDataWithBaseURL("http://bar","<script type='text/javascript' "
-                                +"src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>" +
-                                "<script'>" +
-                                "                MathJax.Hub.Config({" +
-                                "                showProcessingMessages: false," +
-                                "                tex2jax: { inlineMath: [['`','`'],['\\\\(','\\\\)']] }," +
-                                "                \"HTML-CSS\": { scale: 120}" +
-                                "                });" +
-                                "    </script>",
-                        "text/html","utf-8","");
-            }
             contentWebView.setWebViewClient(new AppWebViewClients(progressBar));
             contentWebView.loadData(String.valueOf(dataDisplay2),"text/html", "UTF-8");
         } catch (JSONException e) {
@@ -182,6 +156,12 @@ public class LessonActivity extends AppCompatActivity{
                 }
             });
 
+        }
+
+        if(id == R.id.practice)
+        {
+            Intent gotoPractice = new Intent(LessonActivity.this, Practice.class);
+            startActivity(gotoPractice);
         }
 
         return true;
