@@ -479,6 +479,10 @@
         <activity
             android:name=".activity.practice.Practice"
             android:label="@string/title_activity_practice"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.pastyears.PastYears"
+            android:label="@string/title_activity_past_years"
             android:theme="@style/AppTheme"></activity>
     </application>
 

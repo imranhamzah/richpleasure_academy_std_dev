@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.material.components.R;
+import com.material.components.activity.pastyears.PastYears;
 import com.material.components.activity.practice.Practice;
 import com.material.components.model.SubChapter;
 
@@ -162,6 +163,12 @@ public class LessonActivity extends AppCompatActivity{
         {
             Intent gotoPractice = new Intent(LessonActivity.this, Practice.class);
             startActivity(gotoPractice);
+        }
+
+        if(id == R.id.pastYears)
+        {
+            Intent gotoPastYears = new Intent(LessonActivity.this, PastYears.class);
+            startActivity(gotoPastYears);
         }
 
         return true;
