@@ -1,413 +1,449 @@
 {
-  "subjects": [
-    {
-      "subject_id": "1",
-      "subject_no": "1",
-      "subject_code": "3472",
-      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
-      "edu_year_id": "10",
-      "subject_short_form": "MT",
-      "subject_title": "Additional Mathematics",
-      "subject_remark": "",
-      "chapters": [
-        {
-          "chapter_id": "1",
-          "chapter_no": "1",
-          "subject_id": "1",
-          "edu_year_id": "10",
-          "chapter_title": "Fungsi",
-          "chapter_remark": null,
-          "progress": 35,
-          "subchapters": [
-            {
-              "subchapter_id": "1",
-              "subchapter_no": "1",
-              "subject_id": "1",
-              "edu_year_id": "10",
-              "chapter_id": "1",
-              "subchapter_title": "Hubungan",
-              "subchapter_remark": "",
-              "outcome": [
-                {
-                  "outcome_id": "1",
-                  "outcome_no": "1.1",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "1",
-                  "outcome_description": "Mewakilkan sesuatu hubungan.",
-                  "outcome_level": "1",
-                  "suggested_activity": "Pendedahan idea tentang set diperlukan. Contoh-contoh hubungan dalam kehidupan harian perlu dibincangkan.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "2",
-                  "outcome_no": "1.2",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "1",
-                  "outcome_description": "Menentukan domain, kodomain, objek, imej dan julat bagi sesuatu hubungan.",
-                  "outcome_level": "2",
-                  "suggested_activity": "Kes hubungan meliputi gambar rajah anak panah, pasangan bertertib dan graf.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "3",
-                  "outcome_no": "1.3",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "1",
-                  "outcome_description": "Mengelaskan sesuatu hubungan yang ditunjukkan dalam rajah pemetaan sebagai jenis: satu kepada satu, banyak kepada satu, satu kepada banyak dan banyak kepada banyak.",
-                  "outcome_level": "3",
-                  "suggested_activity": null,
-                  "outcome_remark": null
+  "ask_teachers" : {
+    "-L3ko1g04htEm_R3IquI" : {
+      "ask_teacher_id" : "-L3ko1g04htEm_R3IquI",
+      "edu_years" : {
+        "-L3hZo9HNCVNZiG6teYr" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subjects" : {
+            "-L3kTnDO2hLFiIAYKhpD" : {
+              "chapters" : {
+                "chapter_id" : {
+                  "chapter_id" : "chapter_id",
+                  "subchapters" : {
+                    "subchapter_id" : {
+                      "notes" : {
+                        "-L3kka2-erENZxhK7PRY" : {
+                          "division_id" : 1,
+                          "note_id" : "-L3kka2-erENZxhK7PRY"
+                        }
+                      },
+                      "subchapter_id" : "subchapter_id"
+                    }
+                  }
                 }
-              ],
-              "lessons": [
-                {
-                  "lesson_id": "1",
-                  "lesson_no": "1",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "1",
-                  "content_text": "Content A part 1",
-                  "lesson_remark": null
-                },
-                {
-                  "lesson_id": "2",
-                  "lesson_no": "2",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "1",
-                  "content_text": "Content A part 2",
-                  "lesson_remark": null
-                }
-              ]
-            },
-            {
-              "subchapter_id": "2",
-              "subchapter_no": "2",
-              "subject_id": "1",
-              "edu_year_id": "10",
-              "chapter_id": "1",
-              "subchapter_title": "Fungsi",
-              "subchapter_remark": "",
-              "outcome": [
-                {
-                  "outcome_id": "4",
-                  "outcome_no": "2.1",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "2",
-                  "outcome_description": "Mengenal pasti fungsi sebagai sejenis hubungan khas.",
-                  "outcome_level": "1",
-                  "suggested_activity": "Fungsi diwakilkan dalam bentuk gambar rajah anak panah, pasangan bertertib atau graf.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "5",
-                  "outcome_no": "2.2",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "2",
-                  "outcome_description": "Menulis sesuatu fungsi dengan menggunakan tatatanda fungsi.",
-                  "outcome_level": "2",
-                  "suggested_activity": "Contoh : f: x ? 2x f(x) = 2x “f: x ? 2x” boleh dibaca sebagai “fungsi f yang memetakan x kepada 2x”. Contoh fungsi yang bukan berasaskan matematik diberikan juga.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "6",
-                  "outcome_no": "2.3",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "2",
-                  "outcome_description": "Menentukan domain, julat, objek dan imej sesuatu fungsi.",
-                  "outcome_level": "2",
-                  "suggested_activity": "Contoh fungsi meliputi fungsi algebra dan trigonometri, termasuk fungsi nilai mutlak f:x ? | f(x) |, f(x) ialah fungsi linear, kuadratik atau trigonometri.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "7",
-                  "outcome_no": "2.4",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "2",
-                  "outcome_description": "Menentukan imej sesuatu fungsi apabila objek diberi dan sebaliknya.",
-                  "outcome_level": "3",
-                  "suggested_activity": "Nama jenis-jenis fungsi tidak perlu ditegaskan.\r\n",
-                  "outcome_remark": null
-                }
-              ],
-              "lessons": [
-                {
-                  "lesson_id": "3",
-                  "lesson_no": "1",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "2",
-                  "content_text": "Content B part 1",
-                  "lesson_remark": null
-                },
-                {
-                  "lesson_id": "4",
-                  "lesson_no": "2",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "2",
-                  "content_text": "Content B part 2",
-                  "lesson_remark": null
-                }
-              ]
-            },
-            {
-              "subchapter_id": "3",
-              "subchapter_no": "3",
-              "subject_id": "1",
-              "edu_year_id": "10",
-              "chapter_id": "1",
-              "subchapter_title": "Fungsi Gubahan",
-              "subchapter_remark": "",
-              "outcome": [
-                {
-                  "outcome_id": "8",
-                  "outcome_no": "3.1",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "3",
-                  "outcome_description": "Menentukan gubahan dua fungsi.",
-                  "outcome_level": "2",
-                  "suggested_activity": "Fungsi yang terlibat terhad kepada fungsi algebra. fg(x) bermakna f(g(x) ). Kaedah gambar rajah anak panah atau algebra boleh digunakan.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "9",
-                  "outcome_no": "3.2",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "3",
-                  "outcome_description": "Menentukan imej sesuatu fungsi gubahan apabila objek diberi dan sebaliknya.",
-                  "outcome_level": "2",
-                  "suggested_activity": "Imej fungsi gubahan termasuk nilai tunggal atau sesuatu julat.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "10",
-                  "outcome_no": "3.3",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "3",
-                  "outcome_description": "Mencari satu fungsi berkaitan apabila diberi fungsi gubahan dan salah satu fungsinya.",
-                  "outcome_level": "3",
-                  "suggested_activity": null,
-                  "outcome_remark": null
-                }
-              ],
-              "lessons": [
-                {
-                  "lesson_id": "5",
-                  "lesson_no": "1",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "3",
-                  "content_text": "Content C",
-                  "lesson_remark": null
-                }
-              ]
-            },
-            {
-              "subchapter_id": "4",
-              "subchapter_no": "4",
-              "subject_id": "1",
-              "edu_year_id": "10",
-              "chapter_id": "1",
-              "subchapter_title": "Fungsi songsangan",
-              "subchapter_remark": "",
-              "outcome": [
-                {
-                  "outcome_id": "11",
-                  "outcome_no": "4.1",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "4",
-                  "outcome_description": "Mencari nilai dalam domain yang sepadan dengan sesuatu nilai dalam julat melalui pemetaan songsangan apabila fungsinya diberi.",
-                  "outcome_level": "2",
-                  "suggested_activity": "Fungsi yang terlibat terhad kepada fungsi algebra. Songsangan bagi fungsi gubahan tidak diperlukan.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "12",
-                  "outcome_no": "4.2",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "4",
-                  "outcome_description": "Menentukan fungsi songsangan secara algebra.",
-                  "outcome_level": "3",
-                  "suggested_activity": "Perlu diterangkan bahawa songsangan sesuatu fungsi itu tidak semestinya suatu fungsi juga.\r\n",
-                  "outcome_remark": null
-                },
-                {
-                  "outcome_id": "13",
-                  "outcome_no": "4.3",
-                  "edu_year_id": "10",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "4",
-                  "outcome_description": "Menentukan dan menyatakan syarat untuk kewujudan fungsi songsangan.",
-                  "outcome_level": "3",
-                  "suggested_activity": null,
-                  "outcome_remark": null
-                }
-              ],
-              "lessons": [
-                {
-                  "lesson_id": "6",
-                  "lesson_no": "1",
-                  "subject_id": "1",
-                  "chapter_id": "1",
-                  "subchapter_id": "4",
-                  "content_text": "Content D",
-                  "lesson_remark": null
-                }
-              ]
+              },
+              "subject_id" : "-L3kTnDO2hLFiIAYKhpD"
             }
-          ]
+          }
+        }
+      }
+    }
+  },
+  "bookmarks" : {
+    "-L3koYqE-oRfzMBLpUlL" : {
+      "bookmark_id" : "-L3koYqE-oRfzMBLpUlL",
+      "edu_years" : {
+        "-L3hZo9HNCVNZiG6teYr" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subjects" : {
+            "-L3kTnDO2hLFiIAYKhpD" : {
+              "chapters" : {
+                "chapter_id" : {
+                  "chapter_id" : "chapter_id",
+                  "subchapters" : {
+                    "subchapter_id" : {
+                      "notes" : {
+                        "-L3kka2-erENZxhK7PRY" : {
+                          "division_id" : 1,
+                          "note_id" : "-L3kka2-erENZxhK7PRY"
+                        }
+                      },
+                      "subchapter_id" : "subchapter_id"
+                    }
+                  }
+                }
+              },
+              "subject_id" : "-L3kTnDO2hLFiIAYKhpD"
+            }
+          }
+        }
+      }
+    }
+  },
+  "countrys" : {
+    "-L3lAtMc5Jx9bUQKWdlC" : {
+      "country_id" : "-L3lAtMc5Jx9bUQKWdlC",
+      "country_name" : "Malaysia",
+      "states" : {
+        "-L3l8Vdy60xxR2yJaOEX" : {
+          "districts" : {
+            "-L3l9M89XnEheDFr2Qu2" : {
+              "district_id" : "-L3l9M89XnEheDFr2Qu2",
+              "district_name" : "Shah Alam"
+            }
+          },
+          "state_id" : "-L3l8Vdy60xxR2yJaOEX",
+          "state_name" : "Selangor"
+        }
+      }
+    }
+  },
+  "districts" : {
+    "-L3l9M89XnEheDFr2Qu2" : {
+      "district_id" : "-L3l9M89XnEheDFr2Qu2",
+      "district_name" : "Shah Alam"
+    },
+    "-L3l9M89XnEheDFr2Qu3" : {
+      "district_id" : "-L3l9M89XnEheDFr2Qu3",
+      "district_name" : "Subang"
+    },
+    "-L3l9M89XnEheDFr2Qu4" : {
+      "district_id" : "-L3l9M89XnEheDFr2Qu4",
+      "district_name" : "Klang"
+    },
+    "-L3l9M8BTdYvD3RGp-89" : {
+      "district_id" : "-L3l9M8BTdYvD3RGp-89",
+      "district_name" : "Petaling Jaya"
+    }
+  },
+  "edu_years" : {
+    "-L3hZo98rCIiCNsGomR1" : {
+      "edu_year_id" : "-L3hZo98rCIiCNsGomR1",
+      "edu_year_title_en" : "Darjah 1",
+      "edu_year_title_my" : "Standard 1"
+    },
+    "-L3hZo9Cr7MhJydTRv-d" : {
+      "edu_year_id" : "-L3hZo9Cr7MhJydTRv-d",
+      "edu_year_title_en" : "Darjah 2",
+      "edu_year_title_my" : "Standard 2"
+    },
+    "-L3hZo9DqUInebPO_zB6" : {
+      "edu_year_id" : "-L3hZo9DqUInebPO_zB6",
+      "edu_year_title_en" : "Darjah 3",
+      "edu_year_title_my" : "Standard 3"
+    },
+    "-L3hZo9EhKwKVTecJn4s" : {
+      "edu_year_id" : "-L3hZo9EhKwKVTecJn4s",
+      "edu_year_title_en" : "Darjah 4",
+      "edu_year_title_my" : "Standard 4"
+    },
+    "-L3hZo9EhKwKVTecJn4t" : {
+      "edu_year_id" : "-L3hZo9EhKwKVTecJn4t",
+      "edu_year_title_en" : "Darjah 5",
+      "edu_year_title_my" : "Standard 5"
+    },
+    "-L3hZo9EhKwKVTecJn4u" : {
+      "edu_year_id" : "-L3hZo9EhKwKVTecJn4u",
+      "edu_year_title_en" : "Darjah 6",
+      "edu_year_title_my" : "Standard 6"
+    },
+    "-L3hZo9FNRYxvUZVlqyP" : {
+      "edu_year_id" : "-L3hZo9FNRYxvUZVlqyP",
+      "edu_year_title_en" : "Tingkatan 1",
+      "edu_year_title_my" : "Form 1"
+    },
+    "-L3hZo9FNRYxvUZVlqyQ" : {
+      "edu_year_id" : "-L3hZo9FNRYxvUZVlqyQ",
+      "edu_year_title_en" : "Tingkatan 2",
+      "edu_year_title_my" : "Form 2"
+    },
+    "-L3hZo9GmSpjpvr5bS8e" : {
+      "edu_year_id" : "-L3hZo9GmSpjpvr5bS8e",
+      "edu_year_title_en" : "Tingkatan 3",
+      "edu_year_title_my" : "Form 3"
+    },
+    "-L3hZo9HNCVNZiG6teYq" : {
+      "edu_year_id" : "-L3hZo9HNCVNZiG6teYq",
+      "edu_year_title_en" : "Tingkatan 4",
+      "edu_year_title_my" : "Form 4"
+    },
+    "-L3hZo9HNCVNZiG6teYr" : {
+      "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+      "edu_year_title_en" : "Tingkatan 5",
+      "edu_year_title_my" : "Form 5"
+    }
+  },
+  "notes" : {
+    "-L3kka2-erENZxhK7PRY" : {
+      "edu_years" : {
+        "-L3hZo9HNCVNZiG6teYr" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subjects" : {
+            "-L3kTnDO2hLFiIAYKhpD" : {
+              "chapters" : {
+                "chapter_id" : {
+                  "chapter_id" : "chapter_id",
+                  "subchapters" : {
+                    "subchapter_id" : {
+                      "divisions" : [ "<p>Content 1</p>", "<p>Content 1b</p>" ],
+                      "subchapter_id" : "subchapter_id"
+                    }
+                  }
+                }
+              },
+              "subject_id" : "-L3kTnDO2hLFiIAYKhpD"
+            }
+          }
+        }
+      },
+      "note_id" : "-L3kka2-erENZxhK7PRY"
+    }
+  },
+  "reports" : {
+    "-L3kp8lSWnGG9q2-wEKx" : {
+      "edu_years" : {
+        "-L3hZo9HNCVNZiG6teYr" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subjects" : {
+            "-L3kTnDO2hLFiIAYKhpD" : {
+              "chapters" : {
+                "chapter_id" : {
+                  "chapter_id" : "chapter_id",
+                  "subchapters" : {
+                    "subchapter_id" : {
+                      "notes" : {
+                        "-L3kka2-erENZxhK7PRY" : {
+                          "division_id" : 1,
+                          "note_id" : "-L3kka2-erENZxhK7PRY"
+                        }
+                      },
+                      "subchapter_id" : "subchapter_id"
+                    }
+                  }
+                }
+              },
+              "subject_id" : "-L3kTnDO2hLFiIAYKhpD"
+            }
+          }
+        }
+      },
+      "messages" : "Wrong notes!",
+      "report_id" : "-L3kp8lSWnGG9q2-wEKx",
+      "report_status" : "new"
+    }
+  },
+  "states" : {
+    "-L3l8Vdy60xxR2yJaOEX" : {
+      "state_id" : "-L3l8Vdy60xxR2yJaOEX",
+      "state_name" : "Selangor"
+    },
+    "-L3l8Vdy60xxR2yJaOEY" : {
+      "state_id" : "-L3l8Vdy60xxR2yJaOEY",
+      "state_name" : "Kuala Lumpur"
+    },
+    "-L3l8Vdy60xxR2yJaOEZ" : {
+      "state_id" : "-L3l8Vdy60xxR2yJaOEZ",
+      "state_name" : "Terengganu"
+    },
+    "-L3l8Vdy60xxR2yJaOE_" : {
+      "state_id" : "-L3l8Vdy60xxR2yJaOE_",
+      "state_name" : "Pahang"
+    }
+  },
+  "student_subjects" : {
+    "-L3hZo9HNCVNZiG6teYr" : {
+      "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+      "students" : {
+        "LBnU75DJuUSeKSQ9dij9pokStD83" : {
+          "student_id" : "LBnU75DJuUSeKSQ9dij9pokStD83",
+          "subjects" : {
+            "-L3kTnDO2hLFiIAYKhpD" : {
+              "subject_id" : "-L3kTnDO2hLFiIAYKhpD"
+            }
+          }
+        }
+      }
+    }
+  },
+  "students" : {
+    "0" : {
+      "dt_created" : "2018-01-17 10:33:05",
+      "mobile_phoneno" : "0143635185",
+      "student_email" : "dayangkusri@gmail.com",
+      "student_fullname" : "Dayangku Sri Arjuna",
+      "student_id" : "1",
+      "student_reg_no" : "STD0000001",
+      "student_remark" : "Mak",
+      "student_subjects" : [ {
+        "dt_created" : "2018-01-17 10:34:54",
+        "student_id" : "1",
+        "student_subject_id" : "1",
+        "subject_id" : "1"
+      } ],
+      "student_username" : "dayangku"
+    },
+    "1" : {
+      "dt_created" : "2018-01-17 10:33:05",
+      "mobile_phoneno" : "0143635186",
+      "student_email" : "hanif@gmail.com",
+      "student_fullname" : "Muhammad Hanif",
+      "student_id" : "2",
+      "student_reg_no" : "STD0000002",
+      "student_remark" : "Anak Baru",
+      "student_username" : "hanif2018"
+    },
+    "LBnU75DJuUSeKSQ9dij9pokStD83" : {
+      "created_at" : 1516470689650,
+      "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+      "student_email" : "dd@g.com",
+      "student_fullname" : "Faiz",
+      "student_id" : "LBnU75DJuUSeKSQ9dij9pokStD83"
+    },
+    "eEzBoTYYGrSrtgpcTfHjYIQ39ZJ3" : {
+      "created_at" : 1516466633552,
+      "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+      "student_email" : "uwaiz@gmail.com",
+      "student_fullname" : "Muhajirin",
+      "student_id" : "eEzBoTYYGrSrtgpcTfHjYIQ39ZJ3"
+    }
+  },
+  "subjects" : {
+    "-L3hZo9HNCVNZiG6teYq" : {
+      "data_subject" : {
+        "-L3kTnDO2hLFiIAYKhpD" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "icon_url" : "https://www.radixtree.com/wp-content/uploads/2016/01/aptutoring-icon-math.png",
+          "subject_id" : "-L3kTnDO2hLFiIAYKhpD",
+          "subject_nam_en" : "Additional Mathematics",
+          "subject_nam_my" : "Matematik Tambahan"
         },
-        {
-          "chapter_id": "2",
-          "chapter_no": "2",
-          "subject_id": "1",
-          "edu_year_id": "10",
-          "chapter_title": "Persamaan Kuadratik",
-          "chapter_remark": null,
-          "progress": 66
-        }
-      ]
-    },
-    {
-      "subject_id": "2",
-      "subject_no": "2",
-      "subject_code": "3472",
-      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_m3.png",
-      "edu_year_id": "11",
-      "subject_short_form": "MT",
-      "subject_title": "Additional Mathematics",
-      "subject_remark": ""
-    },
-    {
-      "subject_id": "3",
-      "subject_no": "3",
-      "subject_code": "3473",
-      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_en.png",
-      "edu_year_id": "11",
-      "subject_short_form": "EN",
-      "subject_title": "English",
-      "subject_remark": ""
-    },
-    {
-      "subject_id": "5",
-      "subject_no": "4",
-      "subject_code": "3474",
-      "subject_icon_url": "https://s3-ap-southeast-1.amazonaws.com/osemv3-content-test/my/cmn/icon/subject/icon_che.png",
-      "edu_year_id": "10",
-      "subject_short_form": "SC",
-      "subject_title": "Science",
-      "subject_remark": ""
-    }
-  ],
-  "tutors": [
-    {
-      "tutor_id": "1",
-      "tutor_registered_no": "RPT100001",
-      "tutor_name": "Imran Hamzah",
-      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/46.jpg",
-      "short_description": "Kenapa saya? Berpengalaman lebih 5 tahun dalam pen",
-      "mobile_phoneno": "0183954840",
-      "tutor_remark": "test",
-      "tutor_subjects": [
-        {
-          "tutor_subject_id": "1",
-          "tutor_id": "1",
-          "subject_id": "1",
-          "tutor_subject_remark": null,
-          "dt_created": "2018-01-17 10:29:07"
+        "-L3kTnDPNqXSRrYnthf2" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDPNqXSRrYnthf2",
+          "subject_nam_en" : "Mathematics",
+          "subject_nam_my" : "Matematik"
         },
-        {
-          "tutor_subject_id": "2",
-          "tutor_id": "1",
-          "subject_id": "2",
-          "tutor_subject_remark": null,
-          "dt_created": "2018-01-17 10:29:07"
+        "-L3kTnDRQS90EawVaTrh" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDRQS90EawVaTrh",
+          "subject_nam_en" : "Physics",
+          "subject_nam_my" : "Fizik"
+        },
+        "-L3kTnDV6ZRctUfbeu14" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDV6ZRctUfbeu14",
+          "subject_nam_en" : "Chemistry",
+          "subject_nam_my" : "Kimia"
+        },
+        "-L3kTnDXq9UXo8obCp-i" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDXq9UXo8obCp-i",
+          "subject_nam_en" : "Biology",
+          "subject_nam_my" : "Biologi"
+        },
+        "-L3kTnDY6u03JKogP7zm" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDY6u03JKogP7zm",
+          "subject_nam_en" : "English",
+          "subject_nam_my" : "Bahasa Inggeris"
         }
-      ]
+      },
+      "edu_year_id" : "-L3hZo9HNCVNZiG6teYq"
     },
-    {
-      "tutor_id": "2",
-      "tutor_registered_no": "RPT100002",
-      "tutor_name": "Ahmad Yusoff",
-      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/85.jpg",
-      "short_description": "Yup belajar!",
-      "mobile_phoneno": "0183954841",
-      "tutor_remark": "test"
-    },
-    {
-      "tutor_id": "3",
-      "tutor_registered_no": "RPT100003",
-      "tutor_name": "Muhammad Naim",
-      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/37.jpg",
-      "short_description": "Jom belajar ABC",
-      "mobile_phoneno": "0183954842",
-      "tutor_remark": "test"
-    },
-    {
-      "tutor_id": "4",
-      "tutor_registered_no": "RPT100004",
-      "tutor_name": "Muhammad Hassan Husni",
-      "tutor_profile_pic": "https://randomuser.me/api/portraits/men/67.jpg",
-      "short_description": "Jom belajar DEF",
-      "mobile_phoneno": "0183954843",
-      "tutor_remark": "test"
-    }
-  ],
-  "students": [
-    {
-      "student_id": "1",
-      "student_reg_no": "STD0000001",
-      "student_email": "dayangkusri@gmail.com",
-      "student_username": "dayangku",
-      "student_fullname": "Dayangku Sri Arjuna",
-      "mobile_phoneno": "0143635185",
-      "student_remark": "Mak",
-      "dt_created": "2018-01-17 10:33:05",
-      "student_subjects": [
-        {
-          "student_subject_id": "1",
-          "student_id": "1",
-          "subject_id": "1",
-          "student_subject_remark": null,
-          "dt_created": "2018-01-17 10:34:54"
+    "-L3hZo9HNCVNZiG6teYr" : {
+      "data_subject" : {
+        "-L3kTnDO2hLFiIAYKhpD" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDO2hLFiIAYKhpD",
+          "subject_nam_en" : "Additional Mathematics",
+          "subject_nam_my" : "Matematik Tambahan"
+        },
+        "-L3kTnDPNqXSRrYnthf2" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDPNqXSRrYnthf2",
+          "subject_nam_en" : "Mathematics",
+          "subject_nam_my" : "Matematik"
+        },
+        "-L3kTnDRQS90EawVaTrh" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDRQS90EawVaTrh",
+          "subject_nam_en" : "Physics",
+          "subject_nam_my" : "Fizik"
+        },
+        "-L3kTnDV6ZRctUfbeu14" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDV6ZRctUfbeu14",
+          "subject_nam_en" : "Chemistry",
+          "subject_nam_my" : "Kimia"
+        },
+        "-L3kTnDXq9UXo8obCp-i" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDXq9UXo8obCp-i",
+          "subject_nam_en" : "Biology",
+          "subject_nam_my" : "Biologi"
+        },
+        "-L3kTnDY6u03JKogP7zm" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subject_id" : "-L3kTnDY6u03JKogP7zm",
+          "subject_nam_en" : "English",
+          "subject_nam_my" : "Bahasa Inggeris"
         }
-      ]
-    },
-    {
-      "student_id": "2",
-      "student_reg_no": "STD0000002",
-      "student_email": "hanif@gmail.com",
-      "student_username": "hanif2018",
-      "student_fullname": "Muhammad Hanif",
-      "mobile_phoneno": "0143635186",
-      "student_remark": "Anak Baru",
-      "dt_created": "2018-01-17 10:33:05"
+      },
+      "edu_year_id" : "-L3hZo9HNCVNZiG6teYr"
     }
-  ]
+  },
+  "tutor_students" : {
+    "-L3j_47T7-6nCUlkm2Xp" : {
+      "edu_years" : {
+        "-L3hZo9HNCVNZiG6teYr" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subjects" : {
+            "-L3kTnDO2hLFiIAYKhpD" : {
+              "students" : {
+                "LBnU75DJuUSeKSQ9dij9pokStD83" : {
+                  "student_id" : "LBnU75DJuUSeKSQ9dij9pokStD83"
+                }
+              },
+              "subject_id" : "-L3kTnDO2hLFiIAYKhpD"
+            }
+          }
+        }
+      },
+      "tutor_id" : "-L3j_47T7-6nCUlkm2Xp"
+    }
+  },
+  "tutor_subjects" : {
+    "-L3j_47T7-6nCUlkm2Xp" : {
+      "edu_years" : {
+        "-L3hZo9HNCVNZiG6teYr" : {
+          "edu_year_id" : "-L3hZo9HNCVNZiG6teYr",
+          "subjects" : {
+            "-L3kTnDO2hLFiIAYKhpD" : {
+              "subject_id" : "-L3kTnDO2hLFiIAYKhpD"
+            }
+          }
+        }
+      },
+      "tutor_id" : "-L3j_47T7-6nCUlkm2Xp"
+    }
+  },
+  "tutors" : {
+    "-L3j_47T7-6nCUlkm2Xp" : {
+      "edu_years" : {
+        "edu_year_id" : "-L3hZo9HNCVNZiG6teYq",
+        "tutors_data" : {
+          "tutor_id" : "-L3j_47T7-6nCUlkm2Xp",
+          "tutor_name" : "Imran"
+        }
+      }
+    },
+    "-L3j_47XKymefbjwFrn6" : {
+      "edu_years" : {
+        "edu_year_id" : "-L3hZo9HNCVNZiG6teYq",
+        "tutors_data" : {
+          "tutor_id" : "-L3j_47XKymefbjwFrn6",
+          "tutor_name" : "Lee"
+        }
+      }
+    },
+    "-L3j_47YqUNZEUzCS0AL" : {
+      "edu_years" : {
+        "edu_year_id" : "-L3hZo9HNCVNZiG6teYq",
+        "tutors_data" : {
+          "tutor_id" : "-L3j_47YqUNZEUzCS0AL",
+          "tutor_name" : "Lim"
+        }
+      }
+    },
+    "-L3j_47YqUNZEUzCS0AM" : {
+      "edu_years" : {
+        "edu_year_id" : "-L3hZo9HNCVNZiG6teYq",
+        "tutors_data" : {
+          "tutor_id" : "-L3j_47YqUNZEUzCS0AM",
+          "tutor_name" : "Ali"
+        }
+      }
+    }
+  }
 }

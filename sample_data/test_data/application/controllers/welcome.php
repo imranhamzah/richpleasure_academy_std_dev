@@ -20,11 +20,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$obj = $this->db->select("*")
-			  ->from("000subjects as a")
-			  // ->join("001chapters as b","b.subject_id=a.subject_id","left")
-			  // ->join("002sub_chapters as c","c.chapter_id=b.chapter_id","left")
-			  // ->join("003learning_outcome as d","d.subchapter_id=c.subchapter_id","left")
-			  
+			  ->from("000subjects as a")		  
 			  ->get();
 	    $output = [];
 		$output2 = [];
@@ -44,6 +40,7 @@ class Welcome extends CI_Controller {
 				{
 					$b++;
 					$output2["subjects"][$a]["chapters"][$b] = (array) $row_chapters;
+					$output2["subjects"][$a]["chapters"][$b]["progress"] = rand(20,80);
 					$obj_subchapters = $this->db->where("chapter_id",$row_chapters->chapter_id)->get("002sub_chapters")->result();
 					$c = -1;
 					foreach($obj_subchapters as $row_subchapters)
@@ -57,6 +54,15 @@ class Welcome extends CI_Controller {
 						{
 							$d++;
 							$output2["subjects"][$a]["chapters"][$b]["subchapters"][$c]["outcome"][$d] = (array) $row_learning_outcome;
+						}
+						
+						$obj_lessons = $this->db->where("subchapter_id",$row_subchapters->subchapter_id)->get("lessons")->result();
+						$d_1=-1;
+						foreach($obj_lessons as $row_lessons)
+						{
+							$d_1++;
+							$output2["subjects"][$a]["chapters"][$b]["subchapters"][$c]["lessons"][$d_1] = (array) $row_lessons;
+							
 						}
 					}
 				}
@@ -103,6 +109,14 @@ class Welcome extends CI_Controller {
 				}
 				
 			}
+		}
+		
+		$f=-1;
+		$obj_ey = $this->db->where("edu_year_id > 9")->get("edu_year")->result();
+		foreach($obj_ey as $row_ey)
+		{
+			$f++;
+			$output2["edu_year"][$f] = (array) $row_ey;
 		}
 		
 		
