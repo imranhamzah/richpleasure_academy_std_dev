@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Tutor implements Parcelable {
-    @SerializedName("mobile_phoneno")
+    @SerializedName("tutor_mobile_no")
     @Expose
     public String mobilePhoneNo;
 

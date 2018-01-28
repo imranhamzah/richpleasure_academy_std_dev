@@ -131,6 +131,7 @@ public class Dashboard extends AppCompatActivity{
         {
             eduYearValue = eduYearSharedPreferences.getString("eduYearValue","");
             getSubjectData(eduYearValue);
+            getTutorData(eduYearValue);
             String eduYearTitle = eduYearSharedPreferences.getString("eduYearTitle","Dashboard");
             actionbarTitle = findViewById(R.id.actionbarTitle);
             actionbarTitle.setText(eduYearTitle);
@@ -276,6 +277,65 @@ public class Dashboard extends AppCompatActivity{
         finish();
     }
 
+    private void getTutorData(String eduYearValue)
+    {
+        fiftyShadesOf.start();
+        tutorList.clear();
+        FirebaseDatabase.getInstance().getReference().child("tutor_years/"+eduYearValue+"/tutors")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        tutorList.clear();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            for(DataSnapshot sub_snapshot: snapshot.getChildren())
+                            {
+                                String tutor_id = String.valueOf(sub_snapshot.getValue());
+                                getTutorDetails(tutor_id);
+                            }
+
+
+
+                            fiftyShadesOf.stop();
+                            layout2.setVisibility(View.GONE);
+                        }
+
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(Dashboard.this, "Internet problem, please trya again",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void getTutorDetails(String tutor_id)
+    {
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        FirebaseDatabase.getInstance().getReference().child("tutors/"+tutor_id)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            System.out.println("-----------------");
+                            System.out.println(dataSnapshot.getValue());
+                            String tutorDataReceived = gson.toJson(dataSnapshot.getValue());
+                            Tutor tutor = gson.fromJson(tutorDataReceived,Tutor.class);
+                            tutorList.add(tutor);
+
+                        adapterTutor.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
     private void getSubjectData(String eduYearValue)
     {
         fiftyShadesOf.start();
@@ -416,6 +476,7 @@ public class Dashboard extends AppCompatActivity{
                 Toast.makeText(Dashboard.this,"You have selected " + eduYearTitle,Toast.LENGTH_LONG).show();
                 editorEduYear.putString("eduYearValue",String.valueOf(eduYearKey));
                 getSubjectData(eduYearKey);
+                getTutorData(eduYearKey);
                 editorEduYear.putString("eduYearTitle",String.valueOf(array.get(which).getValue()));
                 actionbarTitle.setText(array.get(which).getValue());
                 editorEduYear.commit();
