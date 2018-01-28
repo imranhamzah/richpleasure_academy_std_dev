@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lyt_parent_chapter_list"
+    style="@style/RippleStyleBlack"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="4dp">
+
+
+        <android.support.v7.widget.CardView
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/subjectTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Subject Title"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/chapterTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chapter Title"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/lessonType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Note"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</com.balysv.materialripple.MaterialRippleLayout>
+
+

@@ -35,6 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
+import com.material.components.activity.askteachers.AskTeacherList;
 import com.material.components.activity.chapters.ChapterListActivity;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
@@ -196,6 +197,12 @@ public class Dashboard extends AppCompatActivity{
         {
             Intent gotoSearch = new Intent(getApplicationContext(), SearchToolbarLight.class);
             startActivity(gotoSearch);
+        }
+
+        if(id == R.id.lessons_discuss_with_teacher)
+        {
+            Intent gotoAskTeacherList = new Intent(getApplicationContext(), AskTeacherList.class);
+            startActivity(gotoAskTeacherList);
         }
         return true;
     }
