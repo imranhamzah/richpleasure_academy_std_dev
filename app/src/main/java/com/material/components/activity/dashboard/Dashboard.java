@@ -130,6 +130,7 @@ public class Dashboard extends AppCompatActivity{
         }else
         {
             eduYearValue = eduYearSharedPreferences.getString("eduYearValue","");
+            getSubjectData(eduYearValue);
             String eduYearTitle = eduYearSharedPreferences.getString("eduYearTitle","Dashboard");
             actionbarTitle = findViewById(R.id.actionbarTitle);
             actionbarTitle.setText(eduYearTitle);
@@ -142,7 +143,8 @@ public class Dashboard extends AppCompatActivity{
 
 
     private String single_choice_selected;
-    private static final HashMap<String,String> RINGTONE = new HashMap<>();
+    private static final HashMap<String,String> EDU_YEARS = new HashMap<>();
+    private static final HashMap<String,String> SUBJECTS = new HashMap<>();
 
 
     private void displayEduYearSelection() {
@@ -154,7 +156,7 @@ public class Dashboard extends AppCompatActivity{
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     EduYears eduYears = snapshot.getValue(EduYears.class);
-                    RINGTONE.put(eduYears.edu_year_id,eduYears.edu_year_title_my);
+                    EDU_YEARS.put(eduYears.edu_year_id,eduYears.edu_year_title_my);
 
                     fiftyShadesOf.stop();
                 }
@@ -163,6 +165,7 @@ public class Dashboard extends AppCompatActivity{
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(Dashboard.this, "Internet problem, please trya again",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -273,6 +276,43 @@ public class Dashboard extends AppCompatActivity{
         finish();
     }
 
+    private void getSubjectData(String eduYearValue)
+    {
+        fiftyShadesOf.start();
+        subjectList.clear();
+        FirebaseDatabase.getInstance().getReference().child("subjects/"+eduYearValue+"/data_subject")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        subjectList.clear();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            System.out.println("get data subjects here ----------------");
+                            System.out.println(snapshot.getValue());
+
+                            GsonBuilder builder = new GsonBuilder();
+                            Gson gson = builder.create();
+                            String receiveData = gson.toJson(snapshot.getValue());
+
+                            Subject subject = gson.fromJson(receiveData, Subject.class);
+                            subjectList.add(subject);
+                            adapterSubject.notifyDataSetChanged();
+                            System.out.println(subject.subjectName);
+
+                            fiftyShadesOf.stop();
+                            layout1.setVisibility(View.GONE);
+                        }
+
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(Dashboard.this, "Internet problem, please trya again",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void displaySubjectList(){
 
         adapterSubject = new AdapterSubject(subjectList);
@@ -341,7 +381,7 @@ public class Dashboard extends AppCompatActivity{
     private void showChooseEduYear() {
         if(eduYear == null)
         {
-//            single_choice_selected = RINGTONE[0];
+//            single_choice_selected = EDU_YEARS[0];
         }else
         {
             eduYear = single_choice_selected;
@@ -352,7 +392,7 @@ public class Dashboard extends AppCompatActivity{
 
 
         final ArrayList<Map.Entry<String, String>> array = new ArrayList<>();
-        array.addAll(RINGTONE.entrySet());
+        array.addAll(EDU_YEARS.entrySet());
 
         ArrayList<String> dataYearList = new ArrayList<>();
 
@@ -371,8 +411,11 @@ public class Dashboard extends AppCompatActivity{
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(Dashboard.this,"You have selected " + array.get(which).getKey(),Toast.LENGTH_LONG).show();
-                editorEduYear.putString("eduYearValue",String.valueOf(array.get(which).getKey()));
+                String eduYearKey = array.get(which).getKey();
+                String eduYearTitle = array.get(which).getValue();
+                Toast.makeText(Dashboard.this,"You have selected " + eduYearTitle,Toast.LENGTH_LONG).show();
+                editorEduYear.putString("eduYearValue",String.valueOf(eduYearKey));
+                getSubjectData(eduYearKey);
                 editorEduYear.putString("eduYearTitle",String.valueOf(array.get(which).getValue()));
                 actionbarTitle.setText(array.get(which).getValue());
                 editorEduYear.commit();

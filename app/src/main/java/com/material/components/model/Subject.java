@@ -12,7 +12,7 @@ public class Subject {
     @Expose
     public String subjectIcon;
 
-    @SerializedName("subject_title")
+    @SerializedName("subject_name_en")
     @Expose
     public String subjectName;
 
