@@ -44,6 +44,7 @@ import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.adapter.AdapterSubject;
 import com.material.components.adapter.AdapterTutor;
+import com.material.components.model.ChapterList;
 import com.material.components.model.EduYears;
 import com.material.components.model.Subject;
 import com.material.components.model.Tutor;
@@ -386,9 +387,9 @@ public class Dashboard extends AppCompatActivity{
         adapterSubject.setOnClickListener(new AdapterSubject.OnClickListener() {
             @Override
             public void onItemClick(View view, Subject obj, int pos) {
-                if(obj.chapters != null){
+                if(obj.subjectId != null){
                     Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
-                    gotoChapter.putExtra("chapterArray", String.valueOf(gson.toJson(obj.chapters)));
+                    gotoChapter.putExtra("subjectId", obj.subjectId);
                     gotoChapter.putExtra("subjectTitle",obj.subjectName);
                     startActivity(gotoChapter);
                 }

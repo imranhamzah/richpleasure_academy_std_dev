@@ -1,7 +1,6 @@
 package com.material.components.activity.chapters;
 
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,24 +13,17 @@ import android.widget.LinearLayout;
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
-import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.activity.subchapter.SubchapterActivity;
-import com.material.components.activity.toolbar.ToolbarCollapsePin;
 import com.material.components.adapter.AdapterChapterList;
-import com.material.components.helper.DataHolder;
+import com.material.components.model.Chapter;
 import com.material.components.model.ChapterList;
-import com.material.components.utils.Tools;
-import com.material.components.widget.SpacingItemDecoration;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +31,7 @@ import java.util.List;
 
 public class ChapterListActivity extends AppCompatActivity{
 
-    public List<ChapterList> chaptersList = new ArrayList<>();
+    public List<Chapter> chaptersList = new ArrayList<>();
     public AdapterChapterList adapterListChapters;
     public RecyclerView recyclerViewChapters;
     private View parent_view_chapter;
@@ -77,7 +69,7 @@ public class ChapterListActivity extends AppCompatActivity{
 
         adapterListChapters.setOnClickListener(new AdapterChapterList.OnClickListener() {
             @Override
-            public void onItemClick(View view, ChapterList obj, int pos) {
+            public void onItemClick(View view, Chapter obj, int pos) {
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
                 Intent gotoContent = new Intent(getApplicationContext(), SubchapterActivity.class);
@@ -95,14 +87,54 @@ public class ChapterListActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        displayChapterList();
+//        displayChapterList();
+        String subjectId = getIntent().getStringExtra("subjectId");
+        System.out.println("subjectId received:"+subjectId);
+        getChapterList(subjectId);
 
+    }
+
+    public void getChapterList(String subjectId)
+    {
+
+        fiftyShadesOf.stop();
+        chapterLinearLayout.setVisibility(View.GONE);
+
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        System.out.println("subjectId:"+subjectId);
+        FirebaseDatabase.getInstance().getReference().child("chapters/"+subjectId+"/chapters")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                        {
+                            System.out.println("-----------------");
+                            System.out.println(snapshot.getValue());
+                            String chaptersReceived = gson.toJson(snapshot.getValue());
+                            Chapter chapter = gson.fromJson(chaptersReceived,Chapter.class);
+                            chaptersList.add(chapter);
+                            adapterListChapters.notifyDataSetChanged();
+                        }
+
+                    }
+
+
+
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
 
 
     private void displayChapterList() {
-        fiftyShadesOf.stop();
+        /*fiftyShadesOf.stop();
         chapterLinearLayout.setVisibility(View.GONE);
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
@@ -130,7 +162,7 @@ public class ChapterListActivity extends AppCompatActivity{
             adapterListChapters.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override

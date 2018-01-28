@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.material.components.R;
-import com.material.components.model.ChapterList;
+import com.material.components.model.Chapter;
 
 
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ import java.util.List;
 
 public class AdapterChapterList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public List<ChapterList> chapterLists = new ArrayList<>();
+    public List<Chapter> chapterLists = new ArrayList<>();
     private OnClickListener onClickListener = null;
 
-    public AdapterChapterList(List<ChapterList> chapterLists) {
+    public AdapterChapterList(List<Chapter> chapterLists) {
         this.chapterLists = chapterLists;
     }
 
@@ -52,10 +52,10 @@ public class AdapterChapterList extends RecyclerView.Adapter<RecyclerView.ViewHo
         if(holder instanceof OriginalViewHolder)
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
-            final ChapterList c = chapterLists.get(position);
+            final Chapter c = chapterLists.get(position);
             view.chapterNumber.setText("Bab "+c.chapterNumber);
             view.chapterTitle.setText(c.chapterTitle);
-            view.learningProgress.setDonut_progress(String.valueOf(c.learningProgress));
+            view.learningProgress.setDonut_progress("0");
 
             view.lyt_parent_chapter_list.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,6 +78,6 @@ public class AdapterChapterList extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public interface OnClickListener {
-        void onItemClick(View view, ChapterList obj, int pos);
+        void onItemClick(View view, Chapter obj, int pos);
     }
 }
