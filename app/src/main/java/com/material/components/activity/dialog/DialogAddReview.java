@@ -41,7 +41,7 @@ public class DialogAddReview extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Add Review");
@@ -49,14 +49,14 @@ public class DialogAddReview extends AppCompatActivity {
     }
 
     private void initComponent() {
-        ((FloatingActionButton) findViewById(R.id.fab_add)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fab_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCustomDialog();
             }
         });
-        listView = (ListView) findViewById(R.id.listView);
-        txt_no_item = (TextView) findViewById(R.id.txt_no_item);
+        listView = findViewById(R.id.listView);
+        txt_no_item = findViewById(R.id.txt_no_item);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
 
@@ -89,16 +89,16 @@ public class DialogAddReview extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        final EditText et_post = (EditText) dialog.findViewById(R.id.et_post);
-        final AppCompatRatingBar rating_bar = (AppCompatRatingBar) dialog.findViewById(R.id.rating_bar);
-        ((AppCompatButton) dialog.findViewById(R.id.bt_cancel)).setOnClickListener(new View.OnClickListener() {
+        final EditText et_post = dialog.findViewById(R.id.et_post);
+        final AppCompatRatingBar rating_bar = dialog.findViewById(R.id.rating_bar);
+        dialog.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
-        ((AppCompatButton) dialog.findViewById(R.id.bt_submit)).setOnClickListener(new View.OnClickListener() {
+        dialog.findViewById(R.id.bt_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String review = et_post.getText().toString().trim();

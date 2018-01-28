@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -19,9 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,18 +44,19 @@ import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.adapter.AdapterSubject;
 import com.material.components.adapter.AdapterTutor;
+import com.material.components.model.EduYears;
 import com.material.components.model.Subject;
 import com.material.components.model.Tutor;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Dashboard extends AppCompatActivity implements ValueEventListener {
+public class Dashboard extends AppCompatActivity{
 
     private ActionBar actionBar;
     private Toolbar toolbar;
@@ -69,10 +71,12 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
     public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     public DatabaseReference mRootReference = firebaseDatabase.getReference();
     public DatabaseReference mSubject = mRootReference.child("subjects");
+    public DatabaseReference mYears = mRootReference.child("edu_years");
     public DatabaseReference mTutors = mRootReference.child("tutors");
 
+
     public String eduYear = null;
-    public Integer eduYearValue = 0;
+    public String eduYearValue = "";
 
 
     private SharedPreferences eduYearSharedPreferences;
@@ -95,6 +99,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         layout1 = findViewById(R.id.layout1);
         layout2 = findViewById(R.id.layout2);
 
+
         fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.layout1,R.id.layout2).start();
 
 
@@ -105,6 +110,7 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         initNavigationMenu();
         displayTutorList();
         displaySubjectList();
+        displayEduYearSelection();
 
         eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
         editorEduYear = eduYearSharedPreferences.edit();
@@ -118,13 +124,12 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
             logoutUser();
         }
 
-
-        if(eduYearSharedPreferences.getInt("eduYearValue",0)==0)
+        if(eduYearSharedPreferences.getString("eduYearTitle","").isEmpty()==true)
         {
             showChooseEduYear();
         }else
         {
-            eduYearValue = eduYearSharedPreferences.getInt("eduYearValue",0);
+            eduYearValue = eduYearSharedPreferences.getString("eduYearValue","");
             String eduYearTitle = eduYearSharedPreferences.getString("eduYearTitle","Dashboard");
             actionbarTitle = findViewById(R.id.actionbarTitle);
             actionbarTitle.setText(eduYearTitle);
@@ -132,6 +137,34 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
 
 
 
+
+    }
+
+
+    private String single_choice_selected;
+    private static final HashMap<String,String> RINGTONE = new HashMap<>();
+
+
+    private void displayEduYearSelection() {
+        FirebaseDatabase.getInstance().getReference().child("edu_years")
+        .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    EduYears eduYears = snapshot.getValue(EduYears.class);
+                    RINGTONE.put(eduYears.edu_year_id,eduYears.edu_year_title_my);
+
+                    fiftyShadesOf.stop();
+                }
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     private void initToolbar() {
@@ -304,116 +337,64 @@ public class Dashboard extends AppCompatActivity implements ValueEventListener {
         linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
     }
 
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        fiftyShadesOf.stop();
-        String key = dataSnapshot.getKey();
-        if(key.equals("subjects")){
-            layout1.setVisibility(RelativeLayout.GONE);
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            String arrSubjects = gson.toJson(dataSnapshot.getValue());
-
-            JSONArray jsonArray;
-            try {
-                jsonArray = new JSONArray(arrSubjects);
-                subjectList.clear();
-
-                for(int i=0; i<jsonArray.length(); i++)
-                {
-                    System.out.println(jsonArray.get(i));
-
-                    Subject subject = gson.fromJson(String.valueOf(jsonArray.get(i)),Subject.class);
-                    subjectList.add(subject);
-
-                        JSONObject obj = new JSONObject(String.valueOf(jsonArray.get(i)));
-
-
-                        if(obj.has("chapters"))
-                        {
-                            chapterArray = new JSONArray(obj.getString("chapters"));
-                        }
-                }
-                adapterSubject.notifyDataSetChanged();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }else if(key.equals("tutors")){
-            layout2.setVisibility(RelativeLayout.GONE);
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            String arrTutors = gson.toJson(dataSnapshot.getValue());
-
-            JSONArray jsonArray;
-            try {
-                jsonArray = new JSONArray(arrTutors);
-                tutorList.clear();
-                for(int i=0; i<jsonArray.length(); i++)
-                {
-                    Tutor tutor = gson.fromJson(String.valueOf(jsonArray.get(i)),Tutor.class);
-                    tutorList.add(tutor);
-                }
-                adapterTutor.notifyDataSetChanged();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
-
-    private String single_choice_selected;
-    private static final String[] RINGTONE = new String[]{
-            "Form 1","Form 2","Form 3","Form 4", "Form 5"
-    };
-
 
     private void showChooseEduYear() {
         if(eduYear == null)
         {
-            single_choice_selected = RINGTONE[0];
+//            single_choice_selected = RINGTONE[0];
         }else
         {
             eduYear = single_choice_selected;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Education Years");
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(Dashboard.this);
+        builderSingle.setIcon(R.mipmap.ic_launcher);
+        builderSingle.setTitle("Select education year");
 
-        builder.setSingleChoiceItems(RINGTONE, eduYearValue, new DialogInterface.OnClickListener() {
+
+        final ArrayList<Map.Entry<String, String>> array = new ArrayList<>();
+        array.addAll(RINGTONE.entrySet());
+
+        ArrayList<String> dataYearList = new ArrayList<>();
+
+        // Loop over ArrayList of Entry elements.
+        for (Map.Entry<String, String> entry : array) {
+            // Use each ArrayList element.
+            String key = entry.getKey();
+            String value = entry.getValue();
+            dataYearList.add(entry.getValue());
+
+            System.out.println("Key = " + key + "; Value = " + value);
+        }
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(Dashboard.this, android.R.layout.simple_list_item_single_choice,dataYearList);
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                single_choice_selected = RINGTONE[i];
-                eduYearValue = i;
-                editorEduYear.putInt("eduYearValue",i);
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(Dashboard.this,"You have selected " + array.get(which).getKey(),Toast.LENGTH_LONG).show();
+                editorEduYear.putString("eduYearValue",String.valueOf(array.get(which).getKey()));
+                editorEduYear.putString("eduYearTitle",String.valueOf(array.get(which).getValue()));
+                actionbarTitle.setText(array.get(which).getValue());
                 editorEduYear.commit();
             }
         });
-        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                eduYear = single_choice_selected;
-                TextView actionbarTitle = findViewById(R.id.actionbarTitle);
-                actionbarTitle.setText(eduYear);
-                editorEduYear.putString("eduYearTitle",eduYear);
-                editorEduYear.commit();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton(R.string.CANCEL, null);
-        builder.show();
+
+        builderSingle.show();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mSubject.addValueEventListener(this);
-        mTutors.addValueEventListener(this);
+//        mSubject.addValueEventListener(this);
+//        mTutors.addValueEventListener(this);
+//        mYears.addValueEventListener(this);
     }
 
     @Override

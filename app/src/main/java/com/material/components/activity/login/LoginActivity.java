@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -132,9 +131,6 @@ public class LoginActivity extends Activity implements ValueEventListener{
                     DatabaseReference databaseReference = firebaseDatabase.getReference();
                     DatabaseReference mStudent = databaseReference.child("students/"+uid);
 
-
-
-                    System.out.println("jadike? "+uid);
                     mStudent.addValueEventListener(new ValueEventListener() {
 
                         @Override
@@ -145,7 +141,6 @@ public class LoginActivity extends Activity implements ValueEventListener{
                                 try {
                                     JSONObject obj = new JSONObject(String.valueOf(dataSnapshot.getValue()));
                                     name[0] = obj.getString("student_fullname");
-                                    System.out.println("sinila:= "+name[0]);
 
                                     String created_at = null;
                                     // Inserting row in users table
