@@ -1,6 +1,7 @@
 package com.material.components.activity.chapters;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -39,9 +40,9 @@ public class ChapterListActivity extends AppCompatActivity{
 
     private FiftyShadesOf fiftyShadesOf;
     private LinearLayout chapterLinearLayout;
-    private JSONArray subChaptersArray;
-    private String[] chapterTitle;
-    private HashMap<String,String> chapterDataTitle=new HashMap<String,String>();
+
+    private SharedPreferences analysisSharedPreferences;
+    private SharedPreferences.Editor editorAnalysisPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,9 @@ public class ChapterListActivity extends AppCompatActivity{
         parent_view_chapter = findViewById(R.id.parent_view_chapter);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        analysisSharedPreferences  = getApplicationContext().getSharedPreferences("AnalysisSharedPreferences",MODE_PRIVATE);
+        editorAnalysisPreferences = analysisSharedPreferences.edit();
 
         fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.chapterLayout).start();
         chapterLinearLayout = findViewById(R.id.chapterLayout);
@@ -70,12 +74,11 @@ public class ChapterListActivity extends AppCompatActivity{
         adapterListChapters.setOnClickListener(new AdapterChapterList.OnClickListener() {
             @Override
             public void onItemClick(View view, Chapter obj, int pos) {
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
                 Intent gotoContent = new Intent(getApplicationContext(), SubchapterActivity.class);
-                gotoContent.putExtra("subChaptersArray", gson.toJson(obj.subChapters));
                 gotoContent.putExtra("chapterTitle", obj.chapterTitle);
                 gotoContent.putExtra("chapterId", obj.chapterId);
+                editorAnalysisPreferences.putString("chapterId",obj.chapterId);
+                editorAnalysisPreferences.commit();
                 gotoContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 getApplicationContext().startActivity(gotoContent);
             }
@@ -111,8 +114,6 @@ public class ChapterListActivity extends AppCompatActivity{
 
                         for(DataSnapshot snapshot: dataSnapshot.getChildren())
                         {
-                            System.out.println("-----------------");
-                            System.out.println(snapshot.getValue());
                             String chaptersReceived = gson.toJson(snapshot.getValue());
                             Chapter chapter = gson.fromJson(chaptersReceived,Chapter.class);
                             chaptersList.add(chapter);
@@ -120,10 +121,6 @@ public class ChapterListActivity extends AppCompatActivity{
                         }
 
                     }
-
-
-
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 

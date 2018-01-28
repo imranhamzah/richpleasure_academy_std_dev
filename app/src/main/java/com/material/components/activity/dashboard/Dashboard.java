@@ -69,13 +69,6 @@ public class Dashboard extends AppCompatActivity{
     public RecyclerView subjectRecyclerView;
     public List<Subject> subjectList = new ArrayList<>();
 
-    public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    public DatabaseReference mRootReference = firebaseDatabase.getReference();
-    public DatabaseReference mSubject = mRootReference.child("subjects");
-    public DatabaseReference mYears = mRootReference.child("edu_years");
-    public DatabaseReference mTutors = mRootReference.child("tutors");
-
-
     public String eduYear = null;
     public String eduYearValue = "";
 
@@ -83,14 +76,14 @@ public class Dashboard extends AppCompatActivity{
     private SharedPreferences eduYearSharedPreferences;
     private SharedPreferences.Editor editorEduYear;
 
+    private SharedPreferences analysisSharedPreferences;
+    private SharedPreferences.Editor editorAnalysisPreferences;
+
     private TextView actionbarTitle;
 
     private FiftyShadesOf fiftyShadesOf;
 
     public LinearLayout layout1,layout2;
-
-    public JSONArray chapterArray;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +108,9 @@ public class Dashboard extends AppCompatActivity{
 
         eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
         editorEduYear = eduYearSharedPreferences.edit();
+
+        analysisSharedPreferences  = getApplicationContext().getSharedPreferences("AnalysisSharedPreferences",MODE_PRIVATE);
+        editorAnalysisPreferences = analysisSharedPreferences.edit();
 
 
 
@@ -391,6 +387,10 @@ public class Dashboard extends AppCompatActivity{
                     Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
                     gotoChapter.putExtra("subjectId", obj.subjectId);
                     gotoChapter.putExtra("subjectTitle",obj.subjectName);
+
+                    editorAnalysisPreferences.putString("subjectId",obj.subjectId);
+                    editorAnalysisPreferences.commit();
+
                     startActivity(gotoChapter);
                 }
             }

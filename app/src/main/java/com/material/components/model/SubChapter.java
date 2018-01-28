@@ -25,14 +25,10 @@ public class SubChapter implements Parcelable {
     public String subchapterNo;
 
 
-    @SerializedName("subchapter_title")
+    @SerializedName("subchapter_title_en")
     @Expose
     public String subchapterTitle;
 
-
-    @SerializedName("lessons")
-    @Expose
-    public Object lessons;
 
 
     protected SubChapter(Parcel in) {
@@ -69,11 +65,9 @@ public class SubChapter implements Parcelable {
         dest.writeString(subchapterTitle);
     }
 
-    public SubChapter(String subjectId, String chapterId, String subchapterId, String subchapterNo, String subchapterTitle) {
+    public SubChapter(String subjectId, String chapterId, String subchapterId) {
         this.subjectId = subjectId;
         this.chapterId = chapterId;
         this.subchapterId = subchapterId;
-        this.subchapterNo = subchapterNo;
-        this.subchapterTitle = subchapterTitle;
     }
 }

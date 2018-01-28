@@ -53,7 +53,7 @@ public class AdapterChapterList extends RecyclerView.Adapter<RecyclerView.ViewHo
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
             final Chapter c = chapterLists.get(position);
-            view.chapterNumber.setText("Bab "+c.chapterNumber);
+            view.chapterNumber.setText("Chapter "+c.chapterNumber);
             view.chapterTitle.setText(c.chapterTitle);
             view.learningProgress.setDonut_progress("0");
 

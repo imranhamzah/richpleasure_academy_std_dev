@@ -1,6 +1,7 @@
 package com.material.components.activity.lesson;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -16,17 +17,26 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.pastyears.PastYears;
 import com.material.components.activity.practice.Practice;
+import com.material.components.model.Lessons;
 import com.material.components.model.SubChapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class LessonActivity extends AppCompatActivity{
@@ -35,6 +45,10 @@ public class LessonActivity extends AppCompatActivity{
 
     public ProgressBar progressBar;
     public String chapterTitle;
+    private List<Lessons> lessonsList = new ArrayList<>();
+
+    private SharedPreferences analysisSharedPreferences;
+    private SharedPreferences.Editor editorAnalysisPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +58,38 @@ public class LessonActivity extends AppCompatActivity{
         progressBar = findViewById(R.id.progressBarContent);
 
         initToolbar();
-        displayLesson();
+        String subChapterId = getIntent().getStringExtra("subchapter_id");
+        getLessonData(subChapterId);
+
+        analysisSharedPreferences  = getApplicationContext().getSharedPreferences("AnalysisSharedPreferences",MODE_PRIVATE);
+        editorAnalysisPreferences = analysisSharedPreferences.edit();
     }
 
-    private void displayLesson() {
-        String lesson = getIntent().getStringExtra("lessons");
+    private void getLessonData(String subChapterId)
+    {
+        FirebaseDatabase.getInstance().getReference().child("lessons/"+subChapterId+"/lessons_data")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-        String dataDisplay = "";
-        String dataDisplay2 = "";
-        try {
-            JSONArray abc = new JSONArray(lesson);
+                        String lessonDisplay = "";
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                        {
+                            System.out.println("lesson_inner_content");
+                            System.out.println(snapshot.getValue());
+                            lessonDisplay += snapshot.getValue();
+                        }
 
-            for(int i=0; i<abc.length(); i++)
-            {
-                dataDisplay = String.valueOf(abc.get(i));
-                JSONObject obj = new JSONObject(dataDisplay);
-                dataDisplay2 += obj.getString("content_text")+"<p></p>";
-            }
+                        contentWebView.getSettings().setJavaScriptEnabled(true);
+                        contentWebView.setWebViewClient(new AppWebViewClients(progressBar));
+                        contentWebView.loadData(String.valueOf(lessonDisplay),"text/html", "UTF-8");
 
-            contentWebView.getSettings().setJavaScriptEnabled(true);
-            contentWebView.setWebViewClient(new AppWebViewClients(progressBar));
-            contentWebView.loadData(String.valueOf(dataDisplay2),"text/html", "UTF-8");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
+                    }
+                });
     }
 
     public class AppWebViewClients extends WebViewClient {
@@ -125,35 +146,31 @@ public class LessonActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        SubChapter dataSubChapter = getIntent().getParcelableExtra("dataAnalysis");
-
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser currentFirebaseUser  = FirebaseAuth.getInstance().getCurrentUser();
         String uuid = currentFirebaseUser.getUid();
 
+        String subjectId = analysisSharedPreferences.getString("subjectId","");
+        String chapterId = analysisSharedPreferences.getString("chapterId","");
+        String subchapterId = analysisSharedPreferences.getString("subchapterId","");
 
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        DatabaseReference analysis_by_students = databaseReference.child("analysis/students/"+uuid+"/subjects/"+dataSubChapter.subjectId+"/chapters/"+dataSubChapter.chapterId+"/subchapters/"+dataSubChapter.subchapterId);
-        final DatabaseReference analysis_by_subjects = databaseReference.child("analysis/subjects/"+dataSubChapter.subjectId+"/chapters/"+dataSubChapter.chapterId+"/subchapters/"+dataSubChapter.subchapterId+"/students/"+uuid);
+        DatabaseReference analysis_by_students = databaseReference.child("ask_teachers/students/"+uuid+"/subjects/"+subjectId+"/chapters/"+chapterId+"/subchapters/"+subchapterId);
 
+        HashMap<String,String> subchapterData = new HashMap<>();
+        subchapterData.put("subject_id",subjectId);
+        subchapterData.put("chapter_id",chapterId);
+        subchapterData.put("subchapter_id",subchapterId);
 
         int id = item.getItemId();
         if(id == R.id.askTeacher)
         {
-            final SubChapter s = new SubChapter(dataSubChapter.subjectId,dataSubChapter.chapterId,dataSubChapter.subchapterId,"d",dataSubChapter.subchapterTitle);
-            analysis_by_students.setValue(s, new DatabaseReference.CompletionListener(){
+
+            analysis_by_students.setValue(subchapterData, new DatabaseReference.CompletionListener(){
 
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                    analysis_by_subjects.setValue(s, new DatabaseReference.CompletionListener(){
-
-                        @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            Toast.makeText(LessonActivity.this, "Successfully added to Ask Teacher list", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    Toast.makeText(LessonActivity.this, "Successfully added to Ask Teacher list", Toast.LENGTH_SHORT).show();
                 }
             });
 
