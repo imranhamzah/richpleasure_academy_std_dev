@@ -155,7 +155,7 @@ public class LessonActivity extends AppCompatActivity{
         String subchapterId = analysisSharedPreferences.getString("subchapterId","");
 
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        DatabaseReference analysis_by_students = databaseReference.child("ask_teachers/students/"+uuid+"/subjects/"+subjectId+"/chapters/"+chapterId+"/subchapters/"+subchapterId);
+        DatabaseReference analysis_by_students = databaseReference.child("ask_teachers/students/"+uuid+"/subjects/"+subjectId);
 
         HashMap<String,String> subchapterData = new HashMap<>();
         subchapterData.put("subject_id",subjectId);

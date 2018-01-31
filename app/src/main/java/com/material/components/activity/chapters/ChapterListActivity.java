@@ -106,7 +106,6 @@ public class ChapterListActivity extends AppCompatActivity{
         GsonBuilder builder = new GsonBuilder();
         final Gson gson = builder.create();
 
-        System.out.println("subjectId:"+subjectId);
         FirebaseDatabase.getInstance().getReference().child("chapters/"+subjectId+"/chapters")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
