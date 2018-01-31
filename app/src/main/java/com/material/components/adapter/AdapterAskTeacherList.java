@@ -32,7 +32,7 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof  OriginalViewHolder)
         {
             OriginalViewHolder view = (OriginalViewHolder) holder;
@@ -42,6 +42,14 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
             view.subjectTitle.setText(askTeacherItems.subjectTitle);
             view.chapterTitle.setText(askTeacherItems.chapterTitle);
             view.subchapter.setText(askTeacherItems.subChapterTitle);
+
+            view.lyt_parent_ask_teacher_list.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickListener == null) return;
+                    onClickListener.onItemClick(v,askTeacherItems,position);
+                }
+            });
         }
     }
 
@@ -57,6 +65,7 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
             subchapter = itemView.findViewById(R.id.subchapter);
             askTeacherStatus = itemView.findViewById(R.id.askTeacherStatus);
             dtCreated = itemView.findViewById(R.id.dtCreated);
+
         }
     }
 

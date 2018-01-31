@@ -24,7 +24,7 @@ public class AskTeacherItems {
     @Expose
     public String subChapterTitle;
 
-    @SerializedName("subchapterId")
+    @SerializedName("subchapter_id")
     @Expose
     public String subChapterId;
 

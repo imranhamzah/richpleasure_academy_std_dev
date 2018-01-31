@@ -45,7 +45,6 @@ public class LessonActivity extends AppCompatActivity{
 
     public ProgressBar progressBar;
     public String chapterTitle;
-    private List<Lessons> lessonsList = new ArrayList<>();
 
     private SharedPreferences analysisSharedPreferences;
     private SharedPreferences.Editor editorAnalysisPreferences;

@@ -1,16 +1,14 @@
 package com.material.components.activity.askteachers;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
@@ -22,10 +20,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.adapter.AdapterAskTeacherList;
 import com.material.components.model.AskTeacherItems;
 import com.material.components.model.Chapter;
-import com.material.components.model.ChapterList;
 import com.material.components.model.SubChapter;
 import com.material.components.model.Subject;
 
@@ -44,6 +42,8 @@ public class AskTeacherList extends AppCompatActivity {
     private SharedPreferences eduYearSharedPreferences;
     private FiftyShadesOf fiftyShadesOf;
     private MaterialRippleLayout layout1;
+    private SharedPreferences analysisSharedPreferences;
+    private SharedPreferences.Editor editorAnalysisPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,9 @@ public class AskTeacherList extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        analysisSharedPreferences  = getApplicationContext().getSharedPreferences("AnalysisSharedPreferences",MODE_PRIVATE);
+        editorAnalysisPreferences = analysisSharedPreferences.edit();
 
         adapterAskTeacherList = new AdapterAskTeacherList(askTeacherItemsList);
         askTeacherListRecyclerView = findViewById(R.id.askTeacherListRecyclerView);
@@ -69,6 +72,19 @@ public class AskTeacherList extends AppCompatActivity {
         askTeacherListRecyclerView.setLayoutManager(layoutManager);
         askTeacherListRecyclerView.setItemAnimator(new DefaultItemAnimator());
         askTeacherListRecyclerView.setAdapter(adapterAskTeacherList);
+        adapterAskTeacherList.setOnClickListener(new AdapterAskTeacherList.OnClickListener() {
+            @Override
+            public void onItemClick(View view, AskTeacherItems obj, int pos) {
+                Intent gotoLesson = new Intent(AskTeacherList.this, LessonActivity.class);
+
+                System.out.println("subcjahter_id "+obj.subChapterId);
+                gotoLesson.putExtra("subchapter_id",obj.subChapterId);
+                gotoLesson.putExtra("subChapterTitle",obj.subChapterTitle);
+                editorAnalysisPreferences.putString("subchapterId",obj.subChapterId);
+                editorAnalysisPreferences.commit();
+                startActivity(gotoLesson);
+            }
+        });
 
         displayAskTeacherItems();
 
@@ -78,9 +94,6 @@ public class AskTeacherList extends AppCompatActivity {
 
     private SubChapter subChapter;
     private  HashMap<String,String> dataAskTeacher = new HashMap<>();
-//    private String subjectId;
-//    private String chapterId;
-//    private String subchapterId;
     private void displayAskTeacherItems()
     {
         askTeacherItemsList.clear();
@@ -130,9 +143,7 @@ public class AskTeacherList extends AppCompatActivity {
                                                                 {
                                                                     Subject subject = gson.fromJson(subjectReceived,Subject.class);
 
-
                                                                     dataAskTeacher.put("subject_title",subject.subjectName);
-
                                                                 }
 
 
@@ -160,9 +171,6 @@ public class AskTeacherList extends AppCompatActivity {
                                                                     System.out.println("chapters---------");
                                                                     System.out.println(chapter.chapterTitle);
                                                                     dataAskTeacher.put("chapter_title",chapter.chapterTitle);
-
-
-
                                                                 }
 
                                                             }
@@ -190,6 +198,9 @@ public class AskTeacherList extends AppCompatActivity {
                                                                     System.out.println(dataSubChaptersReceived);
                                                                     subChapter = gson.fromJson(dataSubChaptersReceived,SubChapter.class);
                                                                     dataAskTeacher.put("subchapter_title",subChapter.subchapterTitle);
+                                                                    dataAskTeacher.put("subchapter_id",subChapter.subchapterId);
+
+                                                                    System.out.println("subbbbb----"+subChapter.subchapterId);
 
                                                                     String dataAskTeacherReceived = gson.toJson(dataAskTeacher);
                                                                     AskTeacherItems askTeacherItems = gson.fromJson(dataAskTeacherReceived,AskTeacherItems.class);
@@ -203,7 +214,10 @@ public class AskTeacherList extends AppCompatActivity {
                                                             public void onCancelled(DatabaseError databaseError) {
 
                                                             }
+
                                                         });
+
+
 
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
