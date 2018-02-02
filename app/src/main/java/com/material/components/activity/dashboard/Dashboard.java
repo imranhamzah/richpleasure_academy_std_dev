@@ -384,9 +384,6 @@ public class Dashboard extends AppCompatActivity{
         subjectRecyclerView.setHasFixedSize(true);
         subjectRecyclerView.setNestedScrollingEnabled(false);
 
-        GsonBuilder builder = new GsonBuilder();
-        final Gson gson = builder.create();
-
         adapterSubject.setOnClickListener(new AdapterSubject.OnClickListener() {
             @Override
             public void onItemClick(View view, Subject obj, int pos) {
@@ -504,9 +501,6 @@ public class Dashboard extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-//        mSubject.addValueEventListener(this);
-//        mTutors.addValueEventListener(this);
-//        mYears.addValueEventListener(this);
     }
 
     @Override

@@ -11,9 +11,12 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,12 +32,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.chapters.ChapterListActivity;
+import com.material.components.adapter.AdapterTutorReviews;
 import com.material.components.adapter.AdapterTutorSubject;
+import com.material.components.model.Student;
 import com.material.components.model.Tutor;
-import com.material.components.model.TutorProfile;
+import com.material.components.model.TutorReviews;
 import com.material.components.model.TutorSubject;
-import com.material.components.utils.Tools;
-import com.material.components.widget.SpacingItemDecoration;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONArray;
@@ -43,8 +46,13 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class TutorProfileDetails extends AppCompatActivity{
 
@@ -55,6 +63,10 @@ public class TutorProfileDetails extends AppCompatActivity{
     public ImageView profilePic, backgroundProfilePic;
     ProgressDialog progressDialog;
     private FiftyShadesOf fiftyShadesOf;
+    private List<TutorReviews> tutorReviewsList = new ArrayList<>();
+    private RecyclerView tutorReviewsRecyclerView;
+    private AdapterTutorReviews adapterTutorReviews;
+    private Tutor dataReceived;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +115,7 @@ public class TutorProfileDetails extends AppCompatActivity{
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
 
-        Tutor dataReceived = getIntent().getParcelableExtra("tutorProfileData");
+        dataReceived = getIntent().getParcelableExtra("tutorProfileData");
 
         System.out.println(dataReceived.tutorName);
         System.out.println(dataReceived.shortDescription);
@@ -156,9 +168,96 @@ public class TutorProfileDetails extends AppCompatActivity{
         }
 
         fiftyShadesOf.stop();
+        displayTutorReviews();
 
     }
 
+
+    private void displayTutorReviews()
+    {
+        tutorReviewsList.clear();
+        tutorReviewsRecyclerView = findViewById(R.id.tutorReviewsRecyclerView);
+        adapterTutorReviews = new AdapterTutorReviews(tutorReviewsList);
+        tutorReviewsRecyclerView.setHasFixedSize(true);
+        tutorReviewsRecyclerView.setNestedScrollingEnabled(false);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        tutorReviewsRecyclerView.setLayoutManager(layoutManager);
+        tutorReviewsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        tutorReviewsRecyclerView.setAdapter(adapterTutorReviews);
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        String tutorUuid = dataReceived.tutorId;
+        final HashMap<String,String> studentReviewDetails = new HashMap<>();
+        DatabaseReference getTutorReviews = databaseReference.child("tutor_reviews/"+tutorUuid+"/review_data");
+        getTutorReviews.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot dataTutor: dataSnapshot.getChildren())
+                {
+                    String dataTutorReviewsReceived = gson.toJson(dataTutor.getValue());
+                    System.out.println(dataTutorReviewsReceived);
+                    final TutorReviews tutorReviews = gson.fromJson(dataTutorReviewsReceived,TutorReviews.class);
+
+                    System.out.println("student UUUID:-  "+tutorReviews.studentUuid);
+
+                    //Get student details
+                    DatabaseReference studentDetails = databaseReference.child("students/"+tutorReviews.studentUuid);
+                    studentDetails.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshotStudent) {
+                            String dataStudent = gson.toJson(dataSnapshotStudent.getValue());
+
+                            System.out.println("xxx----"+dataStudent);
+                            Student student = gson.fromJson(dataStudent,Student.class);
+
+                            studentReviewDetails.put("student_fullname",student.studentFullname);
+                            studentReviewDetails.put("message",tutorReviews.message);
+                            studentReviewDetails.put("rate_value",tutorReviews.rateValue);
+                            studentReviewDetails.put("dt_reviewed",getDate(Long.parseLong(tutorReviews.dtReviewed)));
+
+                            System.out.println(studentReviewDetails);
+
+                            String newTutorReviewData = gson.toJson(studentReviewDetails);
+                            TutorReviews newTutorReviews = gson.fromJson(newTutorReviewData,TutorReviews.class);
+
+                            tutorReviewsList.add(newTutorReviews);
+                            adapterTutorReviews.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    private String getDate(long time) {
+        Date date = new Date();
+        long currentTime = date.getTime();
+        String result = (String) DateUtils.getRelativeTimeSpanString(time, currentTime, 0);
+        return result;
+    }
 
 
 

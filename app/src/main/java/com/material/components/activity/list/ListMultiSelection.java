@@ -44,7 +44,7 @@ public class ListMultiSelection extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Addmath Form 4");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

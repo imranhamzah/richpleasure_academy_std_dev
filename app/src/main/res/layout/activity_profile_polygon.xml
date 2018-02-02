@@ -120,9 +120,10 @@
                         android:textColor="@color/grey_600"
                         android:text="STUDENT REVIEWS"/>
 
-                    <include layout="@layout/item_tutor_profile_rate" />
-                    <include layout="@layout/item_tutor_profile_rate" />
-                    <include layout="@layout/item_tutor_profile_rate" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/tutorReviewsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
                     <View
                         android:layout_marginTop="10dp"

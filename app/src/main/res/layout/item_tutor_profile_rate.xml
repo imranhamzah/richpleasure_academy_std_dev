@@ -23,6 +23,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/studentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hassan Husni" />
@@ -34,12 +35,14 @@
 
             <RatingBar
                 style="@style/Widget.AppCompat.RatingBar.Small"
+                android:id="@+id/studentRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:rating="4" />
 
             <TextView
+                android:id="@+id/dtReviewed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -48,6 +51,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/studentMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

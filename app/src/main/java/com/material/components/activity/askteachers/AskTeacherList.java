@@ -76,13 +76,16 @@ public class AskTeacherList extends AppCompatActivity {
             @Override
             public void onItemClick(View view, AskTeacherItems obj, int pos) {
                 Intent gotoLesson = new Intent(AskTeacherList.this, LessonActivity.class);
-
-                System.out.println("subcjahter_id "+obj.subChapterId);
                 gotoLesson.putExtra("subchapter_id",obj.subChapterId);
                 gotoLesson.putExtra("subChapterTitle",obj.subChapterTitle);
                 editorAnalysisPreferences.putString("subchapterId",obj.subChapterId);
                 editorAnalysisPreferences.commit();
                 startActivity(gotoLesson);
+            }
+
+            @Override
+            public void onItemLongClick(View view, AskTeacherItems obj, int pos) {
+
             }
         });
 
