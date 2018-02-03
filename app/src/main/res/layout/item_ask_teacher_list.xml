@@ -19,6 +19,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -108,37 +109,21 @@
                     android:layerType="software"
                     android:layout_margin="4dp"
                     android:src="@drawable/dotted" />
-                <LinearLayout
-                    android:layout_below="@id/dottedHorizontalRule"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Question 1:"
-                        android:textSize="12sp"
-                        android:paddingLeft="10dp"
-                        android:textStyle="bold|italic"/>
-                    <TextView
-                        android:paddingLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="italic"
-                        android:textSize="12sp"
-                        android:text="How to solve this composite function?"/>
 
-                    <TextView
-                        android:paddingLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="italic"
-                        android:textSize="12sp"
-                        android:textColor="@color/blue_700"
-                        android:text=" - Pending"/>
-                </LinearLayout>
+                <include
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/question1"
+                    layout="@layout/item_ask_teacher_question"
+                    android:layout_below="@id/dottedHorizontalRule"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" />
+
+                <include
+                    android:id="@+id/question2"
+                    layout="@layout/item_ask_teacher_question"
+                    android:layout_below="@id/question1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
