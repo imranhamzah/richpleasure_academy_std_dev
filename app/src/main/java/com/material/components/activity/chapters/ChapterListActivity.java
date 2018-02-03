@@ -100,9 +100,6 @@ public class ChapterListActivity extends AppCompatActivity{
     public void getChapterList(String subjectId)
     {
 
-        fiftyShadesOf.stop();
-        chapterLinearLayout.setVisibility(View.GONE);
-
         GsonBuilder builder = new GsonBuilder();
         final Gson gson = builder.create();
 
@@ -117,6 +114,8 @@ public class ChapterListActivity extends AppCompatActivity{
                             Chapter chapter = gson.fromJson(chaptersReceived,Chapter.class);
                             chaptersList.add(chapter);
                             adapterListChapters.notifyDataSetChanged();
+                            fiftyShadesOf.stop();
+                            chapterLinearLayout.setVisibility(View.GONE);
                         }
 
                     }

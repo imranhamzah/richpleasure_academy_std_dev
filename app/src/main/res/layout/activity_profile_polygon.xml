@@ -123,7 +123,8 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/tutorReviewsRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                        android:layout_height="wrap_content" />
+                    <include android:id="@+id/profile_teacher_rate_shade" layout="@layout/item_tutor_profile_rate" />
 
                     <View
                         android:layout_marginTop="10dp"

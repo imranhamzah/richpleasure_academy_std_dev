@@ -2,7 +2,6 @@ package com.material.components.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,6 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<AskTeacherItems> askTeacherListItems = new ArrayList<>();
     private OnClickListener onClickListener = null;
-
-    private SparseBooleanArray selected_items;
-    private int current_selected_idx = -1;
 
     public AdapterAskTeacherList(List<AskTeacherItems> askTeacherListItems) {
         this.askTeacherListItems = askTeacherListItems;
@@ -64,45 +60,7 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
                     return true;
                 }
             });
-
-            if (selected_items.get(position, false)) {
-                view.lyt_image.setVisibility(View.GONE);
-                view.lyt_checked.setVisibility(View.VISIBLE);
-                if (current_selected_idx == position) resetCurrentIndex();
-            } else {
-                view.lyt_checked.setVisibility(View.GONE);
-                view.lyt_image.setVisibility(View.VISIBLE);
-                if (current_selected_idx == position) resetCurrentIndex();
-            }
         }
-    }
-
-    public void clearSelections() {
-        selected_items.clear();
-        notifyDataSetChanged();
-    }
-
-    public int getSelectedItemCount() {
-        return selected_items.size();
-    }
-
-    public List<Integer> getSelectedItems() {
-        List<Integer> items = new ArrayList<>(selected_items.size());
-        for (int i = 0; i < selected_items.size(); i++) {
-            items.add(selected_items.keyAt(i));
-        }
-        return items;
-    }
-
-/*
-    public void removeData(int position) {
-        items.remove(position);
-        resetCurrentIndex();
-    }
-*/
-
-    private void resetCurrentIndex() {
-        current_selected_idx = -1;
     }
 
 

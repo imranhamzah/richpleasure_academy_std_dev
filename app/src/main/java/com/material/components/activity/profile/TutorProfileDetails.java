@@ -15,11 +15,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
@@ -46,13 +46,10 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class TutorProfileDetails extends AppCompatActivity{
 
@@ -62,11 +59,12 @@ public class TutorProfileDetails extends AppCompatActivity{
     public TextView tutorFullname, shortDescription, subjectLabel;
     public ImageView profilePic, backgroundProfilePic;
     ProgressDialog progressDialog;
-    private FiftyShadesOf fiftyShadesOf;
+    private FiftyShadesOf fiftyShadesOf,tutorReviewShadesOf;
     private List<TutorReviews> tutorReviewsList = new ArrayList<>();
     private RecyclerView tutorReviewsRecyclerView;
     private AdapterTutorReviews adapterTutorReviews;
     private Tutor dataReceived;
+    private RelativeLayout profileRateLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +73,8 @@ public class TutorProfileDetails extends AppCompatActivity{
         setContentView(R.layout.activity_profile_polygon);
 
         fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.tutorFullname,R.id.tutorShortDescription, R.id.subjectLabel).start();
+        tutorReviewShadesOf = FiftyShadesOf.with(this).on(R.id.profile_teacher_rate_shade).start();
+        profileRateLayout = findViewById(R.id.profile_teacher_rate_shade);
 
         tutorFullname = findViewById(R.id.tutorFullname);
         shortDescription = findViewById(R.id.tutorShortDescription);
@@ -230,6 +230,9 @@ public class TutorProfileDetails extends AppCompatActivity{
 
                             tutorReviewsList.add(newTutorReviews);
                             adapterTutorReviews.notifyDataSetChanged();
+                            tutorReviewShadesOf.stop();
+                            profileRateLayout.setVisibility(View.GONE);
+
                         }
 
                         @Override

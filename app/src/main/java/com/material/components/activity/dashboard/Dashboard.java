@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
@@ -45,14 +43,10 @@ import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
 import com.material.components.adapter.AdapterSubject;
 import com.material.components.adapter.AdapterTutor;
-import com.material.components.model.ChapterList;
 import com.material.components.model.EduYears;
 import com.material.components.model.Subject;
 import com.material.components.model.Tutor;
 
-import org.json.JSONArray;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -298,11 +292,6 @@ public class Dashboard extends AppCompatActivity{
                                 String tutor_id = String.valueOf(sub_snapshot.getValue());
                                 getTutorDetails(tutor_id);
                             }
-
-
-
-                            fiftyShadesOf.stop();
-                            layout2.setVisibility(View.GONE);
                         }
 
 
@@ -331,6 +320,8 @@ public class Dashboard extends AppCompatActivity{
                             tutorList.add(tutor);
 
                         adapterTutor.notifyDataSetChanged();
+                        fiftyShadesOf.stop();
+                        layout2.setVisibility(View.GONE);
                     }
 
                     @Override

@@ -18,53 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:id="@+id/lyt_checked"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="@dimen/spacing_xmlarge"
-                        android:layout_height="@dimen/spacing_xmlarge"
-                        android:src="@drawable/shape_circle"
-                        android:tint="@color/blue_grey_600" />
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_centerInParent="true"
-                        app:srcCompat="@drawable/ic_done" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/lyt_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="@dimen/spacing_xmlarge"
-                        android:layout_height="@dimen/spacing_xmlarge" />
-
-                    <TextView
-                        android:id="@+id/image_letter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@android:color/white" />
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <LinearLayout
+              <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
