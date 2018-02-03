@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lyt_parent_ask_teacher_list"
     style="@style/RippleStyleBlack"
-    android:layout_gravity="center_horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,82 +12,137 @@
         android:background="@android:drawable/dialog_holo_light_frame"
         android:padding="4dp">
 
-
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-              <LinearLayout
-                android:orientation="horizontal"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/left"
-                    android:layout_width="0dp"
+                    android:id="@+id/divLeft"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="100"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/subjectTitle"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/left"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Subject Title"
-                        android:textSize="18sp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="100"
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:id="@+id/chapterTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chapter Title"
-                        android:textSize="12sp" />
+                        <TextView
+                            android:id="@+id/subjectTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subject Title"
+                            android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/subchapter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="subchapter"
-                        android:textSize="10sp" />
+                        <TextView
+                            android:id="@+id/chapterTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chapter Title"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/subchapter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="subchapter"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/right"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="40"
+                        android:gravity="right"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/askTeacherStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:text="Pending" />
+
+                        <TextView
+                            android:id="@+id/dtCreated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:text="29 Jan 2018"
+                            android:textSize="10sp"
+                            android:textStyle="italic" />
+                    </RelativeLayout>
+
+
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/right"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="40"
-                    android:gravity="right"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                <TextView
+                    android:id="@+id/totalQuestions"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/divLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:layout_height="wrap_content"
+                    android:text="5 Questions"/>
 
+                <ImageView
+                    android:id="@+id/dottedHorizontalRule"
+                    android:layout_below="@id/totalQuestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layerType="software"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/dotted" />
+                <LinearLayout
+                    android:layout_below="@id/dottedHorizontalRule"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/askTeacherStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:text="Pending" />
-
+                        android:text="Question 1:"
+                        android:textSize="12sp"
+                        android:paddingLeft="10dp"
+                        android:textStyle="bold|italic"/>
                     <TextView
-                        android:id="@+id/dtCreated"
+                        android:paddingLeft="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:text="29 Jan 2018"
-                        android:textSize="10sp"
-                        android:textStyle="italic" />
-                </RelativeLayout>
+                        android:textStyle="italic"
+                        android:textSize="12sp"
+                        android:text="How to solve this composite function?"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:textSize="12sp"
+                        android:textColor="@color/blue_700"
+                        android:text=" - Pending"/>
+                </LinearLayout>
 
-
-
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>
-</com.balysv.materialripple.MaterialRippleLayout>
+</RelativeLayout>
 
 

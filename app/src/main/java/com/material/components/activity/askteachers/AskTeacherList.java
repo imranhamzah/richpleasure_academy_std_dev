@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
@@ -41,7 +42,7 @@ public class AskTeacherList extends AppCompatActivity {
     private RecyclerView askTeacherListRecyclerView;
     private SharedPreferences eduYearSharedPreferences;
     private FiftyShadesOf fiftyShadesOf;
-    private MaterialRippleLayout layout1;
+    private RelativeLayout layout1;
     private SharedPreferences analysisSharedPreferences;
     private SharedPreferences.Editor editorAnalysisPreferences;
 
@@ -75,12 +76,14 @@ public class AskTeacherList extends AppCompatActivity {
         adapterAskTeacherList.setOnClickListener(new AdapterAskTeacherList.OnClickListener() {
             @Override
             public void onItemClick(View view, AskTeacherItems obj, int pos) {
+                /*
                 Intent gotoLesson = new Intent(AskTeacherList.this, LessonActivity.class);
                 gotoLesson.putExtra("subchapter_id",obj.subChapterId);
                 gotoLesson.putExtra("subChapterTitle",obj.subChapterTitle);
                 editorAnalysisPreferences.putString("subchapterId",obj.subChapterId);
                 editorAnalysisPreferences.commit();
                 startActivity(gotoLesson);
+                */
             }
 
             @Override
