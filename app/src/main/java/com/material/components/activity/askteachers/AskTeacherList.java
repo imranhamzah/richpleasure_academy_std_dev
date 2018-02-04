@@ -1,15 +1,22 @@
 package com.material.components.activity.askteachers;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
@@ -95,7 +102,52 @@ public class AskTeacherList extends AppCompatActivity {
         displayAskTeacherItems();
 
         eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
+        showAdminMessage();
 
+    }
+
+    private BottomSheetBehavior mBehavior;
+    private BottomSheetDialog mBottomSheetDialog;
+    private View bottom_sheet;
+    private void showAdminMessage()
+    {
+        bottom_sheet = findViewById(R.id.bottom_sheet_admin_message);
+        mBehavior = BottomSheetBehavior.from(bottom_sheet);
+
+        if (mBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+
+        final View view = getLayoutInflater().inflate(R.layout.sheet_basic, null);
+        ((TextView) view.findViewById(R.id.name)).setText("Test Name");
+        ((TextView) view.findViewById(R.id.address)).setText(R.string.middle_lorem_ipsum);
+        (view.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBottomSheetDialog.dismiss();
+            }
+        });
+
+        (view.findViewById(R.id.bt_details)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Details clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mBottomSheetDialog = new BottomSheetDialog(this);
+        mBottomSheetDialog.setContentView(view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mBottomSheetDialog = null;
+            }
+        });
     }
 
     private SubChapter subChapter;

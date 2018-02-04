@@ -135,4 +135,16 @@
 
     <include layout="@layout/content_ask_teacher_list" />
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--bottom sheet container-->
+        <FrameLayout
+            android:id="@+id/bottom_sheet_admin_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/bottom_sheet_behavior" />
+    </android.support.design.widget.CoordinatorLayout>
+
+
 </LinearLayout>
