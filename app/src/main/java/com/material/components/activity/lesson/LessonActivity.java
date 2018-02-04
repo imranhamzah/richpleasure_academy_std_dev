@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -224,13 +225,15 @@ public class LessonActivity extends AppCompatActivity{
 
         DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-        HashMap<String,String> subchapterData = new HashMap<>();
-        subchapterData.put("subject_id",subjectId);
-        subchapterData.put("chapter_id",chapterId);
-        subchapterData.put("subchapter_id",subchapterId);
-        subchapterData.put("message",message);
+        HashMap<Object,Object> messagesData = new HashMap<>();
+        messagesData.put("subject_id",subjectId);
+        messagesData.put("chapter_id",chapterId);
+        messagesData.put("subchapter_id",subchapterId);
+        messagesData.put("messages",message);
+        messagesData.put("status","pending");
+        messagesData.put("dt_added", ServerValue.TIMESTAMP);
 
-        databaseReference.child("ask_teachers/students/"+uuid+"/subjects/"+subjectId+"/chapters/"+chapterId+"/subchapters/"+subchapterId).setValue(subchapterData, new DatabaseReference.CompletionListener(){
+        databaseReference.child("ask_teachers/students/"+uuid+"/subjects/"+subjectId+"/chapters/"+chapterId+"/subchapters/"+subchapterId+"/questions/").push().setValue(messagesData, new DatabaseReference.CompletionListener(){
 
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
