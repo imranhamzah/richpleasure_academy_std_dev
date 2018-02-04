@@ -9,15 +9,14 @@ android:fitsSystemWindows="true">
 <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/AppTheme.AppBarOverlay">
+    android:theme="@style/AppTheme.Translucent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:contentInsetStartWithNavigation="0dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:background="@drawable/gradient_navbar"
+        app:contentInsetStartWithNavigation="0dp" />
 
 </android.support.design.widget.AppBarLayout>
 
