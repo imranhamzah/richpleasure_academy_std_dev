@@ -1,17 +1,22 @@
 package com.material.components.activity.lesson;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -145,32 +150,14 @@ public class LessonActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        FirebaseUser currentFirebaseUser  = FirebaseAuth.getInstance().getCurrentUser();
-        String uuid = currentFirebaseUser.getUid();
-
-        String subjectId = analysisSharedPreferences.getString("subjectId","");
-        String chapterId = analysisSharedPreferences.getString("chapterId","");
-        String subchapterId = analysisSharedPreferences.getString("subchapterId","");
-
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-
-        HashMap<String,String> subchapterData = new HashMap<>();
-        subchapterData.put("subject_id",subjectId);
-        subchapterData.put("chapter_id",chapterId);
-        subchapterData.put("subchapter_id",subchapterId);
 
         int id = item.getItemId();
         if(id == R.id.askTeacher)
         {
 
-            databaseReference.child("ask_teachers/students/"+uuid+"/subjects/"+subjectId+"/chapters/"+chapterId+"/subchapters/"+subchapterId).setValue(subchapterData, new DatabaseReference.CompletionListener(){
 
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                    Toast.makeText(LessonActivity.this, "Successfully added to Ask Teacher list", Toast.LENGTH_SHORT).show();
-                }
-            });
+            showQuestionEntryDialog();
+
 
         }
 
@@ -187,5 +174,70 @@ public class LessonActivity extends AppCompatActivity{
         }
 
         return true;
+    }
+
+    private void showQuestionEntryDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_ask_teacher_question_entry);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        final EditText et_post = dialog.findViewById(R.id.et_post);
+        dialog.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.bt_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String review = et_post.getText().toString().trim();
+                if (review.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please fill review text", Toast.LENGTH_SHORT).show();
+                }else
+                {
+                    submitQuestion(review, dialog);
+                }
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void submitQuestion(String message, final Dialog dialog)
+    {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser currentFirebaseUser  = FirebaseAuth.getInstance().getCurrentUser();
+        String uuid = currentFirebaseUser.getUid();
+
+        String subjectId = analysisSharedPreferences.getString("subjectId","");
+        String chapterId = analysisSharedPreferences.getString("chapterId","");
+        String subchapterId = analysisSharedPreferences.getString("subchapterId","");
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        HashMap<String,String> subchapterData = new HashMap<>();
+        subchapterData.put("subject_id",subjectId);
+        subchapterData.put("chapter_id",chapterId);
+        subchapterData.put("subchapter_id",subchapterId);
+        subchapterData.put("message",message);
+
+        databaseReference.child("ask_teachers/students/"+uuid+"/subjects/"+subjectId+"/chapters/"+chapterId+"/subchapters/"+subchapterId).setValue(subchapterData, new DatabaseReference.CompletionListener(){
+
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Toast.makeText(LessonActivity.this, "Successfully added to Ask Teacher list", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
     }
 }
