@@ -1,17 +1,16 @@
 package com.material.components.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AskTeacherInfo {
 
-    public List<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
+    public ArrayList<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
 
-    public List<QuestionsToTeacher> getQuestionsToTeacherList() {
+    public ArrayList<QuestionsToTeacher> getQuestionsToTeacherList() {
         return questionsToTeacherList;
     }
 
-    public void setQuestionsToTeacherList(List<QuestionsToTeacher> questionsToTeacherList) {
+    public void setQuestionsToTeacherList(ArrayList<QuestionsToTeacher> questionsToTeacherList) {
         this.questionsToTeacherList = questionsToTeacherList;
     }
 }

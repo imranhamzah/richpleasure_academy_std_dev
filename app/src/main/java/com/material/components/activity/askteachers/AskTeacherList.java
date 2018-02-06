@@ -30,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.adapter.AdapterAskTeacherList;
+import com.material.components.adapter.AdapterQuestionToTeacher;
 import com.material.components.model.AskTeacherInfo;
 import com.material.components.model.AskTeacherItems;
 import com.material.components.model.Chapter;
@@ -49,13 +50,14 @@ public class AskTeacherList extends AppCompatActivity {
     private List<AskTeacherItems> askTeacherItemsList = new ArrayList<>();
     private AdapterAskTeacherList adapterAskTeacherList;
     private RecyclerView askTeacherListRecyclerView;
+    private RecyclerView recyclerViewQuestions;
     private SharedPreferences eduYearSharedPreferences;
     private FiftyShadesOf fiftyShadesOf;
     private RelativeLayout layout1;
     private SharedPreferences analysisSharedPreferences;
     private SharedPreferences.Editor editorAnalysisPreferences;
-    public List<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
-    public AskTeacherInfo askTeacherInfo = new AskTeacherInfo();
+    public ArrayList<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
+    private AdapterQuestionToTeacher adapterQuestionToTeacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class AskTeacherList extends AppCompatActivity {
         analysisSharedPreferences  = getApplicationContext().getSharedPreferences("AnalysisSharedPreferences",MODE_PRIVATE);
         editorAnalysisPreferences = analysisSharedPreferences.edit();
 
-        adapterAskTeacherList = new AdapterAskTeacherList(askTeacherItemsList, askTeacherInfo, getApplicationContext());
+        adapterAskTeacherList = new AdapterAskTeacherList(askTeacherItemsList, questionsToTeacherList, getApplicationContext());
         askTeacherListRecyclerView = findViewById(R.id.askTeacherListRecyclerView);
         layout1 = findViewById(R.id.layout1);
         fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.layout1).start();
@@ -104,6 +106,18 @@ public class AskTeacherList extends AppCompatActivity {
         });
 
         displayAskTeacherItems();
+/*
+
+        adapterQuestionToTeacher = new AdapterQuestionToTeacher(questionsToTeacherList);
+        recyclerViewQuestions = findViewById(R.id.recyclerViewQuestions);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+
+        recyclerViewQuestions.setLayoutManager(linearLayoutManager);
+        recyclerViewQuestions.setHasFixedSize(true);
+        recyclerViewQuestions.setNestedScrollingEnabled(false);
+        recyclerViewQuestions.setAdapter(adapterQuestionToTeacher);*/
+
+
 
         eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
         showAdminMessage();
@@ -291,10 +305,11 @@ public class AskTeacherList extends AppCompatActivity {
                                                 {
                                                     String messageQuestion = gson.toJson(messagesData.getValue());
                                                     QuestionsToTeacher questionsToTeacher = gson.fromJson(messageQuestion,QuestionsToTeacher.class);
+
+                                                    //Problem start here
                                                     questionsToTeacherList.add(questionsToTeacher);
                                                     System.out.println(questionsToTeacher.messages+"    "+questionsToTeacher.questionStatus);
                                                 }
-                                                askTeacherInfo.setQuestionsToTeacherList(questionsToTeacherList);
                                             }
                                             
 

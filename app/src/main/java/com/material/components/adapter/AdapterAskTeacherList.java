@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.material.components.R;
+import com.material.components.activity.askteachers.AskTeacherList;
 import com.material.components.model.AskTeacherInfo;
 import com.material.components.model.AskTeacherItems;
 import com.material.components.model.QuestionsToTeacher;
@@ -22,12 +23,12 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<AskTeacherItems> askTeacherListItems = new ArrayList<>();
     private OnClickListener onClickListener = null;
-    private AskTeacherInfo askTeacherInfo;
+    private List<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
     private Context context;
 
-    public AdapterAskTeacherList(List<AskTeacherItems> askTeacherListItems, AskTeacherInfo askTeacherInfo, Context context) {
+    public AdapterAskTeacherList(List<AskTeacherItems> askTeacherListItems, List<QuestionsToTeacher> questionsToTeacherList, Context context) {
         this.askTeacherListItems = askTeacherListItems;
-        this.askTeacherInfo = askTeacherInfo;
+        this.questionsToTeacherList = questionsToTeacherList;
         this.context = context;
     }
 
@@ -75,7 +76,6 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
             view.recyclerView.setHasFixedSize(true);
             view.recyclerView.setNestedScrollingEnabled(false);
 
-            List<QuestionsToTeacher> questionsToTeacherList = askTeacherInfo.getQuestionsToTeacherList();
             AdapterQuestionToTeacher adapterQuestionToTeacher = new AdapterQuestionToTeacher(questionsToTeacherList);
 
             view.recyclerView.setAdapter(adapterQuestionToTeacher);
