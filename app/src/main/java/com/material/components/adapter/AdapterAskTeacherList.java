@@ -1,6 +1,8 @@
 package com.material.components.adapter;
 
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.material.components.R;
+import com.material.components.model.AskTeacherInfo;
 import com.material.components.model.AskTeacherItems;
+import com.material.components.model.QuestionsToTeacher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +22,13 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<AskTeacherItems> askTeacherListItems = new ArrayList<>();
     private OnClickListener onClickListener = null;
+    private AskTeacherInfo askTeacherInfo;
+    private Context context;
 
-    public AdapterAskTeacherList(List<AskTeacherItems> askTeacherListItems) {
+    public AdapterAskTeacherList(List<AskTeacherItems> askTeacherListItems, AskTeacherInfo askTeacherInfo, Context context) {
         this.askTeacherListItems = askTeacherListItems;
+        this.askTeacherInfo = askTeacherInfo;
+        this.context = context;
     }
 
     @Override
@@ -60,6 +68,19 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
                     return true;
                 }
             });
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
+
+            view.recyclerView.setLayoutManager(linearLayoutManager);
+            view.recyclerView.setHasFixedSize(true);
+            view.recyclerView.setNestedScrollingEnabled(false);
+
+            List<QuestionsToTeacher> questionsToTeacherList = askTeacherInfo.getQuestionsToTeacherList();
+            AdapterQuestionToTeacher adapterQuestionToTeacher = new AdapterQuestionToTeacher(questionsToTeacherList);
+
+            view.recyclerView.setAdapter(adapterQuestionToTeacher);
+
+
         }
     }
 
@@ -69,6 +90,7 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
         public View lyt_parent_ask_teacher_list;
         public TextView subjectTitle, chapterTitle,subchapter,askTeacherStatus,dtCreated;
         public RelativeLayout lyt_checked, lyt_image;
+        public RecyclerView recyclerView;
         public OriginalViewHolder(View itemView) {
             super(itemView);
             lyt_parent_ask_teacher_list = itemView.findViewById(R.id.lyt_parent_ask_teacher_list);
@@ -79,6 +101,7 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
             dtCreated = itemView.findViewById(R.id.dtCreated);
             lyt_checked = itemView.findViewById(R.id.lyt_checked);
             lyt_image = itemView.findViewById(R.id.lyt_image);
+            recyclerView = itemView.findViewById(R.id.recyclerViewQuestions);
 
         }
     }

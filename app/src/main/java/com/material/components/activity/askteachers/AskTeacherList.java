@@ -30,8 +30,10 @@ import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.adapter.AdapterAskTeacherList;
+import com.material.components.model.AskTeacherInfo;
 import com.material.components.model.AskTeacherItems;
 import com.material.components.model.Chapter;
+import com.material.components.model.QuestionsToTeacher;
 import com.material.components.model.SubChapter;
 import com.material.components.model.Subject;
 
@@ -52,6 +54,8 @@ public class AskTeacherList extends AppCompatActivity {
     private RelativeLayout layout1;
     private SharedPreferences analysisSharedPreferences;
     private SharedPreferences.Editor editorAnalysisPreferences;
+    public List<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
+    public AskTeacherInfo askTeacherInfo = new AskTeacherInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,7 @@ public class AskTeacherList extends AppCompatActivity {
         analysisSharedPreferences  = getApplicationContext().getSharedPreferences("AnalysisSharedPreferences",MODE_PRIVATE);
         editorAnalysisPreferences = analysisSharedPreferences.edit();
 
-        adapterAskTeacherList = new AdapterAskTeacherList(askTeacherItemsList);
+        adapterAskTeacherList = new AdapterAskTeacherList(askTeacherItemsList, askTeacherInfo, getApplicationContext());
         askTeacherListRecyclerView = findViewById(R.id.askTeacherListRecyclerView);
         layout1 = findViewById(R.id.layout1);
         fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.layout1).start();
@@ -285,8 +289,12 @@ public class AskTeacherList extends AppCompatActivity {
                                                 //Messages Data
                                                 for(DataSnapshot messagesData: messagesLabel.getChildren())
                                                 {
-                                                    
+                                                    String messageQuestion = gson.toJson(messagesData.getValue());
+                                                    QuestionsToTeacher questionsToTeacher = gson.fromJson(messageQuestion,QuestionsToTeacher.class);
+                                                    questionsToTeacherList.add(questionsToTeacher);
+                                                    System.out.println(questionsToTeacher.messages+"    "+questionsToTeacher.questionStatus);
                                                 }
+                                                askTeacherInfo.setQuestionsToTeacherList(questionsToTeacherList);
                                             }
                                             
 

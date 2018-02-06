@@ -110,20 +110,11 @@
                     android:layout_margin="4dp"
                     android:src="@drawable/dotted" />
 
-                <include
-                    android:layout_marginBottom="10dp"
-                    android:id="@+id/question1"
-                    layout="@layout/item_ask_teacher_question"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewQuestions"
                     android:layout_below="@id/dottedHorizontalRule"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
-
-                <include
-                    android:id="@+id/question2"
-                    layout="@layout/item_ask_teacher_question"
-                    android:layout_below="@id/question1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
