@@ -188,107 +188,104 @@ public class AskTeacherList extends AppCompatActivity {
                                         for(DataSnapshot subChapterData: subChapterLabel.getChildren())
                                         {
                                             final String subchapterId = subChapterData.getKey();
-                                            //Messages Label
+
+
+                                                FirebaseDatabase.getInstance().getReference().child("subjects/"+eduYearId+"/data_subject/"+subjectId)
+                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataSubjectSnapshot) {
+                                                                String subjectReceived = gson.toJson(dataSubjectSnapshot.getValue());
+
+                                                                if(!subjectReceived.equals("null"))
+                                                                {
+                                                                    Subject subject = gson.fromJson(subjectReceived,Subject.class);
+
+                                                                    dataAskTeacher.put("subject_title",subject.subjectName);
+                                                                }
+
+
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                            }
+                                                        });
+
+
+                                                FirebaseDatabase.getInstance().getReference().child("chapters/"+subjectId+"/chapters/"+chapterId)
+                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataChapterSnapshot) {
+
+                                                                String chaptersReceived = gson.toJson(dataChapterSnapshot.getValue());
+
+                                                                if(!chaptersReceived.equals("null"))
+                                                                {
+                                                                    System.out.println(chaptersReceived);
+                                                                    Chapter chapter = gson.fromJson(chaptersReceived,Chapter.class);
+
+                                                                    System.out.println("chapters---------");
+                                                                    System.out.println(chapter.chapterTitle);
+                                                                    dataAskTeacher.put("chapter_title",chapter.chapterTitle);
+                                                                }
+
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                            }
+                                                        });
+
+                                                FirebaseDatabase.getInstance().getReference().child("subchapters/"+chapterId+"/subchapters_data/"+subchapterId)
+                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataSubChapterSnapshot) {
+                                                                String dataSubChaptersReceived = gson.toJson(dataSubChapterSnapshot.getValue());
+
+                                                                if(!dataSubChaptersReceived.equals("null"))
+                                                                {
+                                                                    fiftyShadesOf.stop();
+                                                                    layout1.setVisibility(View.GONE);
+
+                                                                    System.out.println("data subchapters----------------------");
+                                                                    System.out.println(dataSubChaptersReceived);
+                                                                    subChapter = gson.fromJson(dataSubChaptersReceived,SubChapter.class);
+                                                                    dataAskTeacher.put("subchapter_title",subChapter.subchapterTitle);
+                                                                    dataAskTeacher.put("subchapter_id",subChapter.subchapterId);
+
+                                                                    System.out.println("subbbbb----"+subChapter.subchapterId);
+
+                                                                    String dataAskTeacherReceived = gson.toJson(dataAskTeacher);
+                                                                    AskTeacherItems askTeacherItems = gson.fromJson(dataAskTeacherReceived,AskTeacherItems.class);
+
+                                                                    askTeacherItemsList.add(askTeacherItems);
+                                                                    adapterAskTeacherList.notifyDataSetChanged();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                            }
+
+                                                        });
+
+
+
+                                                //Messages Label
                                             System.out.println("subjechapterId...."+subchapterId);
+                                            
+                                            
                                             for(DataSnapshot messagesLabel: subChapterData.getChildren())
                                             {
                                                 //Messages Data
                                                 for(DataSnapshot messagesData: messagesLabel.getChildren())
                                                 {
-                                                    try {
-                                                        JSONObject objMessagesData = new JSONObject(String.valueOf(messagesData.getValue()));
-                                                        final String messages = objMessagesData.getString("messages");
-
-
-                                                        FirebaseDatabase.getInstance().getReference().child("subjects/"+eduYearId+"/data_subject/"+subjectId)
-                                                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                    @Override
-                                                                    public void onDataChange(DataSnapshot dataSubjectSnapshot) {
-                                                                        String subjectReceived = gson.toJson(dataSubjectSnapshot.getValue());
-
-                                                                        if(!subjectReceived.equals("null"))
-                                                                        {
-                                                                            Subject subject = gson.fromJson(subjectReceived,Subject.class);
-
-                                                                            dataAskTeacher.put("subject_title",subject.subjectName);
-                                                                        }
-
-
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onCancelled(DatabaseError databaseError) {
-
-                                                                    }
-                                                                });
-
-
-                                                        FirebaseDatabase.getInstance().getReference().child("chapters/"+subjectId+"/chapters/"+chapterId)
-                                                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                    @Override
-                                                                    public void onDataChange(DataSnapshot dataChapterSnapshot) {
-
-                                                                        String chaptersReceived = gson.toJson(dataChapterSnapshot.getValue());
-
-                                                                        if(!chaptersReceived.equals("null"))
-                                                                        {
-                                                                            System.out.println(chaptersReceived);
-                                                                            Chapter chapter = gson.fromJson(chaptersReceived,Chapter.class);
-
-                                                                            System.out.println("chapters---------");
-                                                                            System.out.println(chapter.chapterTitle);
-                                                                            dataAskTeacher.put("chapter_title",chapter.chapterTitle);
-                                                                        }
-
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onCancelled(DatabaseError databaseError) {
-
-                                                                    }
-                                                                });
-
-                                                        FirebaseDatabase.getInstance().getReference().child("subchapters/"+chapterId+"/subchapters_data/"+subchapterId)
-                                                                .addListenerForSingleValueEvent(new ValueEventListener() {
-
-
-                                                                    @Override
-                                                                    public void onDataChange(DataSnapshot dataSubChapterSnapshot) {
-                                                                        String dataSubChaptersReceived = gson.toJson(dataSubChapterSnapshot.getValue());
-
-                                                                        if(!dataSubChaptersReceived.equals("null"))
-                                                                        {
-                                                                            fiftyShadesOf.stop();
-                                                                            layout1.setVisibility(View.GONE);
-
-                                                                            System.out.println("data subchapters----------------------");
-                                                                            System.out.println(dataSubChaptersReceived);
-                                                                            subChapter = gson.fromJson(dataSubChaptersReceived,SubChapter.class);
-                                                                            dataAskTeacher.put("subchapter_title",subChapter.subchapterTitle);
-                                                                            dataAskTeacher.put("subchapter_id",subChapter.subchapterId);
-
-                                                                            System.out.println("subbbbb----"+subChapter.subchapterId);
-
-                                                                            String dataAskTeacherReceived = gson.toJson(dataAskTeacher);
-                                                                            AskTeacherItems askTeacherItems = gson.fromJson(dataAskTeacherReceived,AskTeacherItems.class);
-
-                                                                            askTeacherItemsList.add(askTeacherItems);
-                                                                            adapterAskTeacherList.notifyDataSetChanged();
-                                                                        }
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onCancelled(DatabaseError databaseError) {
-
-                                                                    }
-
-                                                                });
-
-
-
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    }
+                                                    
                                                 }
                                             }
                                             
