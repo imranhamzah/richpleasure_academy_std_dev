@@ -477,7 +477,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.subchapter.SubchapterActivity" />
         <activity
-            android:name=".activity.practice.Practice"
+            android:name=".activity.practice.PracticeActivity"
             android:label="@string/title_activity_practice"
             android:theme="@style/AppTheme" />
         <activity

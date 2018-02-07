@@ -42,7 +42,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.pastyears.PastYearsActivity;
-import com.material.components.activity.practice.Practice;
+import com.material.components.activity.practice.PracticeActivity;
 import com.material.components.adapter.AdapterQuestionToTeacher;
 import com.material.components.model.Lessons;
 import com.material.components.model.QuestionsToTeacher;
@@ -306,7 +306,8 @@ public class LessonActivity extends AppCompatActivity{
 
         if(id == R.id.practice)
         {
-            Intent gotoPractice = new Intent(LessonActivity.this, Practice.class);
+            Intent gotoPractice = new Intent(LessonActivity.this, PracticeActivity.class);
+            gotoPractice.putExtra("subchapterId",subchapterId);
             startActivity(gotoPractice);
             return true;
         }
