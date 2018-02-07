@@ -6,11 +6,18 @@
     android:background="@color/grey_5"
     android:orientation="vertical"
     android:padding="@dimen/spacing_large">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="2dp"
+        android:text="Questions"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/questionListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -30,11 +30,12 @@ public class AdapterQuestionToTeacher extends RecyclerView.Adapter<RecyclerView.
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView questionStatus,messages;
+        public TextView questionStatus,messages,questionNumber;
         public OriginalViewHolder(View itemView) {
             super(itemView);
             questionStatus = itemView.findViewById(R.id.questionStatus);
             messages = itemView.findViewById(R.id.messages);
+            questionNumber = itemView.findViewById(R.id.questionNumber);
         }
     }
 
@@ -46,6 +47,8 @@ public class AdapterQuestionToTeacher extends RecyclerView.Adapter<RecyclerView.
             final QuestionsToTeacher questionsToTeacher = questionsToTeacherList.get(position);
             view.questionStatus.setText(questionsToTeacher.questionStatus);
             view.messages.setText(questionsToTeacher.messages);
+            System.out.println("position:-"+position);
+            view.questionNumber.setText(String.valueOf(position+1)+") ");
         }
     }
 
