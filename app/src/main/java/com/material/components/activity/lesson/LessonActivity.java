@@ -12,7 +12,10 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRatingBar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,7 +43,9 @@ import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.pastyears.PastYears;
 import com.material.components.activity.practice.Practice;
+import com.material.components.adapter.AdapterQuestionToTeacher;
 import com.material.components.model.Lessons;
+import com.material.components.model.QuestionsToTeacher;
 import com.material.components.model.SubChapter;
 
 import org.json.JSONArray;
@@ -68,6 +73,14 @@ public class LessonActivity extends AppCompatActivity{
 
     private BottomNavigationView navigation;
 
+    public ArrayList<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
+    private AdapterQuestionToTeacher adapterQuestionToTeacher;
+    private RecyclerView questionListRecyclerView;
+
+    private String subjectId;
+    private String chapterId;
+    private String subchapterId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,12 +88,18 @@ public class LessonActivity extends AppCompatActivity{
         contentWebView = findViewById(R.id.contentWebView);
         progressBar = findViewById(R.id.progressBarContent);
 
+
+
         initToolbar();
         String subChapterId = getIntent().getStringExtra("subchapter_id");
         getLessonData(subChapterId);
 
         analysisSharedPreferences  = getApplicationContext().getSharedPreferences("AnalysisSharedPreferences",MODE_PRIVATE);
         editorAnalysisPreferences = analysisSharedPreferences.edit();
+
+        subjectId = analysisSharedPreferences.getString("subjectId","");
+        chapterId = analysisSharedPreferences.getString("chapterId","");
+        subchapterId = analysisSharedPreferences.getString("subchapterId","");
 
         bottom_sheet = findViewById(R.id.bottom_sheet);
         mBehavior = BottomSheetBehavior.from(bottom_sheet);
@@ -97,6 +116,36 @@ public class LessonActivity extends AppCompatActivity{
                 return false;
             }
         });
+
+    }
+
+    private void getQuestionList() {
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        questionsToTeacherList.clear();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference.child("ask_teachers/students/"+firebaseAuth.getUid()+"/subjects/"+subjectId+"/chapters/"+chapterId+"/subchapters/"+subchapterId+"/questions").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                {
+                    String dataReceived = gson.toJson(snapshot.getValue());
+                    System.out.println(snapshot.getValue());
+                    QuestionsToTeacher questionsToTeacher = gson.fromJson(dataReceived,QuestionsToTeacher.class);
+                    questionsToTeacherList.add(questionsToTeacher);
+
+                }
+                adapterQuestionToTeacher.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void showQuestionList() {
@@ -104,20 +153,24 @@ public class LessonActivity extends AppCompatActivity{
             mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 
-        final View view = getLayoutInflater().inflate(R.layout.sheet_basic, null);
-        ((TextView) view.findViewById(R.id.name)).setText("Test Name");
-        ((TextView) view.findViewById(R.id.address)).setText(R.string.middle_lorem_ipsum);
+        final View view = getLayoutInflater().inflate(R.layout.sheet_question_list, null);
+
+        adapterQuestionToTeacher = new AdapterQuestionToTeacher(questionsToTeacherList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(LessonActivity.this);
+
+        questionListRecyclerView = view.findViewById(R.id.questionListRecyclerView);
+        questionListRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        questionListRecyclerView.setNestedScrollingEnabled(false);
+        questionListRecyclerView.setHasFixedSize(true);
+        questionListRecyclerView.setLayoutManager(layoutManager);
+
+
+        questionListRecyclerView.setAdapter(adapterQuestionToTeacher);
+
         (view.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mBottomSheetDialog.dismiss();
-            }
-        });
-
-        (view.findViewById(R.id.bt_details)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Details clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -134,6 +187,8 @@ public class LessonActivity extends AppCompatActivity{
                 mBottomSheetDialog = null;
             }
         });
+
+        getQuestionList();
     }
 
     private void getLessonData(String subChapterId)
@@ -285,9 +340,7 @@ public class LessonActivity extends AppCompatActivity{
         FirebaseUser currentFirebaseUser  = FirebaseAuth.getInstance().getCurrentUser();
         String uuid = currentFirebaseUser.getUid();
 
-        String subjectId = analysisSharedPreferences.getString("subjectId","");
-        String chapterId = analysisSharedPreferences.getString("chapterId","");
-        String subchapterId = analysisSharedPreferences.getString("subchapterId","");
+
 
         DatabaseReference databaseReference = firebaseDatabase.getReference();
 
