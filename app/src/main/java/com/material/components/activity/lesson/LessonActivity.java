@@ -41,7 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
-import com.material.components.activity.pastyears.PastYears;
+import com.material.components.activity.pastyears.PastYearsActivity;
 import com.material.components.activity.practice.Practice;
 import com.material.components.adapter.AdapterQuestionToTeacher;
 import com.material.components.model.Lessons;
@@ -311,7 +311,8 @@ public class LessonActivity extends AppCompatActivity{
 
         if(id == R.id.pastYears)
         {
-            Intent gotoPastYears = new Intent(LessonActivity.this, PastYears.class);
+            Intent gotoPastYears = new Intent(LessonActivity.this, PastYearsActivity.class);
+            gotoPastYears.putExtra("subchapterId",subchapterId);
             startActivity(gotoPastYears);
         }
 

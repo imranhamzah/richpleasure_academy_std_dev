@@ -53,6 +53,7 @@
             />
 
         <TextView
+            android:id="@+id/pastYearContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Content 1"/>
