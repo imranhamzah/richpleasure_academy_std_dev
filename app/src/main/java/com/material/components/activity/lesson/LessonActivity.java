@@ -80,6 +80,7 @@ public class LessonActivity extends AppCompatActivity{
     private String subjectId;
     private String chapterId;
     private String subchapterId;
+    private TextView question_content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,15 @@ public class LessonActivity extends AppCompatActivity{
         setContentView(R.layout.activity_lesson);
         contentWebView = findViewById(R.id.contentWebView);
         progressBar = findViewById(R.id.progressBarContent);
-
+        question_content  = findViewById(R.id.question_content);
+        String qContent = question_content.getText().toString().trim();
+        if(qContent.isEmpty())
+        {
+            question_content.setVisibility(View.GONE);
+        }else
+        {
+            question_content.setVisibility(View.VISIBLE);
+        }
 
 
         initToolbar();
@@ -166,6 +175,15 @@ public class LessonActivity extends AppCompatActivity{
 
 
         questionListRecyclerView.setAdapter(adapterQuestionToTeacher);
+        adapterQuestionToTeacher.setOnClickListener(new AdapterQuestionToTeacher.OnClickListener() {
+            @Override
+            public void onItemClick(View view, QuestionsToTeacher obj, int pos) {
+
+                question_content.setVisibility(View.VISIBLE);
+                question_content.setText(obj.messages);
+                mBottomSheetDialog.dismiss();
+            }
+        });
 
         (view.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override

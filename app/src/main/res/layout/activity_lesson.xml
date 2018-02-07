@@ -42,9 +42,10 @@
                 app:cardBackgroundColor="#fffab6"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/question_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Questions Goes Here \n Description 1 \n Description 2"
+                    android:text=""
                     android:textSize="20sp"
                     android:textColor="@color/red_800"
                     android:layout_margin="5dp"
