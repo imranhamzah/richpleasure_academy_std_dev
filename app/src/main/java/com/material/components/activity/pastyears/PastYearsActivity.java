@@ -61,6 +61,7 @@ public class PastYearsActivity extends AppCompatActivity {
     }
 
     private void displayPastYearQuestions() {
+        pastYearsList.clear();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
 
@@ -75,7 +76,6 @@ public class PastYearsActivity extends AppCompatActivity {
 
                 for(DataSnapshot snapshot: dataSnapshot.getChildren())
                 {
-                    String dataReceived = gson.toJson(snapshot.getValue());
                     String year = snapshot.getKey();
                     pastYearData.put("year",year);
                     //Data label
@@ -84,20 +84,19 @@ public class PastYearsActivity extends AppCompatActivity {
                         //Data
                         for(DataSnapshot data: dataLabel.getChildren())
                         {
-                            try {
-                                JSONObject obj = new JSONObject(String.valueOf(data.getValue()));
-//                                PastYears pastYears = gson.fromJson(dataReceived,PastYears.class);
-//                                pastYearsList.add(pastYears);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            for(DataSnapshot subData: data.getChildren())
+                            {
+                                pastYearData.put("content",subData.getValue());
+                                String dataReceived = gson.toJson(pastYearData);
+                                PastYears pastYears = gson.fromJson(dataReceived,PastYears.class);
+                                pastYearsList.add(pastYears);
                             }
 
                         }
                     }
 
                 }
-//                adapterPastYears.notifyDataSetChanged();
+                adapterPastYears.notifyDataSetChanged();
             }
 
             @Override

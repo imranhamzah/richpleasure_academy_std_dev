@@ -299,6 +299,7 @@ public class LessonActivity extends AppCompatActivity{
 
 
             showQuestionEntryDialog();
+            return true;
 
 
         }
@@ -307,6 +308,7 @@ public class LessonActivity extends AppCompatActivity{
         {
             Intent gotoPractice = new Intent(LessonActivity.this, Practice.class);
             startActivity(gotoPractice);
+            return true;
         }
 
         if(id == R.id.pastYears)
@@ -314,9 +316,10 @@ public class LessonActivity extends AppCompatActivity{
             Intent gotoPastYears = new Intent(LessonActivity.this, PastYearsActivity.class);
             gotoPastYears.putExtra("subchapterId",subchapterId);
             startActivity(gotoPastYears);
+            return true;
         }
 
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private void showQuestionEntryDialog() {
