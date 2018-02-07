@@ -47,7 +47,6 @@ public class AdapterQuestionToTeacher extends RecyclerView.Adapter<RecyclerView.
             final QuestionsToTeacher questionsToTeacher = questionsToTeacherList.get(position);
             view.questionStatus.setText(questionsToTeacher.questionStatus);
             view.messages.setText(questionsToTeacher.messages);
-            System.out.println("position:-"+position);
             view.questionNumber.setText(String.valueOf(position+1)+") ");
         }
     }
