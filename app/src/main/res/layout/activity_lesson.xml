@@ -71,4 +71,23 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|right"
+        android:duplicateParentState="true"
+        android:background="@color/grey_900"
+        app:itemIconTint="@drawable/color_state_light"
+        app:itemTextColor="@drawable/color_state_light"
+        app:menu="@menu/menu_bottom_lesson" />
+
+    <!--bottom sheet container-->
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
+
 </android.support.design.widget.CoordinatorLayout>

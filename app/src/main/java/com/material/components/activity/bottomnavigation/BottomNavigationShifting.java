@@ -29,10 +29,10 @@ public class BottomNavigationShifting extends AppCompatActivity {
     }
 
     private void initComponent() {
-        search_bar = (View) findViewById(R.id.search_bar);
-        mTextMessage = (TextView) findViewById(R.id.search_text);
+        search_bar = findViewById(R.id.search_bar);
+        mTextMessage = findViewById(R.id.search_text);
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

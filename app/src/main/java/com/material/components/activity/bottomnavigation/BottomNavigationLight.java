@@ -30,10 +30,10 @@ public class BottomNavigationLight extends AppCompatActivity {
     }
 
     private void initComponent() {
-        search_bar = (View) findViewById(R.id.search_bar);
-        mTextMessage = (TextView) findViewById(R.id.search_text);
+        search_bar = findViewById(R.id.search_bar);
+        mTextMessage = findViewById(R.id.search_text);
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -52,7 +52,7 @@ public class BottomNavigationLight extends AppCompatActivity {
             }
         });
 
-        NestedScrollView nested_content = (NestedScrollView) findViewById(R.id.nested_scroll_view);
+        NestedScrollView nested_content = findViewById(R.id.nested_scroll_view);
         nested_content.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -77,7 +77,7 @@ public class BottomNavigationLight extends AppCompatActivity {
         Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_7), R.drawable.image_5);
 
 
-        ((ImageButton) findViewById(R.id.bt_menu)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bt_menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
