@@ -38,6 +38,7 @@ import com.material.components.model.Student;
 import com.material.components.model.Tutor;
 import com.material.components.model.TutorReviews;
 import com.material.components.model.TutorSubject;
+import com.material.components.utils.Tools;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONArray;
@@ -169,6 +170,7 @@ public class TutorProfileDetails extends AppCompatActivity{
 
         fiftyShadesOf.stop();
         displayTutorReviews();
+        Tools.setSystemBarColor(this,R.color.black);
 
     }
 

@@ -23,6 +23,7 @@ import com.material.components.activity.subchapter.SubchapterActivity;
 import com.material.components.adapter.AdapterChapterList;
 import com.material.components.model.Chapter;
 import com.material.components.model.ChapterList;
+import com.material.components.utils.Tools;
 
 import org.json.JSONArray;
 
@@ -124,6 +125,7 @@ public class ChapterListActivity extends AppCompatActivity{
 
                     }
                 });
+        Tools.setSystemBarColor(this,R.color.black);
     }
 
 

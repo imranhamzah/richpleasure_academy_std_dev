@@ -37,6 +37,7 @@ import com.material.components.model.Chapter;
 import com.material.components.model.QuestionsToTeacher;
 import com.material.components.model.SubChapter;
 import com.material.components.model.Subject;
+import com.material.components.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -122,6 +123,7 @@ public class AskTeacherList extends AppCompatActivity {
         eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
         showAdminMessage();
 
+        Tools.setSystemBarColor(this,R.color.black);
     }
 
     private BottomSheetBehavior mBehavior;

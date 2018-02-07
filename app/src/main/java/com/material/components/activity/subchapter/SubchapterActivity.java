@@ -23,6 +23,7 @@ import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.adapter.AdapterSubChapter;
 import com.material.components.model.Chapter;
 import com.material.components.model.SubChapter;
+import com.material.components.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,6 +86,7 @@ public class SubchapterActivity extends AppCompatActivity {
 
         String chapterId = getIntent().getStringExtra("chapterId");
         getSubChapterData(chapterId);
+        Tools.setSystemBarColor(this,R.color.black);
 
     }
 

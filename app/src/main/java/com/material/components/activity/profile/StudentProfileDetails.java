@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.material.components.R;
+import com.material.components.utils.Tools;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONException;
@@ -44,6 +45,7 @@ public class StudentProfileDetails extends AppCompatActivity implements ValueEve
         uuid = firebaseAuth.getUid();
         mStudentRef = databaseReference.child("students/"+uuid);
 
+        Tools.setSystemBarColor(this,R.color.black);
     }
 
     private void initComponent() {

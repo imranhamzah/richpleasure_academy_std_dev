@@ -47,6 +47,7 @@ import com.material.components.adapter.AdapterQuestionToTeacher;
 import com.material.components.model.Lessons;
 import com.material.components.model.QuestionsToTeacher;
 import com.material.components.model.SubChapter;
+import com.material.components.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +90,7 @@ public class LessonActivity extends AppCompatActivity{
         contentWebView = findViewById(R.id.contentWebView);
         progressBar = findViewById(R.id.progressBarContent);
         question_content  = findViewById(R.id.question_content);
+        Tools.setSystemBarColor(this,R.color.black);
         String qContent = question_content.getText().toString().trim();
         if(qContent.isEmpty())
         {

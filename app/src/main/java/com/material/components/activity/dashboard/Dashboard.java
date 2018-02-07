@@ -46,6 +46,7 @@ import com.material.components.adapter.AdapterTutor;
 import com.material.components.model.EduYears;
 import com.material.components.model.Subject;
 import com.material.components.model.Tutor;
+import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,7 +130,7 @@ public class Dashboard extends AppCompatActivity{
             actionbarTitle.setText(eduYearTitle);
         }
 
-
+        Tools.setSystemBarColor(this,R.color.black);
 
 
     }

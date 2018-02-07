@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import com.material.components.R;
+import com.material.components.utils.Tools;
 
 public class PastYears extends AppCompatActivity {
 
@@ -31,6 +32,7 @@ public class PastYears extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Tools.setSystemBarColor(this,R.color.black);
     }
 
     @Override
