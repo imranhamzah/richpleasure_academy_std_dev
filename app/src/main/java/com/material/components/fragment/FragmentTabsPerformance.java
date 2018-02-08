@@ -6,13 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.material.components.R;
 import com.material.components.utils.Tools;
 
+import lecho.lib.hellocharts.view.LineChartView;
+
 public class FragmentTabsPerformance extends Fragment {
 
     public FragmentTabsPerformance() {
+
     }
 
     public static FragmentTabsPerformance newInstance() {

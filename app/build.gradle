@@ -66,5 +66,8 @@ dependencies {
     //FiftyShade of Awesome Loader
     compile 'com.github.florent37:fiftyshadesof:1.0.0'
 
+    //Graph
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
+
 }
 apply plugin: 'com.google.gms.google-services'
