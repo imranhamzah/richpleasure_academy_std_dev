@@ -52,8 +52,21 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_smlarge"
+            android:clickable="true"
+            android:id="@+id/btnAnalysis"
+            android:tint="@android:color/white"
+            app:fabSize="normal"
+            app:layout_anchor="@id/nested_scroll_view_dashboard"
+            app:layout_anchorGravity="top|right|end"
+            app:rippleColor="@android:color/white"
+            app:srcCompat="@drawable/ic_bar_chart" />
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view_dashboard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#e7e7e7"

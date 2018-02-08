@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,6 +38,7 @@ import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
 import com.material.components.activity.askteachers.AskTeacherList;
+import com.material.components.activity.button.FabMiddle;
 import com.material.components.activity.chapters.ChapterListActivity;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
@@ -183,6 +188,18 @@ public class Dashboard extends AppCompatActivity{
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle("");
+
+        final FloatingActionButton floatingActionButton = findViewById(R.id.btnAnalysis);
+        final CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        ((AppBarLayout) findViewById(R.id.app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                double min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 3.45;
+                double scale = (float) (min_height + verticalOffset) / min_height;
+                floatingActionButton.setScaleX(scale >= 0 ? (float) scale : 0);
+                floatingActionButton.setScaleY(scale >= 0 ? (float) scale : 0);
+            }
+        });
     }
 
     @Override
