@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.material.components.R;
+import com.material.components.utils.Tools;
 
 public class AnalysisActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Tools.setSystemBarColor(this,R.color.black);
     }
 
     @Override
