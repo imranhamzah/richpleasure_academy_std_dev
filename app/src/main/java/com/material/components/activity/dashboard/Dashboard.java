@@ -37,6 +37,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
+import com.material.components.activity.analysis.AnalysisActivity;
 import com.material.components.activity.askteachers.AskTeacherList;
 import com.material.components.activity.button.FabMiddle;
 import com.material.components.activity.chapters.ChapterListActivity;
@@ -198,6 +199,14 @@ public class Dashboard extends AppCompatActivity{
                 double scale = (float) (min_height + verticalOffset) / min_height;
                 floatingActionButton.setScaleX(scale >= 0 ? (float) scale : 0);
                 floatingActionButton.setScaleY(scale >= 0 ? (float) scale : 0);
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gotoAnalysis = new Intent(Dashboard.this, AnalysisActivity.class);
+                startActivity(gotoAnalysis);
             }
         });
     }

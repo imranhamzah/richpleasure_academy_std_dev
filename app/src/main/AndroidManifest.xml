@@ -487,6 +487,10 @@
         <activity
             android:name=".activity.askteachers.AskTeacherList"
             android:label="@string/title_activity_ask_teacher_list"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.analysis.AnalysisActivity"
+            android:label="@string/title_activity_analysis"
             android:theme="@style/AppTheme"></activity>
     </application>
 
