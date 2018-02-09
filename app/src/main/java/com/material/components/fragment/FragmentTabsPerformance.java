@@ -100,8 +100,8 @@ public class FragmentTabsPerformance extends Fragment {
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
-                axisX.setName("Axis X");
-                axisY.setName("Axis Y");
+                axisY.setName("Percentage");
+                axisX.setName("Week");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
