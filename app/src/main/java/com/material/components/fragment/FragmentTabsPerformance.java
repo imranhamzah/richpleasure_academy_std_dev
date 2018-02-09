@@ -48,13 +48,13 @@ public class FragmentTabsPerformance extends Fragment {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_tabs_performance, container, false);
 
-        chart = rootView.findViewById(R.id.chart);
-        chart.setOnValueTouchListener(new ValueTouchListener());
+//        chart = rootView.findViewById(R.id.chart);
+/*        chart.setOnValueTouchListener(new ValueTouchListener());
 
         generateData();
 
         prepareDataAnimation();
-        chart.startDataAnimation();
+        chart.startDataAnimation();*/
 
         return rootView;
     }
