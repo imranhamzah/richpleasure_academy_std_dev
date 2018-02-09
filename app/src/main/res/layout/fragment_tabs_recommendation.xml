@@ -3,15 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="List of Suitable tutors nearby \nTips and Tricks"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:layout_margin="5dp"
-        android:textColor="@color/grey_600"
-        />
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="5dp"
+            android:textColor="@color/grey_700"
+            android:text="Halo Ahmad Yusoff!\n\nWe suggest you to get these tutors to improve your results!"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/suggestedTutors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
