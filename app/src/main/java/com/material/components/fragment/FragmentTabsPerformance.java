@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
-import com.material.components.adapter.AdapterSubject;
+import com.material.components.adapter.AdapterSubjectAnalysis;
 import com.material.components.model.Subject;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class FragmentTabsPerformance extends Fragment {
     private int dataType = DEFAULT_DATA;
 
     public List<Subject> subjectList = new ArrayList<>();
-    public AdapterSubject adapterSubject = new AdapterSubject(subjectList);
+    public AdapterSubjectAnalysis AdapterSubjectAnalysis = new AdapterSubjectAnalysis(subjectList);
     public RecyclerView subjectRecyclerView;
 
 
@@ -76,12 +76,12 @@ public class FragmentTabsPerformance extends Fragment {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_tabs_performance, container, false);
 
-        adapterSubject = new AdapterSubject(subjectList);
+        AdapterSubjectAnalysis = new AdapterSubjectAnalysis(subjectList);
         subjectRecyclerView = rootView.findViewById(R.id.subjectsList);
         subjectRecyclerView.setHasFixedSize(true);
         subjectRecyclerView.setNestedScrollingEnabled(false);
 
-        adapterSubject.setOnClickListener(new AdapterSubject.OnClickListener() {
+        AdapterSubjectAnalysis.setOnClickListener(new AdapterSubjectAnalysis.OnClickListener() {
             @Override
             public void onItemClick(View view, Subject obj, int pos) {
                 if(obj.subjectId != null){
@@ -101,7 +101,7 @@ public class FragmentTabsPerformance extends Fragment {
         RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getActivity());
         subjectRecyclerView.setLayoutManager(layoutManagerSubject);
         subjectRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        subjectRecyclerView.setAdapter(adapterSubject);
+        subjectRecyclerView.setAdapter(AdapterSubjectAnalysis);
         LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
         linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -259,7 +259,7 @@ public class FragmentTabsPerformance extends Fragment {
 
                             Subject subject = gson.fromJson(receiveData, Subject.class);
                             subjectList.add(subject);
-                            adapterSubject.notifyDataSetChanged();
+                            AdapterSubjectAnalysis.notifyDataSetChanged();
                             System.out.println(subject.subjectName);
 
                         }

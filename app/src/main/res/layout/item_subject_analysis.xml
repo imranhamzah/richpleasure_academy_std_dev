@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="60dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/spacing_medium">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/lyt_parent_subject"
+        style="@style/RippleStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="1dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/subjectIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/image_shop_3"
+            app:civ_border="true"
+            app:civ_border_width="3dp" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <TextView
+        android:id="@+id/subjectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_weight="2"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="Subject Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/grey_90"
+        android:textSize="8sp" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_weight="0.8"
+        android:background="#dfdfdf" />
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/spacing_middle" />
+
+</LinearLayout>
+
+
+
+
