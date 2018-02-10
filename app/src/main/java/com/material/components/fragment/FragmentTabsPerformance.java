@@ -2,6 +2,7 @@ package com.material.components.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +54,7 @@ public class FragmentTabsPerformance extends Fragment {
     private int dataType = DEFAULT_DATA;
 
     public List<Subject> subjectList = new ArrayList<>();
-    public AdapterSubjectAnalysis AdapterSubjectAnalysis = new AdapterSubjectAnalysis(subjectList);
+    public AdapterSubjectAnalysis adapterSubjectAnalysis = new AdapterSubjectAnalysis(subjectList);
     public RecyclerView subjectRecyclerView;
 
 
@@ -72,7 +74,9 @@ public class FragmentTabsPerformance extends Fragment {
     private ProgressBar progressBarPractice;
 
     private TextView totalLoadPastYear,pastYearProgress,totalPastYearAskedPending,totalPastYearAskedResolved;
-    private ProgressBar progressBarPastYear;
+    private ProgressBar progressBarPastYear,progressBarLoading;
+
+    private LinearLayout analysisContent;
 
 
 
@@ -111,18 +115,21 @@ public class FragmentTabsPerformance extends Fragment {
         progressBarPractice = rootView.findViewById(R.id.progressBarPractice);
         progressBarPastYear = rootView.findViewById(R.id.progressBarPastYear);
 
+        progressBarLoading = rootView.findViewById(R.id.progressBarLoading);
+        analysisContent = rootView.findViewById(R.id.analysisContent);
+        analysisContent.setVisibility(rootView.GONE);
 
         eduYearSharedPreferences = getActivity().getSharedPreferences("EduYearPreferences",   getActivity().MODE_PRIVATE);
         editorEduYear = eduYearSharedPreferences.edit();
 
         setHasOptionsMenu(true);
 
-        AdapterSubjectAnalysis = new AdapterSubjectAnalysis(subjectList);
+        adapterSubjectAnalysis = new AdapterSubjectAnalysis(subjectList);
         subjectRecyclerView = rootView.findViewById(R.id.subjectsList);
         subjectRecyclerView.setHasFixedSize(true);
         subjectRecyclerView.setNestedScrollingEnabled(false);
 
-        AdapterSubjectAnalysis.setOnClickListener(new AdapterSubjectAnalysis.OnClickListener() {
+        adapterSubjectAnalysis.setOnClickListener(new AdapterSubjectAnalysis.OnClickListener() {
             @Override
             public void onItemClick(View view, Subject obj, int pos) {
                 if(obj.subjectId != null){
@@ -145,7 +152,7 @@ public class FragmentTabsPerformance extends Fragment {
         RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getActivity());
         subjectRecyclerView.setLayoutManager(layoutManagerSubject);
         subjectRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        subjectRecyclerView.setAdapter(AdapterSubjectAnalysis);
+        subjectRecyclerView.setAdapter(adapterSubjectAnalysis);
         LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
         linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -303,10 +310,15 @@ public class FragmentTabsPerformance extends Fragment {
 
                             Subject subject = gson.fromJson(receiveData, Subject.class);
                             subjectList.add(subject);
-                            AdapterSubjectAnalysis.notifyDataSetChanged();
-                            System.out.println(subject.subjectName);
-
                         }
+                        adapterSubjectAnalysis.notifyDataSetChanged();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBarLoading.setVisibility(View.GONE);
+                                analysisContent.setVisibility(View.VISIBLE);
+                            }
+                        },1500);
 
 
                     }
@@ -314,6 +326,7 @@ public class FragmentTabsPerformance extends Fragment {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
+
                 });
     }
 
