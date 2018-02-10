@@ -1,13 +1,25 @@
 package com.material.components.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.adapter.AdapterSubject;
+import com.material.components.model.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +31,7 @@ import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
+
 
 public class FragmentTabsPerformance extends Fragment {
 
@@ -33,6 +46,18 @@ public class FragmentTabsPerformance extends Fragment {
     private boolean hasLabelForSelected = false;
     private int dataType = DEFAULT_DATA;
 
+    public List<Subject> subjectList = new ArrayList<>();
+    public AdapterSubject adapterSubject = new AdapterSubject(subjectList);
+    public RecyclerView subjectRecyclerView;
+
+
+    public String eduYear = null;
+    public String eduYearValue = "";
+
+
+    private SharedPreferences eduYearSharedPreferences;
+    private SharedPreferences.Editor editorEduYear;
+
     public FragmentTabsPerformance() {
 
     }
@@ -45,17 +70,55 @@ public class FragmentTabsPerformance extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        eduYearSharedPreferences = getActivity().getSharedPreferences("EduYearPreferences",   getActivity().MODE_PRIVATE);
+        editorEduYear = eduYearSharedPreferences.edit();
+
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_tabs_performance, container, false);
 
-//        chart = rootView.findViewById(R.id.chart);
-/*        chart.setOnValueTouchListener(new ValueTouchListener());
+        adapterSubject = new AdapterSubject(subjectList);
+        subjectRecyclerView = rootView.findViewById(R.id.subjectsList);
+        subjectRecyclerView.setHasFixedSize(true);
+        subjectRecyclerView.setNestedScrollingEnabled(false);
+
+        adapterSubject.setOnClickListener(new AdapterSubject.OnClickListener() {
+            @Override
+            public void onItemClick(View view, Subject obj, int pos) {
+                if(obj.subjectId != null){
+/*                    Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
+                    gotoChapter.putExtra("subjectId", obj.subjectId);
+                    gotoChapter.putExtra("subjectTitle",obj.subjectName);
+
+                    editorAnalysisPreferences.putString("subjectId",obj.subjectId);
+                    editorAnalysisPreferences.commit();
+
+                    startActivity(gotoChapter);*/
+                }
+            }
+
+        });
+
+        RecyclerView.LayoutManager layoutManagerSubject = new LinearLayoutManager(getActivity());
+        subjectRecyclerView.setLayoutManager(layoutManagerSubject);
+        subjectRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        subjectRecyclerView.setAdapter(adapterSubject);
+        LinearLayoutManager linearLayoutManagerSubject = (LinearLayoutManager) layoutManagerSubject;
+        linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+
+        eduYearValue = eduYearSharedPreferences.getString("eduYearValue","");
+        getSubjectData(eduYearValue);
+/*
+
+        chart = rootView.findViewById(R.id.chart);
+        chart.setOnValueTouchListener(new ValueTouchListener());
 
         generateData();
 
         prepareDataAnimation();
-        chart.startDataAnimation();*/
+        chart.startDataAnimation();
 
+*/
         return rootView;
     }
 
@@ -174,6 +237,40 @@ public class FragmentTabsPerformance extends Fragment {
 
         }
 
+    }
+
+
+    private void getSubjectData(String eduYearValue)
+    {
+        FirebaseDatabase.getInstance().getReference().child("subjects/"+eduYearValue+"/data_subject")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        subjectList.clear();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            System.out.println("get data subjects here ----------------");
+                            System.out.println(snapshot.getValue());
+
+                            GsonBuilder builder = new GsonBuilder();
+                            Gson gson = builder.create();
+                            String receiveData = gson.toJson(snapshot.getValue());
+
+                            Subject subject = gson.fromJson(receiveData, Subject.class);
+                            subjectList.add(subject);
+                            adapterSubject.notifyDataSetChanged();
+                            System.out.println(subject.subjectName);
+
+                        }
+
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
 
