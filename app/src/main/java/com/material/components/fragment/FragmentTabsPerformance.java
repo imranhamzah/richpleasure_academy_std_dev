@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,6 +78,7 @@ public class FragmentTabsPerformance extends Fragment {
     private ProgressBar progressBarPastYear,progressBarLoading;
 
     private LinearLayout analysisContent;
+    private ArcProgress arcProgress;
 
 
 
@@ -95,6 +97,7 @@ public class FragmentTabsPerformance extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_tabs_performance, container, false);
 
+        arcProgress = rootView.findViewById(R.id.arc_progress);
         totalLoadLesson = rootView.findViewById(R.id.totalLoadLesson);
         totalLoadPractice = rootView.findViewById(R.id.totalLoadPractice);
         totalLoadPastYear = rootView.findViewById(R.id.totalLoadPastYear);
@@ -159,6 +162,7 @@ public class FragmentTabsPerformance extends Fragment {
 
         eduYearValue = eduYearSharedPreferences.getString("eduYearValue","");
         getSubjectData(eduYearValue);
+        getFirstSubject();
 /*
 
         chart = rootView.findViewById(R.id.chart);
@@ -293,6 +297,7 @@ public class FragmentTabsPerformance extends Fragment {
 
     private void getSubjectData(String eduYearValue)
     {
+        System.out.println("jalan x ni? "+eduYearValue);
         FirebaseDatabase.getInstance().getReference().child("subjects/"+eduYearValue+"/data_subject")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -330,6 +335,35 @@ public class FragmentTabsPerformance extends Fragment {
                 });
     }
 
+    private void getFirstSubject()
+    {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String uuid = firebaseAuth.getUid();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("performance/"+uuid+"/subjects/").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data: dataSnapshot.getChildren())
+                {
+                    subjectId = data.getKey();
+                    getPerformanceData();
+                    break;
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void getPerformanceData()
     {
         GsonBuilder builder = new GsonBuilder();
@@ -339,19 +373,49 @@ public class FragmentTabsPerformance extends Fragment {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+        //Avg Process
+        databaseReference.child("performance/"+uuid+"/subjects/"+subjectId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String dataReceived = gson.toJson(dataSnapshot.getValue());
+                if(!dataReceived.equals("null")) {
+                    PerformanceProgress performanceProgress = gson.fromJson(dataReceived, PerformanceProgress.class);
+
+                    arcProgress.setProgress(Integer.parseInt(performanceProgress.avgProgress));
+                }else
+                {
+                    arcProgress.setProgress(0);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         //Lesson
         databaseReference.child("performance/"+uuid+"/subjects/"+subjectId+"/lesson").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String dataReceived = gson.toJson(dataSnapshot.getValue());
-                PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
+                if(!dataReceived.equals("null")) {
+                    PerformanceProgress performanceProgress = gson.fromJson(dataReceived, PerformanceProgress.class);
 
-
-                totalLoadLesson.setText(performanceProgress.totalLoad);
-                lessonProgress.setText(performanceProgress.progressValue+"%");
-                totalLessonAskedPending.setText(performanceProgress.askTeacherPending+" Questions");
-                totalLessonAskedResolved.setText(performanceProgress.askTeacherResolved+" Questions");
-                progressBarLesson.setProgress(Integer.parseInt(performanceProgress.progressValue));
+                    totalLoadLesson.setText(performanceProgress.totalLoad);
+                    lessonProgress.setText(performanceProgress.progressValue + "%");
+                    totalLessonAskedPending.setText(performanceProgress.askTeacherPending + " Questions");
+                    totalLessonAskedResolved.setText(performanceProgress.askTeacherResolved + " Questions");
+                    progressBarLesson.setProgress(Integer.parseInt(performanceProgress.progressValue));
+                }else
+                {
+                    totalLoadLesson.setText("0");
+                    lessonProgress.setText("0%");
+                    totalLessonAskedPending.setText("0 Questions");
+                    totalLessonAskedResolved.setText("0 Questions");
+                    progressBarLesson.setProgress(0);
+                }
 
             }
 
@@ -366,15 +430,24 @@ public class FragmentTabsPerformance extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String dataReceived = gson.toJson(dataSnapshot.getValue());
-                PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
 
+                if(!dataReceived.equals("null"))
+                {
+                    PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
 
-                totalLoadPractice.setText(performanceProgress.totalLoad);
-                practiceProgress.setText(performanceProgress.progressValue+"%");
-                totalPracticeAskedPending.setText(performanceProgress.askTeacherPending+" Questions");
-                totalPracticeAskedResolved.setText(performanceProgress.askTeacherResolved+" Questions");
-                progressBarPractice.setProgress(Integer.parseInt(performanceProgress.progressValue));
-
+                    totalLoadPractice.setText(performanceProgress.totalLoad);
+                    practiceProgress.setText(performanceProgress.progressValue+"%");
+                    totalPracticeAskedPending.setText(performanceProgress.askTeacherPending+" Questions");
+                    totalPracticeAskedResolved.setText(performanceProgress.askTeacherResolved+" Questions");
+                    progressBarPractice.setProgress(Integer.parseInt(performanceProgress.progressValue));
+                }else
+                {
+                    totalLoadPractice.setText("0");
+                    practiceProgress.setText("0%");
+                    totalPracticeAskedPending.setText("0 Questions");
+                    totalPracticeAskedResolved.setText("0 Questions");
+                    progressBarPractice.setProgress(0);
+                }
             }
 
             @Override
@@ -388,14 +461,22 @@ public class FragmentTabsPerformance extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String dataReceived = gson.toJson(dataSnapshot.getValue());
-                PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
 
-
-                totalLoadPastYear.setText(performanceProgress.totalLoad);
-                pastYearProgress.setText(performanceProgress.progressValue+"%");
-                totalPastYearAskedPending.setText(performanceProgress.askTeacherPending+" Questions");
-                totalPastYearAskedResolved.setText(performanceProgress.askTeacherResolved+" Questions");
-                progressBarPastYear.setProgress(Integer.parseInt(performanceProgress.progressValue));
+                if(!dataReceived.equals("null")){
+                    PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
+                    totalLoadPastYear.setText(performanceProgress.totalLoad);
+                    pastYearProgress.setText(performanceProgress.progressValue + "%");
+                    totalPastYearAskedPending.setText(performanceProgress.askTeacherPending + " Questions");
+                    totalPastYearAskedResolved.setText(performanceProgress.askTeacherResolved + " Questions");
+                    progressBarPastYear.setProgress(Integer.parseInt(performanceProgress.progressValue));
+                }else
+                {
+                    totalLoadPastYear.setText("0");
+                    pastYearProgress.setText("0%");
+                    totalPastYearAskedPending.setText("0 Questions");
+                    totalPastYearAskedResolved.setText("0 Questions");
+                    progressBarPastYear.setProgress(0);
+                }
 
             }
 

@@ -4,6 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PerformanceProgress {
+
+    @SerializedName("avg_progress")
+    @Expose
+    public String avgProgress;
+
     @SerializedName("ask_teacher_pending")
     @Expose
     public String askTeacherPending;
