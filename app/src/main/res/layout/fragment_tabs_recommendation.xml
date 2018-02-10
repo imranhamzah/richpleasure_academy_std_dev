@@ -15,10 +15,19 @@
             android:textColor="@color/grey_700"
             android:text="Halo Ahmad Yusoff!\n\nWe suggest you to get these tutors to improve your results!"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="5dp"
+            android:textColor="@color/grey_700"
+            android:text="Suggested Tutors Nearby"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/suggestedTutors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

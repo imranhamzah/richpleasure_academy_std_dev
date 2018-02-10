@@ -7,13 +7,13 @@
     android:layout_centerHorizontal="true">
 
     <TextView
-        android:id="@+id/lblLesson"
+        android:id="@+id/lblPractice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="PRACTICE"/>
     <LinearLayout
-        android:layout_below="@id/lblLesson"
+        android:layout_below="@id/lblPractice"
         android:id="@+id/progressArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +21,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/totalLoadPractice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -29,7 +30,7 @@
             android:text="20/200" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progressBarPractice"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="180dp"
             android:layout_gravity="center_vertical"
@@ -37,6 +38,7 @@
             android:layout_centerHorizontal="true" />
 
         <TextView
+            android:id="@+id/practiceProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -55,6 +57,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/totalPracticeAskedPending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -79,6 +82,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/totalPracticeAskedResolved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

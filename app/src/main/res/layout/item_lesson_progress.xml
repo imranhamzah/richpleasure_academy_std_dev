@@ -21,6 +21,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/totalLoadLesson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -29,7 +30,7 @@
             android:text="20/200" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progressBarLesson"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="180dp"
             android:layout_gravity="center_vertical"
@@ -37,6 +38,7 @@
             android:layout_centerHorizontal="true" />
 
         <TextView
+            android:id="@+id/lessonProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -55,6 +57,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/totalLessonAskedPending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -79,6 +82,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/totalLessonAskedResolved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

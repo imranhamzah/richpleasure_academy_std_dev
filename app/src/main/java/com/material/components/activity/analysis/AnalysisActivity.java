@@ -46,7 +46,6 @@ public class AnalysisActivity extends AppCompatActivity {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentTabsPerformance.newInstance(), "PERFORMANCE");
         adapter.addFragment(FragmentTabsRecommendation.newInstance(), "RECOMMENDATION");
-        adapter.addFragment(FragmentTabsEvents.newInstance(), "EVENTS");
         viewPager.setAdapter(adapter);
     }
 

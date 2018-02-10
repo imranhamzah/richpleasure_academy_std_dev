@@ -9,16 +9,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.adapter.AdapterSubjectAnalysis;
+import com.material.components.model.PerformanceProgress;
 import com.material.components.model.Subject;
 
 import java.util.ArrayList;
@@ -58,6 +63,20 @@ public class FragmentTabsPerformance extends Fragment {
     private SharedPreferences eduYearSharedPreferences;
     private SharedPreferences.Editor editorEduYear;
 
+    private String subjectId;
+
+    private TextView totalLoadLesson,lessonProgress,totalLessonAskedPending,totalLessonAskedResolved;
+    private ProgressBar progressBarLesson;
+
+    private TextView totalLoadPractice,practiceProgress,totalPracticeAskedPending,totalPracticeAskedResolved;
+    private ProgressBar progressBarPractice;
+
+    private TextView totalLoadPastYear,pastYearProgress,totalPastYearAskedPending,totalPastYearAskedResolved;
+    private ProgressBar progressBarPastYear;
+
+
+
+
     public FragmentTabsPerformance() {
 
     }
@@ -70,11 +89,33 @@ public class FragmentTabsPerformance extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        View rootView = inflater.inflate(R.layout.fragment_tabs_performance, container, false);
+
+        totalLoadLesson = rootView.findViewById(R.id.totalLoadLesson);
+        totalLoadPractice = rootView.findViewById(R.id.totalLoadPractice);
+        totalLoadPastYear = rootView.findViewById(R.id.totalLoadPastYear);
+
+        lessonProgress = rootView.findViewById(R.id.lessonProgress);
+        practiceProgress = rootView.findViewById(R.id.practiceProgress);
+        pastYearProgress = rootView.findViewById(R.id.pastYearProgress);
+
+        totalLessonAskedPending = rootView.findViewById(R.id.totalLessonAskedPending);
+        totalPracticeAskedPending = rootView.findViewById(R.id.totalPracticeAskedPending);
+        totalPastYearAskedPending = rootView.findViewById(R.id.totalPastYearAskedPending);
+
+        totalLessonAskedResolved = rootView.findViewById(R.id.totalLessonAskedResolved);
+        totalPracticeAskedResolved = rootView.findViewById(R.id.totalPracticeAskedResolved);
+        totalPastYearAskedResolved = rootView.findViewById(R.id.totalPastYearAskedResolved);
+
+        progressBarLesson = rootView.findViewById(R.id.progressBarLesson);
+        progressBarPractice = rootView.findViewById(R.id.progressBarPractice);
+        progressBarPastYear = rootView.findViewById(R.id.progressBarPastYear);
+
+
         eduYearSharedPreferences = getActivity().getSharedPreferences("EduYearPreferences",   getActivity().MODE_PRIVATE);
         editorEduYear = eduYearSharedPreferences.edit();
 
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.fragment_tabs_performance, container, false);
 
         AdapterSubjectAnalysis = new AdapterSubjectAnalysis(subjectList);
         subjectRecyclerView = rootView.findViewById(R.id.subjectsList);
@@ -85,6 +126,9 @@ public class FragmentTabsPerformance extends Fragment {
             @Override
             public void onItemClick(View view, Subject obj, int pos) {
                 if(obj.subjectId != null){
+                    subjectId = obj.subjectId;
+
+                    getPerformanceData();
 /*                    Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
                     gotoChapter.putExtra("subjectId", obj.subjectId);
                     gotoChapter.putExtra("subjectTitle",obj.subjectName);
@@ -271,6 +315,82 @@ public class FragmentTabsPerformance extends Fragment {
 
                     }
                 });
+    }
+
+    private void getPerformanceData()
+    {
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String uuid = firebaseAuth.getUid();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        //Lesson
+        databaseReference.child("performance/"+uuid+"/subjects/"+subjectId+"/lesson").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String dataReceived = gson.toJson(dataSnapshot.getValue());
+                PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
+
+
+                totalLoadLesson.setText(performanceProgress.totalLoad);
+                lessonProgress.setText(performanceProgress.progressValue+"%");
+                totalLessonAskedPending.setText(performanceProgress.askTeacherPending+" Questions");
+                totalLessonAskedResolved.setText(performanceProgress.askTeacherResolved+" Questions");
+                progressBarLesson.setProgress(Integer.parseInt(performanceProgress.progressValue));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //Practice
+        databaseReference.child("performance/"+uuid+"/subjects/"+subjectId+"/practice").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String dataReceived = gson.toJson(dataSnapshot.getValue());
+                PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
+
+
+                totalLoadPractice.setText(performanceProgress.totalLoad);
+                practiceProgress.setText(performanceProgress.progressValue+"%");
+                totalPracticeAskedPending.setText(performanceProgress.askTeacherPending+" Questions");
+                totalPracticeAskedResolved.setText(performanceProgress.askTeacherResolved+" Questions");
+                progressBarPractice.setProgress(Integer.parseInt(performanceProgress.progressValue));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //PastYear
+        databaseReference.child("performance/"+uuid+"/subjects/"+subjectId+"/pastyear").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String dataReceived = gson.toJson(dataSnapshot.getValue());
+                PerformanceProgress performanceProgress = gson.fromJson(dataReceived,PerformanceProgress.class);
+
+
+                totalLoadPastYear.setText(performanceProgress.totalLoad);
+                pastYearProgress.setText(performanceProgress.progressValue+"%");
+                totalPastYearAskedPending.setText(performanceProgress.askTeacherPending+" Questions");
+                totalPastYearAskedResolved.setText(performanceProgress.askTeacherResolved+" Questions");
+                progressBarPastYear.setProgress(Integer.parseInt(performanceProgress.progressValue));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
