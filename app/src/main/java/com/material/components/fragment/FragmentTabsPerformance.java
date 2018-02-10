@@ -1,5 +1,6 @@
 package com.material.components.fragment;
 
+import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -175,6 +176,19 @@ public class FragmentTabsPerformance extends Fragment {
 
 */
         return rootView;
+    }
+
+    public static void move(final TextView view){
+        ValueAnimator va = ValueAnimator.ofFloat(0f, 3f);
+        int mDuration = 3000; //in millis
+        va.setDuration(mDuration);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                view.setTranslationX((float)animation.getAnimatedValue());
+            }
+        });
+        va.setRepeatCount(5);
+        va.start();
     }
 
     private void generateData() {
