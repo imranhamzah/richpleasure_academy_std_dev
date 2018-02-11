@@ -123,6 +123,7 @@ public class Dashboard extends AppCompatActivity{
             logoutUser();
         }
 
+        actionbarTitle = findViewById(R.id.actionbarTitle);
         if(eduYearSharedPreferences.getString("eduYearTitle","").isEmpty()==true)
         {
             showChooseEduYear();
@@ -132,7 +133,6 @@ public class Dashboard extends AppCompatActivity{
             getSubjectData(eduYearValue);
             getTutorData(eduYearValue);
             String eduYearTitle = eduYearSharedPreferences.getString("eduYearTitle","Dashboard");
-            actionbarTitle = findViewById(R.id.actionbarTitle);
             actionbarTitle.setText(eduYearTitle);
         }
 
@@ -500,9 +500,15 @@ public class Dashboard extends AppCompatActivity{
                 editorEduYear.putString("eduYearValue",String.valueOf(eduYearKey));
                 getSubjectData(eduYearKey);
                 getTutorData(eduYearKey);
-                editorEduYear.putString("eduYearTitle",String.valueOf(array.get(which).getValue()));
-                actionbarTitle.setText(array.get(which).getValue());
-                editorEduYear.commit();
+                if(!String.valueOf(array.get(which).getValue()).equals("null"))
+                {
+                    System.out.println("xxxx---"+array);
+                    System.out.println("xxxx2---"+String.valueOf(array.get(which).getValue()));
+                    editorEduYear.putString("eduYearTitle",String.valueOf(array.get(which).getValue()));
+                    actionbarTitle.setText(String.valueOf(array.get(which).getValue()));
+                    editorEduYear.commit();
+                }
+
             }
         });
 
