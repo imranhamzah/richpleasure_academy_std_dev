@@ -2,6 +2,7 @@ package com.material.components.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,8 @@ public class AdapterSubjectAnalysis extends RecyclerView.Adapter<RecyclerView.Vi
         this.subjectList = subjectList;
     }
 
+    private int selectedPos = 0;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
@@ -57,10 +60,10 @@ public class AdapterSubjectAnalysis extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof OriginalViewHolder)
         {
-            OriginalViewHolder view = (OriginalViewHolder) holder;
+            final OriginalViewHolder view = (OriginalViewHolder) holder;
             final Subject s = subjectList.get(position);
             view.subjectName.setText(s.subjectName);
 
@@ -76,13 +79,24 @@ public class AdapterSubjectAnalysis extends RecyclerView.Adapter<RecyclerView.Vi
             }
             view.subjectIcon.setImageBitmap(bmp);
 
+
             view.lyt_parent_subject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(onClickListener == null) return;
-                    onClickListener.onItemClick(v,s,position);
+                    if(onClickListener == null){
+                        return;
+                    }else
+                    {
+                        onClickListener.onItemClick(v,s,position);
+                        notifyItemChanged(selectedPos);
+                        selectedPos = holder.getLayoutPosition();
+                        notifyItemChanged(selectedPos);
+                    }
                 }
             });
+
+            view.lyt_parent_subject.setBackgroundColor(selectedPos == position ? Color.WHITE : Color.TRANSPARENT);
+
         }
     }
 

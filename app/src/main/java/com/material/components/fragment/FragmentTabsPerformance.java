@@ -81,6 +81,8 @@ public class FragmentTabsPerformance extends Fragment {
     private LinearLayout analysisContent;
     private ArcProgress arcProgress;
 
+    private int selectedPos = RecyclerView.NO_POSITION;
+
 
 
 
@@ -140,6 +142,7 @@ public class FragmentTabsPerformance extends Fragment {
                     subjectId = obj.subjectId;
 
                     getPerformanceData();
+
 /*                    Intent gotoChapter = new Intent(Dashboard.this, ChapterListActivity.class);
                     gotoChapter.putExtra("subjectId", obj.subjectId);
                     gotoChapter.putExtra("subjectTitle",obj.subjectName);
