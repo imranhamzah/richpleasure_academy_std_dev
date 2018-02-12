@@ -83,6 +83,9 @@ public class FragmentTabsPerformance extends Fragment {
 
     private int selectedPos = RecyclerView.NO_POSITION;
 
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
 
 
 
@@ -354,13 +357,9 @@ public class FragmentTabsPerformance extends Fragment {
 
     private void getFirstSubject()
     {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        String uuid = firebaseAuth.getUid();
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-        databaseReference.child("performance/"+uuid+"/subjects/").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("subjects/"+eduYearValue+"/data_subject/").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -387,8 +386,6 @@ public class FragmentTabsPerformance extends Fragment {
         final Gson gson = builder.create();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String uuid = firebaseAuth.getUid();
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
 
         //Avg Process
         databaseReference.child("performance/"+uuid+"/subjects/"+subjectId).addListenerForSingleValueEvent(new ValueEventListener() {

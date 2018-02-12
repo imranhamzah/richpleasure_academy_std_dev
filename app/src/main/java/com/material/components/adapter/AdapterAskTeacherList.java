@@ -23,10 +23,10 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<AskTeacherItems> askTeacherListItems = new ArrayList<>();
     private OnClickListener onClickListener = null;
-    private List<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
+    private ArrayList<ArrayList<QuestionsToTeacher>> questionsToTeacherList = new ArrayList<>();
     private Context context;
 
-    public AdapterAskTeacherList(List<AskTeacherItems> askTeacherListItems, List<QuestionsToTeacher> questionsToTeacherList, Context context) {
+    public AdapterAskTeacherList(List<AskTeacherItems> askTeacherListItems, ArrayList<ArrayList<QuestionsToTeacher>> questionsToTeacherList, Context context) {
         this.askTeacherListItems = askTeacherListItems;
         this.questionsToTeacherList = questionsToTeacherList;
         this.context = context;
@@ -76,7 +76,8 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
             view.recyclerView.setHasFixedSize(true);
             view.recyclerView.setNestedScrollingEnabled(false);
 
-            AdapterQuestionToTeacher adapterQuestionToTeacher = new AdapterQuestionToTeacher(questionsToTeacherList);
+            List<QuestionsToTeacher> sublist = questionsToTeacherList.get(position);
+            AdapterQuestionToTeacher adapterQuestionToTeacher = new AdapterQuestionToTeacher(sublist);
 
             view.recyclerView.setAdapter(adapterQuestionToTeacher);
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="100"
+        android:title="Search"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_notification"
+        app:actionLayout="@layout/action_bar_notifitcation_icon"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_notifications"
+        android:title="Notifications"
+        />
+
+
+    <item
+        android:id="@+id/lessons_discuss_with_teacher"
+        android:orderInCategory="100"
+        android:title="Ask Teacher List"
+        app:showAsAction="never" />
+</menu>

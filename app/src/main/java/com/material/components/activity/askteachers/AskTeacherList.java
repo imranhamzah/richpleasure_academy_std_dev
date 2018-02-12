@@ -57,7 +57,7 @@ public class AskTeacherList extends AppCompatActivity {
     private RelativeLayout layout1;
     private SharedPreferences analysisSharedPreferences;
     private SharedPreferences.Editor editorAnalysisPreferences;
-    public ArrayList<QuestionsToTeacher> questionsToTeacherList = new ArrayList<>();
+    public ArrayList<ArrayList<QuestionsToTeacher>> questionsToTeacherList = new ArrayList<>();
     private AdapterQuestionToTeacher adapterQuestionToTeacher;
 
     @Override
@@ -302,6 +302,7 @@ public class AskTeacherList extends AppCompatActivity {
                                             
                                             for(DataSnapshot messagesLabel: subChapterData.getChildren())
                                             {
+                                                ArrayList<QuestionsToTeacher> sublist = new ArrayList<>();
                                                 //Messages Data
                                                 for(DataSnapshot messagesData: messagesLabel.getChildren())
                                                 {
@@ -309,9 +310,10 @@ public class AskTeacherList extends AppCompatActivity {
                                                     QuestionsToTeacher questionsToTeacher = gson.fromJson(messageQuestion,QuestionsToTeacher.class);
 
                                                     //Problem start here
-                                                    questionsToTeacherList.add(questionsToTeacher);
+                                                    sublist.add(questionsToTeacher);
                                                     System.out.println(questionsToTeacher.messages+"    "+questionsToTeacher.questionStatus);
                                                 }
+                                                questionsToTeacherList.add(sublist);
                                             }
                                             
 

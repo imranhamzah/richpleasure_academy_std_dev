@@ -69,5 +69,9 @@ dependencies {
     //Graph
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
 
+    //Badge
+    compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.1.+'
+
+
 }
 apply plugin: 'com.google.gms.google-services'
