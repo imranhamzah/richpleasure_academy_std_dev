@@ -36,4 +36,9 @@ public class AskTeacherItems {
     @Expose
     public String dtCreated;
 
+    @SerializedName("total_questions")
+    @Expose
+    public String totalQuestions;
+
+
 }

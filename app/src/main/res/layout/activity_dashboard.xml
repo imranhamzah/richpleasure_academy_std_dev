@@ -18,6 +18,7 @@
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/AppTheme.Translucent">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -46,6 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     android:background="@drawable/gradient_navbar" />
 
             </android.support.design.widget.CollapsingToolbarLayout>

@@ -28,10 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
-import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.adapter.AdapterAskTeacherList;
 import com.material.components.adapter.AdapterQuestionToTeacher;
-import com.material.components.model.AskTeacherInfo;
 import com.material.components.model.AskTeacherItems;
 import com.material.components.model.Chapter;
 import com.material.components.model.QuestionsToTeacher;
@@ -39,8 +37,6 @@ import com.material.components.model.SubChapter;
 import com.material.components.model.Subject;
 import com.material.components.utils.Tools;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +54,6 @@ public class AskTeacherList extends AppCompatActivity {
     private SharedPreferences analysisSharedPreferences;
     private SharedPreferences.Editor editorAnalysisPreferences;
     public ArrayList<ArrayList<QuestionsToTeacher>> questionsToTeacherList = new ArrayList<>();
-    private AdapterQuestionToTeacher adapterQuestionToTeacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,17 +102,6 @@ public class AskTeacherList extends AppCompatActivity {
         });
 
         displayAskTeacherItems();
-/*
-
-        adapterQuestionToTeacher = new AdapterQuestionToTeacher(questionsToTeacherList);
-        recyclerViewQuestions = findViewById(R.id.recyclerViewQuestions);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
-
-        recyclerViewQuestions.setLayoutManager(linearLayoutManager);
-        recyclerViewQuestions.setHasFixedSize(true);
-        recyclerViewQuestions.setNestedScrollingEnabled(false);
-        recyclerViewQuestions.setAdapter(adapterQuestionToTeacher);*/
-
 
 
         eduYearSharedPreferences = getApplicationContext().getSharedPreferences("EduYearPreferences",   MODE_PRIVATE);
@@ -186,7 +170,6 @@ public class AskTeacherList extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-
                         for(DataSnapshot snapshot: dataSnapshot.getChildren())
                         {
                             final String subjectId = snapshot.getKey();
@@ -205,9 +188,13 @@ public class AskTeacherList extends AppCompatActivity {
                                     for(DataSnapshot subChapterLabel: chapterData.getChildren())
                                     {
                                         //Subchapter Data
-                                        for(DataSnapshot subChapterData: subChapterLabel.getChildren())
+                                        for(final DataSnapshot subChapterData: subChapterLabel.getChildren())
                                         {
                                             final String subchapterId = subChapterData.getKey();
+
+
+
+
 
 
                                                 FirebaseDatabase.getInstance().getReference().child("subjects/"+eduYearId+"/data_subject/"+subjectId)
@@ -277,7 +264,41 @@ public class AskTeacherList extends AppCompatActivity {
                                                                     dataAskTeacher.put("subchapter_title",subChapter.subchapterTitle);
                                                                     dataAskTeacher.put("subchapter_id",subChapter.subchapterId);
 
-                                                                    System.out.println("subbbbb----"+subChapter.subchapterId);
+                                                                    System.out.println("dataOutput:-"+dataAskTeacher);
+
+
+
+
+                                                                    for(DataSnapshot messagesLabel: subChapterData.getChildren())
+                                                                    {
+                                                                        ArrayList<QuestionsToTeacher> sublist = new ArrayList<>();
+
+                                                                        String totalQuestions = String.valueOf(messagesLabel.getChildrenCount());
+                                                                        dataAskTeacher.put("total_questions",totalQuestions);
+
+                                                                        System.out.println("total_questions:-"+totalQuestions);
+
+                                                                        //Messages Data
+                                                                        for(DataSnapshot messagesData: messagesLabel.getChildren())
+                                                                        {
+                                                                            String messageQuestion = gson.toJson(messagesData.getValue());
+                                                                            QuestionsToTeacher questionsToTeacher = gson.fromJson(messageQuestion,QuestionsToTeacher.class);
+
+                                                                            //Problem start here
+                                                                            sublist.add(questionsToTeacher);
+                                                                            System.out.println(questionsToTeacher.messages+"    "+questionsToTeacher.questionStatus);
+                                                                        }
+                                                                        questionsToTeacherList.add(sublist);
+                                                                    }
+
+
+
+
+
+
+
+
+
 
                                                                     String dataAskTeacherReceived = gson.toJson(dataAskTeacher);
                                                                     AskTeacherItems askTeacherItems = gson.fromJson(dataAskTeacherReceived,AskTeacherItems.class);
@@ -296,25 +317,7 @@ public class AskTeacherList extends AppCompatActivity {
 
 
 
-                                                //Messages Label
-                                            System.out.println("subjechapterId...."+subchapterId);
-                                            
-                                            
-                                            for(DataSnapshot messagesLabel: subChapterData.getChildren())
-                                            {
-                                                ArrayList<QuestionsToTeacher> sublist = new ArrayList<>();
-                                                //Messages Data
-                                                for(DataSnapshot messagesData: messagesLabel.getChildren())
-                                                {
-                                                    String messageQuestion = gson.toJson(messagesData.getValue());
-                                                    QuestionsToTeacher questionsToTeacher = gson.fromJson(messageQuestion,QuestionsToTeacher.class);
 
-                                                    //Problem start here
-                                                    sublist.add(questionsToTeacher);
-                                                    System.out.println(questionsToTeacher.messages+"    "+questionsToTeacher.questionStatus);
-                                                }
-                                                questionsToTeacherList.add(sublist);
-                                            }
                                             
 
                                         }

@@ -22,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
                 android:background="@drawable/gradient_navbar"/>
 
         </android.support.design.widget.AppBarLayout>

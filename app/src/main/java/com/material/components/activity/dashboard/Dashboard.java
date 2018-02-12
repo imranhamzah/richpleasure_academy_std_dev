@@ -95,7 +95,7 @@ public class Dashboard extends AppCompatActivity{
 
     public LinearLayout layout1,layout2;
 
-    private int hot_number = 190;
+    private int hot_number = 5;
     private TextView ui_hot = null;
 
     @Override

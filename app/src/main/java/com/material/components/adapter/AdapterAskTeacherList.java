@@ -52,6 +52,8 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
             view.subjectTitle.setText(askTeacherItems.subjectTitle);
             view.chapterTitle.setText(askTeacherItems.chapterTitle);
             view.subchapter.setText(askTeacherItems.subChapterTitle);
+            int totalQ = Integer.parseInt(askTeacherItems.totalQuestions);
+            view.totalQuestions.setText(askTeacherItems.totalQuestions+" Question"+(totalQ>1 ? "s": ""));
 
             view.lyt_parent_ask_teacher_list.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,7 +91,7 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
     public class OriginalViewHolder extends RecyclerView.ViewHolder{
 
         public View lyt_parent_ask_teacher_list;
-        public TextView subjectTitle, chapterTitle,subchapter,askTeacherStatus,dtCreated;
+        public TextView subjectTitle, chapterTitle,subchapter,askTeacherStatus,dtCreated,totalQuestions;
         public RelativeLayout lyt_checked, lyt_image;
         public RecyclerView recyclerView;
         public OriginalViewHolder(View itemView) {
@@ -103,6 +105,7 @@ public class AdapterAskTeacherList extends RecyclerView.Adapter<RecyclerView.Vie
             lyt_checked = itemView.findViewById(R.id.lyt_checked);
             lyt_image = itemView.findViewById(R.id.lyt_image);
             recyclerView = itemView.findViewById(R.id.recyclerViewQuestions);
+            totalQuestions = itemView.findViewById(R.id.totalQuestions);
 
         }
     }
