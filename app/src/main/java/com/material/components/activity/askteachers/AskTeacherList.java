@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.components.R;
+import com.material.components.activity.lesson.LessonActivity;
 import com.material.components.adapter.AdapterAskTeacherList;
 import com.material.components.adapter.AdapterQuestionToTeacher;
 import com.material.components.model.AskTeacherItems;
@@ -85,14 +86,12 @@ public class AskTeacherList extends AppCompatActivity {
         adapterAskTeacherList.setOnClickListener(new AdapterAskTeacherList.OnClickListener() {
             @Override
             public void onItemClick(View view, AskTeacherItems obj, int pos) {
-                /*
                 Intent gotoLesson = new Intent(AskTeacherList.this, LessonActivity.class);
                 gotoLesson.putExtra("subchapter_id",obj.subChapterId);
                 gotoLesson.putExtra("subChapterTitle",obj.subChapterTitle);
                 editorAnalysisPreferences.putString("subchapterId",obj.subChapterId);
                 editorAnalysisPreferences.commit();
                 startActivity(gotoLesson);
-                */
             }
 
             @Override
