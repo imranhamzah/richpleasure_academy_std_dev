@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -13,14 +12,12 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,12 +28,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,13 +42,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.joanzapata.iconify.widget.IconButton;
 import com.material.components.R;
 import com.material.components.activity.MainMenu;
 import com.material.components.activity.analysis.AnalysisActivity;
 import com.material.components.activity.askteachers.AskTeacherList;
-import com.material.components.activity.button.FabMiddle;
 import com.material.components.activity.chapters.ChapterListActivity;
+import com.material.components.activity.notification.NotificationActivity;
 import com.material.components.activity.login.LoginActivity;
 import com.material.components.activity.login.SQLiteHandler;
 import com.material.components.activity.login.SessionManager;
@@ -230,18 +223,21 @@ public class Dashboard extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if(id == R.id.action_search)
         {
             Intent gotoSearch = new Intent(getApplicationContext(), SearchToolbarLight.class);
             startActivity(gotoSearch);
+            return true;
         }
 
         if(id == R.id.lessons_discuss_with_teacher)
         {
             Intent gotoAskTeacherList = new Intent(getApplicationContext(), AskTeacherList.class);
             startActivity(gotoAskTeacherList);
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -260,7 +256,8 @@ public class Dashboard extends AppCompatActivity{
         new MyMenuItemStuffListener(view, "Show hot message") {
             @Override
             public void onClick(View v) {
-
+                Intent gotoNotification = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(gotoNotification);
             }
         };
         return super.onCreateOptionsMenu(menu);

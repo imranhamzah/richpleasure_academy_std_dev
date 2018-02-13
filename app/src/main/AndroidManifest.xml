@@ -482,6 +482,10 @@
             android:label="@string/title_activity_practice"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".activity.notification.NotificationActivity"
+            android:label="@string/notfications"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".activity.pastyears.PastYearsActivity"
             android:label="@string/title_activity_past_years"
             android:theme="@style/AppTheme" />

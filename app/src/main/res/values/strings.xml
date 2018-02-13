@@ -46,5 +46,6 @@
     <string name="title_activity_past_years">Past Years</string>
     <string name="title_activity_ask_teacher_list">Ask Teacher List</string>
     <string name="title_activity_analysis">Analysis</string>
+    <string name="notfications">Notifications</string>
 
 </resources>
