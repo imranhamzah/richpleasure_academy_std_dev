@@ -18,6 +18,7 @@ import android.text.SpannableString;
 import android.text.format.DateUtils;
 import android.text.style.UnderlineSpan;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class TutorProfileDetails extends AppCompatActivity{
+public class TutorProfileDetails extends AppCompatActivity {
 
     public List<TutorSubject> tutorSubjectList = new ArrayList<>();
     public RecyclerView tutorSubjectListRecyclerView;
@@ -60,12 +61,13 @@ public class TutorProfileDetails extends AppCompatActivity{
     public TextView tutorFullname, shortDescription, subjectLabel;
     public ImageView profilePic, backgroundProfilePic;
     ProgressDialog progressDialog;
-    private FiftyShadesOf fiftyShadesOf,tutorReviewShadesOf;
+    private FiftyShadesOf fiftyShadesOf, tutorReviewShadesOf;
     private List<TutorReviews> tutorReviewsList = new ArrayList<>();
     private RecyclerView tutorReviewsRecyclerView;
     private AdapterTutorReviews adapterTutorReviews;
     private Tutor dataReceived;
     private RelativeLayout profileRateLayout;
+    private FrameLayout reviewArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +75,11 @@ public class TutorProfileDetails extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_polygon);
 
-        fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.tutorFullname,R.id.tutorShortDescription, R.id.subjectLabel).start();
+        fiftyShadesOf = FiftyShadesOf.with(this).on(R.id.tutorFullname, R.id.tutorShortDescription, R.id.subjectLabel).start();
         tutorReviewShadesOf = FiftyShadesOf.with(this).on(R.id.profile_teacher_rate_shade).start();
         profileRateLayout = findViewById(R.id.profile_teacher_rate_shade);
+        reviewArea = findViewById(R.id.reviewArea);
+        reviewArea.setVisibility(View.GONE);
 
         tutorFullname = findViewById(R.id.tutorFullname);
         shortDescription = findViewById(R.id.tutorShortDescription);
@@ -170,13 +174,12 @@ public class TutorProfileDetails extends AppCompatActivity{
 
         fiftyShadesOf.stop();
         displayTutorReviews();
-        Tools.setSystemBarColor(this,R.color.black);
+        Tools.setSystemBarColor(this, R.color.black);
 
     }
 
 
-    private void displayTutorReviews()
-    {
+    private void displayTutorReviews() {
         tutorReviewsList.clear();
         tutorReviewsRecyclerView = findViewById(R.id.tutorReviewsRecyclerView);
         adapterTutorReviews = new AdapterTutorReviews(tutorReviewsList);
@@ -196,57 +199,56 @@ public class TutorProfileDetails extends AppCompatActivity{
         final Gson gson = builder.create();
 
         String tutorUuid = dataReceived.tutorId;
-        final HashMap<String,String> studentReviewDetails = new HashMap<>();
-        DatabaseReference getTutorReviews = databaseReference.child("tutor_reviews/"+tutorUuid+"/review_data");
+        final HashMap<String, String> studentReviewDetails = new HashMap<>();
+        DatabaseReference getTutorReviews = databaseReference.child("tutor_reviews/" + tutorUuid + "/review_data");
         getTutorReviews.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot dataTutor: dataSnapshot.getChildren())
-                {
-                    String dataTutorReviewsReceived = gson.toJson(dataTutor.getValue());
-                    System.out.println(dataTutorReviewsReceived);
-                    final TutorReviews tutorReviews = gson.fromJson(dataTutorReviewsReceived,TutorReviews.class);
-
-                    System.out.println("student UUUID:-  "+tutorReviews.studentUuid);
-
-                    //Get student details
-                    DatabaseReference studentDetails = databaseReference.child("students/"+tutorReviews.studentUuid);
-                    studentDetails.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshotStudent) {
-                            String dataStudent = gson.toJson(dataSnapshotStudent.getValue());
-
-                            System.out.println("xxx----"+dataStudent);
-                            Student student = gson.fromJson(dataStudent,Student.class);
-
-                            studentReviewDetails.put("student_fullname",student.studentFullname);
-                            studentReviewDetails.put("message",tutorReviews.message);
-                            studentReviewDetails.put("rate_value",tutorReviews.rateValue);
-                            studentReviewDetails.put("dt_reviewed",getDate(Long.parseLong(tutorReviews.dtReviewed)));
-
-                            System.out.println(studentReviewDetails);
-
-                            String newTutorReviewData = gson.toJson(studentReviewDetails);
-                            TutorReviews newTutorReviews = gson.fromJson(newTutorReviewData,TutorReviews.class);
-
-                            tutorReviewsList.add(newTutorReviews);
-                            adapterTutorReviews.notifyDataSetChanged();
-                            tutorReviewShadesOf.stop();
-                            profileRateLayout.setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                if (dataSnapshot.getValue() != null) {
+                    reviewArea.setVisibility(View.VISIBLE);
+                    for (DataSnapshot dataTutor : dataSnapshot.getChildren()) {
+                        String dataTutorReviewsReceived = gson.toJson(dataTutor.getValue());
+                        System.out.println(dataTutorReviewsReceived);
+                        final TutorReviews tutorReviews = gson.fromJson(dataTutorReviewsReceived, TutorReviews.class);
 
 
+                        //Get student details
+                        DatabaseReference studentDetails = databaseReference.child("students/" + tutorReviews.studentUuid);
+                        studentDetails.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshotStudent) {
+                                String dataStudent = gson.toJson(dataSnapshotStudent.getValue());
+
+                                Student student = gson.fromJson(dataStudent, Student.class);
+
+                                studentReviewDetails.put("student_fullname", student.studentFullname);
+                                studentReviewDetails.put("message", tutorReviews.message);
+                                studentReviewDetails.put("rate_value", tutorReviews.rateValue);
+                                studentReviewDetails.put("dt_reviewed", getDate(Long.parseLong(tutorReviews.dtReviewed)));
+
+                                System.out.println(studentReviewDetails);
+
+                                String newTutorReviewData = gson.toJson(studentReviewDetails);
+                                TutorReviews newTutorReviews = gson.fromJson(newTutorReviewData, TutorReviews.class);
+
+                                tutorReviewsList.add(newTutorReviews);
+                                adapterTutorReviews.notifyDataSetChanged();
+                                tutorReviewShadesOf.stop();
+                                profileRateLayout.setVisibility(View.GONE);
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
 
+                    }
                 }
+
             }
 
             @Override
@@ -263,7 +265,6 @@ public class TutorProfileDetails extends AppCompatActivity{
         String result = (String) DateUtils.getRelativeTimeSpanString(time, currentTime, 0);
         return result;
     }
-
 
 
     @Override

@@ -67,7 +67,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginTop="10dp"
             android:textSize="16sp"
-            android:text="Tutors"/>
+            android:text="My Tutors"/>
 
         <LinearLayout
             android:id="@+id/layout2"
