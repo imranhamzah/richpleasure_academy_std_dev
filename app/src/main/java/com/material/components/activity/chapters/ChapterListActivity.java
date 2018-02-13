@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.database.DataSnapshot;
@@ -103,21 +104,26 @@ public class ChapterListActivity extends AppCompatActivity{
 
         GsonBuilder builder = new GsonBuilder();
         final Gson gson = builder.create();
+        final TextView noChapterFoundLabel = findViewById(R.id.noChapterFoundLabel);
 
         FirebaseDatabase.getInstance().getReference().child("chapters/"+subjectId+"/chapters")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                        if(dataSnapshot.getValue() != null) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String chaptersReceived = gson.toJson(snapshot.getValue());
+                                Chapter chapter = gson.fromJson(chaptersReceived, Chapter.class);
+                                chaptersList.add(chapter);
+                                adapterListChapters.notifyDataSetChanged();
+                            }
+                        }else
                         {
-                            String chaptersReceived = gson.toJson(snapshot.getValue());
-                            Chapter chapter = gson.fromJson(chaptersReceived,Chapter.class);
-                            chaptersList.add(chapter);
-                            adapterListChapters.notifyDataSetChanged();
-                            fiftyShadesOf.stop();
-                            chapterLinearLayout.setVisibility(View.GONE);
+                            noChapterFoundLabel.setVisibility(View.VISIBLE);
                         }
+                        fiftyShadesOf.stop();
+                        chapterLinearLayout.setVisibility(View.GONE);
 
                     }
                     @Override

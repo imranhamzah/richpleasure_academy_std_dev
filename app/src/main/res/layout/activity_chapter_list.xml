@@ -39,6 +39,17 @@
 
         </LinearLayout>
 
+        <TextView
+            android:paddingTop="20dp"
+            android:id="@+id/noChapterFoundLabel"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="No chapters found"
+            />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewChapterView"
             android:layout_width="match_parent"
