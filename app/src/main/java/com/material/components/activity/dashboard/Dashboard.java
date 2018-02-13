@@ -1,5 +1,6 @@
 package com.material.components.activity.dashboard;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,13 +13,16 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +31,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,6 +60,7 @@ import com.material.components.activity.login.SessionManager;
 import com.material.components.activity.profile.StudentProfileDetails;
 import com.material.components.activity.profile.TutorProfileDetails;
 import com.material.components.activity.search.SearchToolbarLight;
+import com.material.components.adapter.AdapterEduYear;
 import com.material.components.adapter.AdapterSubject;
 import com.material.components.adapter.AdapterTutor;
 import com.material.components.model.EduYears;
@@ -63,6 +70,7 @@ import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -149,14 +157,11 @@ public class Dashboard extends AppCompatActivity{
         }
 
         Tools.setSystemBarColor(this,R.color.black);
-
-
     }
 
 
     private String single_choice_selected;
-    private static final HashMap<String,String> EDU_YEARS = new HashMap<>();
-    private static final HashMap<String,String> SUBJECTS = new HashMap<>();
+    private static final HashMap<String,String> EDU_YEARS = new LinkedHashMap<>();
 
 
     private void displayEduYearSelection() {
@@ -169,8 +174,6 @@ public class Dashboard extends AppCompatActivity{
 
                     EduYears eduYears = snapshot.getValue(EduYears.class);
                     EDU_YEARS.put(eduYears.edu_year_id,eduYears.edu_year_title_my);
-
-                    fiftyShadesOf.stop();
                 }
 
 
@@ -540,7 +543,7 @@ public class Dashboard extends AppCompatActivity{
     }
 
 
-    private void showChooseEduYear() {
+    private void showChooseEduYearOld() {
         if(eduYear == null)
         {
 //            single_choice_selected = EDU_YEARS[0];
@@ -597,6 +600,96 @@ public class Dashboard extends AppCompatActivity{
         });
 
         builderSingle.show();
+    }
+
+    public List<EduYears> eduYearsList = new ArrayList<>();
+    public RecyclerView eduYearListRecycler;
+    public AdapterEduYear adapterEduYear;
+    private String eduYearKey = null;
+    private String eduYearTitle = null;
+    public void showChooseEduYear()
+    {
+        final Dialog dialog = new Dialog(Dashboard.this);
+
+        dialog.setTitle("Select Education Year");
+        dialog.setContentView(R.layout.dialog_choose_edu_year);
+
+        eduYearListRecycler = dialog.findViewById(R.id.eduYearListRecycler);
+        adapterEduYear = new AdapterEduYear(eduYearsList,Dashboard.this);
+        eduYearListRecycler.setNestedScrollingEnabled(false);
+        eduYearListRecycler.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Dashboard.this);
+        eduYearListRecycler.setLayoutManager(layoutManager);
+        eduYearListRecycler.setAdapter(adapterEduYear);
+
+        eduYearListRecycler.addItemDecoration(new DividerItemDecoration(getApplication(),
+            DividerItemDecoration.VERTICAL));
+
+
+        adapterEduYear.setOnClickListener(new AdapterEduYear.OnClickListener() {
+            @Override
+            public void onItemClick(View view, EduYears obj, int pos) {
+                eduYearKey = obj.edu_year_id;
+                eduYearTitle = obj.edu_year_title_my;
+                editorAnalysisPreferences.putString("position", String.valueOf(pos));
+                editorAnalysisPreferences.commit();
+            }
+        });
+
+        dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.findViewById(R.id.bt_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(Dashboard.this,"You have selected " + eduYearTitle,Toast.LENGTH_LONG).show();
+                editorEduYear.putString("eduYearValue",eduYearKey);
+                getSubjectData(eduYearKey);
+                getTutorData(eduYearKey);
+                if(eduYearKey != null)
+                {
+                    editorEduYear.putString("eduYearTitle",eduYearTitle);
+                    actionbarTitle.setText(eduYearTitle);
+                    editorEduYear.commit();
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        FirebaseDatabase.getInstance().getReference().child("edu_years")
+        .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                eduYearsList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    String eduYearReceived = gson.toJson(snapshot.getValue());
+                    EduYears eduYears = gson.fromJson(eduYearReceived,EduYears.class);
+                    eduYearsList.add(eduYears);
+                }
+                adapterEduYear.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(Dashboard.this, "Internet problem, please trya again",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     @Override
