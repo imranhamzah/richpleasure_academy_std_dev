@@ -35,6 +35,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -648,12 +649,12 @@ public class Dashboard extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(Dashboard.this,"You have selected " + eduYearTitle,Toast.LENGTH_LONG).show();
                 editorEduYear.putString("eduYearValue",eduYearKey);
                 getSubjectData(eduYearKey);
                 getTutorData(eduYearKey);
                 if(eduYearKey != null)
                 {
+                    Toast.makeText(Dashboard.this,"You have selected " + eduYearTitle,Toast.LENGTH_LONG).show();
                     editorEduYear.putString("eduYearTitle",eduYearTitle);
                     actionbarTitle.setText(eduYearTitle);
                     editorEduYear.commit();
