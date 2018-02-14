@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.material.components.activity.askteachers.AskTeacherList"
+    tools:context="com.material.nereeducation.activity.askteachers.AskTeacherList"
     tools:showIn="@layout/activity_ask_teacher_list">
 
     <include android:id="@+id/layout1" layout="@layout/item_ask_teacher_list" />

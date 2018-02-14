@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:449129905781:android:37ba31a3341be157",
         "android_client_info": {
-          "package_name": "com.material.components"
+          "package_name": "com.material.nereeducation"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "449129905781-lolhrad4rcl768idd9b5kl8o11hekarb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.material.components",
+            "package_name": "com.material.nereeducation",
             "certificate_hash": "ea1efdd79e310d21f608181a69e16f19b76d8308"
           }
         },

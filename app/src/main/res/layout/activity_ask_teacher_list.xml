@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey_200"
     android:orientation="vertical"
-    tools:context="com.material.components.activity.askteachers.AskTeacherList">
+    tools:context="com.material.nereeducation.activity.askteachers.AskTeacherList">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
