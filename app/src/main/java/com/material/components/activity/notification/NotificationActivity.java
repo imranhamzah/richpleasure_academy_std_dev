@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.material.components.R;
-import com.material.components.adapter.AdapterListInbox;
+import com.material.components.adapter.AdapterNotification;
 import com.material.components.data.DataGenerator;
 import com.material.components.model.Inbox;
 import com.material.components.utils.Tools;
@@ -26,7 +26,7 @@ public class NotificationActivity extends AppCompatActivity {
     private View parent_view;
 
     private RecyclerView recyclerView;
-    private AdapterListInbox mAdapter;
+    private AdapterNotification mAdapter;
     private ActionModeCallback actionModeCallback;
     private ActionMode actionMode;
     private Toolbar toolbar;
@@ -58,9 +58,9 @@ public class NotificationActivity extends AppCompatActivity {
         List<Inbox> items = DataGenerator.getInboxData(this);
 
         //set data and list adapter
-        mAdapter = new AdapterListInbox(this, items);
+        mAdapter = new AdapterNotification(this, items);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnClickListener(new AdapterListInbox.OnClickListener() {
+        mAdapter.setOnClickListener(new AdapterNotification.OnClickListener() {
             @Override
             public void onItemClick(View view, Inbox obj, int pos) {
                 if (mAdapter.getSelectedItemCount() > 0) {
