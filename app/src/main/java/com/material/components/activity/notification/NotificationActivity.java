@@ -12,6 +12,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.adapter.AdapterNotification;
 import com.material.components.data.DataGenerator;
@@ -19,6 +27,7 @@ import com.material.components.model.Notification;
 import com.material.components.utils.Tools;
 import com.material.components.widget.LineItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationActivity extends AppCompatActivity {
@@ -49,20 +58,19 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private List<Notification> items = new ArrayList<>();
     private void initComponent() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new LineItemDecoration(this, LinearLayout.VERTICAL));
         recyclerView.setHasFixedSize(true);
 
-        List<Notification> items = DataGenerator.getNotificationData(this);
-
         //set data and list adapter
         mAdapter = new AdapterNotification(this, items);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnClickListener(new AdapterNotification.OnClickListener() {
 
-          @Override
+            @Override
             public void onItemClick(View view, Notification obj, int pos) {
                 if (mAdapter.getSelectedItemCount() > 0) {
                     enableActionMode(pos);
@@ -81,6 +89,36 @@ public class NotificationActivity extends AppCompatActivity {
         });
 
         actionModeCallback = new ActionModeCallback();
+
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String uuid = firebaseAuth.getUid();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("notifications/"+uuid+"/data_notification").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                {
+                    String dataReceived = gson.toJson(snapshot.getValue());
+                    System.out.println(dataReceived);
+                    Notification notificationItems = gson.fromJson(dataReceived, Notification.class);
+                    items.add(notificationItems);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
     }
 

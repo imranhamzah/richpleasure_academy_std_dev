@@ -3,6 +3,14 @@ package com.material.components.data;
 import android.content.Context;
 import android.content.res.TypedArray;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.material.components.R;
 import com.material.components.activity.content.Content;
 import com.material.components.activity.tutor.TutorList;
@@ -166,7 +174,40 @@ public class DataGenerator {
      * @return list of object
      */
     public static List<Notification> getNotificationData(Context ctx) {
-        List<Notification> items = new ArrayList<>();
+        final List<Notification> items = new ArrayList<>();
+
+
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String uuid = firebaseAuth.getUid();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("notifications/"+uuid+"/data_notification").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                {
+                    String dataReceived = gson.toJson(snapshot.getValue());
+                    System.out.println(dataReceived);
+                    Notification notificationItems = gson.fromJson(dataReceived, Notification.class);
+                    items.add(notificationItems);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return items;
+        /*
+
         TypedArray drw_arr = ctx.getResources().obtainTypedArray(R.array.people_images);
         String name_arr[] = ctx.getResources().getStringArray(R.array.people_names);
         String date_arr[] = ctx.getResources().getStringArray(R.array.general_date);
@@ -183,6 +224,8 @@ public class DataGenerator {
         }
         Collections.shuffle(items);
         return items;
+
+        */
     }
 
     /**

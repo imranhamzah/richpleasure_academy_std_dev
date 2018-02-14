@@ -2,6 +2,7 @@ package com.material.components.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.material.components.model.Notification;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.ViewHolder> {
@@ -71,8 +73,8 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         holder.from.setText(notification.from);
         holder.title.setText(notification.title);
         holder.message.setText(notification.message);
-        holder.date.setText(notification.date);
-        holder.image_letter.setText(notification.from.substring(0, 1));
+        holder.date.setText(getDate(Long.parseLong(notification.date)));
+//        holder.image_letter.setText(notification.from.substring(0, 1));
 
         holder.lyt_parent.setActivated(selected_items.get(position, false));
 
@@ -102,13 +104,22 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         if (notification.image != null) {
             Tools.displayImageRound(ctx, holder.image, notification.image);
             holder.image.setColorFilter(null);
-            holder.image_letter.setVisibility(View.GONE);
+//            holder.image_letter.setVisibility(View.GONE);
         } else {
             holder.image.setImageResource(R.drawable.shape_circle);
             holder.image.setColorFilter(notification.color);
-            holder.image_letter.setVisibility(View.VISIBLE);
+//            holder.image_letter.setVisibility(View.VISIBLE);
         }
     }
+
+    private String getDate(long time) {
+        Date date = new Date();
+        long currentTime = date.getTime();
+        String result = (String) DateUtils.getRelativeTimeSpanString(time, currentTime, 0);
+        return result;
+    }
+
+
 
     private void toggleCheckedIcon(ViewHolder holder, int position) {
         if (selected_items.get(position, false)) {
