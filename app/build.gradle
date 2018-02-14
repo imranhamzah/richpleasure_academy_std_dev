@@ -72,6 +72,10 @@ dependencies {
     //Badge
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.1.+'
 
+    //Facebook Login
+    implementation 'com.facebook.android:facebook-login:[4,5)'
+
+
 
 }
 apply plugin: 'com.google.gms.google-services'

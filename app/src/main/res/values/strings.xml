@@ -48,4 +48,7 @@
     <string name="title_activity_analysis">Analysis</string>
     <string name="notfications">Notifications</string>
 
+    <string name="facebook_app_id">2062207187395999</string>
+    <string name="fb_login_protocol_scheme">fb2062207187395999</string>
+
 </resources>
