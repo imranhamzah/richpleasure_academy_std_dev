@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.material.components.R;
-import com.material.components.model.Inbox;
+import com.material.components.model.Notification;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.ViewHolder> {
 
     private Context ctx;
-    private List<Inbox> items;
+    private List<Notification> items;
     private OnClickListener onClickListener = null;
 
     private SparseBooleanArray selected_items;
@@ -32,7 +32,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView from, email, message, date, image_letter;
+        public TextView from, title, message, date, image_letter;
         public ImageView image;
         public RelativeLayout lyt_checked, lyt_image;
         public View lyt_parent;
@@ -40,7 +40,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         public ViewHolder(View view) {
             super(view);
             from = view.findViewById(R.id.from);
-            email = view.findViewById(R.id.email);
+            title = view.findViewById(R.id.title);
             message = view.findViewById(R.id.message);
             date = view.findViewById(R.id.date);
             image_letter = view.findViewById(R.id.image_letter);
@@ -51,7 +51,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         }
     }
 
-    public AdapterNotification(Context mContext, List<Inbox> items) {
+    public AdapterNotification(Context mContext, List<Notification> items) {
         this.ctx = mContext;
         this.items = items;
         selected_items = new SparseBooleanArray();
@@ -65,14 +65,14 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Inbox inbox = items.get(position);
+        final Notification notification = items.get(position);
 
         // displaying text view data
-        holder.from.setText(inbox.from);
-        holder.email.setText(inbox.email);
-        holder.message.setText(inbox.message);
-        holder.date.setText(inbox.date);
-        holder.image_letter.setText(inbox.from.substring(0, 1));
+        holder.from.setText(notification.from);
+        holder.title.setText(notification.title);
+        holder.message.setText(notification.message);
+        holder.date.setText(notification.date);
+        holder.image_letter.setText(notification.from.substring(0, 1));
 
         holder.lyt_parent.setActivated(selected_items.get(position, false));
 
@@ -80,7 +80,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             @Override
             public void onClick(View v) {
                 if (onClickListener == null) return;
-                onClickListener.onItemClick(v, inbox, position);
+                onClickListener.onItemClick(v, notification, position);
             }
         });
 
@@ -88,24 +88,24 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             @Override
             public boolean onLongClick(View v) {
                 if (onClickListener == null) return false;
-                onClickListener.onItemLongClick(v, inbox, position);
+                onClickListener.onItemLongClick(v, notification, position);
                 return true;
             }
         });
 
         toggleCheckedIcon(holder, position);
-        displayImage(holder, inbox);
+        displayImage(holder, notification);
 
     }
 
-    private void displayImage(ViewHolder holder, Inbox inbox) {
-        if (inbox.image != null) {
-            Tools.displayImageRound(ctx, holder.image, inbox.image);
+    private void displayImage(ViewHolder holder, Notification notification) {
+        if (notification.image != null) {
+            Tools.displayImageRound(ctx, holder.image, notification.image);
             holder.image.setColorFilter(null);
             holder.image_letter.setVisibility(View.GONE);
         } else {
             holder.image.setImageResource(R.drawable.shape_circle);
-            holder.image.setColorFilter(inbox.color);
+            holder.image.setColorFilter(notification.color);
             holder.image_letter.setVisibility(View.VISIBLE);
         }
     }
@@ -122,7 +122,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         }
     }
 
-    public Inbox getItem(int position) {
+    public Notification getItem(int position) {
         return items.get(position);
     }
 
@@ -168,8 +168,8 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     }
 
     public interface OnClickListener {
-        void onItemClick(View view, Inbox obj, int pos);
+        void onItemClick(View view, Notification obj, int pos);
 
-        void onItemLongClick(View view, Inbox obj, int pos);
+        void onItemLongClick(View view, Notification obj, int pos);
     }
 }

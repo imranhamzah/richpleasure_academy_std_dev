@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.material.components.R;
 import com.material.components.adapter.AdapterNotification;
 import com.material.components.data.DataGenerator;
-import com.material.components.model.Inbox;
+import com.material.components.model.Notification;
 import com.material.components.utils.Tools;
 import com.material.components.widget.LineItemDecoration;
 
@@ -55,26 +55,27 @@ public class NotificationActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new LineItemDecoration(this, LinearLayout.VERTICAL));
         recyclerView.setHasFixedSize(true);
 
-        List<Inbox> items = DataGenerator.getInboxData(this);
+        List<Notification> items = DataGenerator.getNotificationData(this);
 
         //set data and list adapter
         mAdapter = new AdapterNotification(this, items);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnClickListener(new AdapterNotification.OnClickListener() {
-            @Override
-            public void onItemClick(View view, Inbox obj, int pos) {
+
+          @Override
+            public void onItemClick(View view, Notification obj, int pos) {
                 if (mAdapter.getSelectedItemCount() > 0) {
                     enableActionMode(pos);
                 } else {
                     // read the inbox which removes bold from the row
-                    Inbox inbox = mAdapter.getItem(pos);
-                    Toast.makeText(getApplicationContext(), "Read: " + inbox.from, Toast.LENGTH_SHORT).show();
+                    Notification notification = mAdapter.getItem(pos);
+                    Toast.makeText(getApplicationContext(), "Read: " + notification.from, Toast.LENGTH_SHORT).show();
 
                 }
             }
 
             @Override
-            public void onItemLongClick(View view, Inbox obj, int pos) {
+            public void onItemLongClick(View view, Notification obj, int pos) {
                 enableActionMode(pos);
             }
         });

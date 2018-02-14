@@ -11,6 +11,7 @@ import com.material.components.model.CardViewImg;
 import com.material.components.model.Image;
 import com.material.components.model.Inbox;
 import com.material.components.model.MusicSong;
+import com.material.components.model.Notification;
 import com.material.components.model.People;
 import com.material.components.model.ShopCategory;
 import com.material.components.model.ShopProduct;
@@ -149,6 +150,32 @@ public class DataGenerator {
             obj.image = drw_arr.getResourceId(i, -1);
             obj.from = name_arr[i];
             obj.email = Tools.getEmailFromName(obj.from);
+            obj.message = ctx.getResources().getString(R.string.lorem_ipsum);
+            obj.date = date_arr[randInt(date_arr.length - 1)];
+            obj.imageDrw = ctx.getResources().getDrawable(obj.image);
+            items.add(obj);
+        }
+        Collections.shuffle(items);
+        return items;
+    }
+
+    /**
+     * Generate dummy data inbox
+     *
+     * @param ctx android context
+     * @return list of object
+     */
+    public static List<Notification> getNotificationData(Context ctx) {
+        List<Notification> items = new ArrayList<>();
+        TypedArray drw_arr = ctx.getResources().obtainTypedArray(R.array.people_images);
+        String name_arr[] = ctx.getResources().getStringArray(R.array.people_names);
+        String date_arr[] = ctx.getResources().getStringArray(R.array.general_date);
+
+        for (int i = 0; i < drw_arr.length(); i++) {
+            Notification obj = new Notification();
+            obj.image = drw_arr.getResourceId(i, -1);
+            obj.from = name_arr[i];
+            obj.title = Tools.getEmailFromName(obj.from);
             obj.message = ctx.getResources().getString(R.string.lorem_ipsum);
             obj.date = date_arr[randInt(date_arr.length - 1)];
             obj.imageDrw = ctx.getResources().getDrawable(obj.image);
