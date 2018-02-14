@@ -15,10 +15,20 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,29 +43,36 @@ import com.material.nereeducation.config.AppConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends Activity implements ValueEventListener{
     private static final String TAG = RegisterActivity.class.getSimpleName();
-    private Button btnLogin;
+    private Button btnLogin,btnFbLogin;
     private Button btnLinkToRegister;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    private CallbackManager mCallbackManager;
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.btnLogin);
+        btnFbLogin = findViewById(R.id.btnFbLogin);
         btnLinkToRegister = findViewById(R.id.btnLinkToRegisterScreen);
 
         // Progress dialog
@@ -76,6 +93,36 @@ public class LoginActivity extends Activity implements ValueEventListener{
             finish();
         }
 
+        mCallbackManager = CallbackManager.Factory.create();
+
+        btnFbLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                btnFbLogin.setEnabled(false);
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email","public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG, "facebook:onCancel");
+                        // ...
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, "facebook:onError", error);
+                        // ...
+                    }
+                });
+            }
+        });
+
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
@@ -87,7 +134,6 @@ public class LoginActivity extends Activity implements ValueEventListener{
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // login user
                     checkLoginWithFirebase(email,password);
-//                    checkLogin(email, password);
                 } else {
                     // Prompt user to enter credentials
                     Toast.makeText(getApplicationContext(),
@@ -110,6 +156,72 @@ public class LoginActivity extends Activity implements ValueEventListener{
         });
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null)
+        {
+            updateUI(currentUser);
+            Intent gotoDashboard = new Intent(getApplicationContext(),Dashboard.class);
+            startActivity(gotoDashboard);
+            finish();
+        }
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        Toast.makeText(LoginActivity.this,"You're logged in!",Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Pass the activity result back to the Facebook SDK
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+        final String[] name = new String[1];
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        btnFbLogin.setEnabled(true);
+                        if (task.isSuccessful()) {
+
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+
+                            session.setLogin(true);
+
+                            String created_at = null;
+                            db.addUser(user.getDisplayName(), user.getEmail(), user.getUid(), created_at);
+
+                            Intent gotoDashboard = new Intent(getApplicationContext(),Dashboard.class);
+                            startActivity(gotoDashboard);
+                            finish();
+
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
 
     private void checkLoginWithFirebase(final String email, final String password)
     {
