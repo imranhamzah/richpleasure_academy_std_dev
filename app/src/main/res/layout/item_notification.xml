@@ -53,7 +53,7 @@
                     android:layout_width="@dimen/spacing_xmlarge"
                     android:layout_height="@dimen/spacing_xmlarge"
                     android:src="@drawable/shape_circle"
-                    android:tint="@color/blue_grey_300" />
+                    android:tint="@color/green_100" />
 
                 <TextView
                     android:id="@+id/image_letter"

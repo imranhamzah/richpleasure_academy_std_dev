@@ -156,6 +156,35 @@
         <item>December</item>
     </string-array>
 
+    <string-array name="alphabet_color">
+        <!--A--> <item>#fffca1</item>
+        <!--B--> <item>#bfffa1</item>
+        <!--C--> <item>#a1ffe9</item>
+        <!--D--> <item>#a1bcff</item>
+        <!--E--> <item>#dea1ff</item>
+        <!--F--> <item>#ffa1f4</item>
+        <!--G--> <item>#ffa1ca</item>
+        <!--H--> <item>#ffa4a1</item>
+        <!--I--> <item>#ffa4a1</item>
+        <!--J--> <item>#ffe3a1</item>
+        <!--K--> <item>#ade792</item>
+        <!--L--> <item>#62a7a4</item>
+        <!--M--> <item>#627ca7</item>
+        <!--N--> <item>#8362a7</item>
+        <!--O--> <item>#a7629d</item>
+        <!--P--> <item>#ccbbca</item>
+        <!--Q--> <item>#c0ccbb</item>
+        <!--R--> <item>#afafaf</item>
+        <!--S--> <item>#9c648e</item>
+        <!--T--> <item>#98d77b</item>
+        <!--U--> <item>#61b63a</item>
+        <!--V--> <item>#418721</item>
+        <!--W--> <item>#2b5c15</item>
+        <!--X--> <item>#ffff5f</item>
+        <!--Y--> <item>#ffff8e</item>
+        <!--Z--> <item>#b7b702</item>
+    </string-array>
+
     <integer-array name="social_images">
         <item>@drawable/img_social_android</item>
         <item>@drawable/img_social_apple</item>

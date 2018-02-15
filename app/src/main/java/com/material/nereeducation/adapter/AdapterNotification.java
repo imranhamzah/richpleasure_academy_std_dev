@@ -1,6 +1,8 @@
 package com.material.nereeducation.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.SparseBooleanArray;
@@ -12,12 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.material.nereeducation.R;
+import com.material.nereeducation.helper.AlphabetColor;
 import com.material.nereeducation.model.Notification;
 import com.material.nereeducation.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.ViewHolder> {
 
@@ -27,6 +31,8 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     private SparseBooleanArray selected_items;
     private int current_selected_idx = -1;
+
+    private AlphabetColor alphabetColor;
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
@@ -57,6 +63,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         this.ctx = mContext;
         this.items = items;
         selected_items = new SparseBooleanArray();
+        alphabetColor = new AlphabetColor(mContext);
     }
 
     @Override
@@ -72,16 +79,20 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         // displaying text view data
 
         System.out.println("sender type:"+notification.sender_type);
+        Character firstLetter;
         if(notification.sender_type.equals("1")) //Admin
         {
             String admin = "Nere Education";
             holder.from.setText(admin);
             System.out.println("Letter:- "+admin.substring(0, 1));
-            holder.image_letter.setText(admin.substring(0, 1));
+            firstLetter = admin.substring(0, 1).charAt(0);
+
+            holder.image_letter.setText(String.valueOf(firstLetter));
         }else
         {
             holder.from.setText(notification.senderName);
-            holder.image_letter.setText(notification.senderName.substring(0, 1));
+            firstLetter = notification.senderName.substring(0, 1).charAt(0);
+            holder.image_letter.setText(String.valueOf(firstLetter));
         }
 
         holder.title.setText(notification.title);
@@ -108,18 +119,19 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         });
 
         toggleCheckedIcon(holder, position);
-        displayImage(holder, notification);
+        displayImage(holder, notification, firstLetter);
 
     }
 
-    private void displayImage(ViewHolder holder, Notification notification) {
+
+    private void displayImage(ViewHolder holder, Notification notification, Character firstLetter) {
         if (notification.image != null) {
             Tools.displayImageRound(ctx, holder.image, notification.image);
             holder.image.setColorFilter(null);
             holder.image_letter.setVisibility(View.GONE);
         } else {
             holder.image.setImageResource(R.drawable.shape_circle);
-            holder.image.setColorFilter(null);
+            holder.image.setColorFilter(alphabetColor.getColorByAlphabet(firstLetter), PorterDuff.Mode.MULTIPLY);
             holder.image_letter.setVisibility(View.VISIBLE);
         }
     }
