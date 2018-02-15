@@ -3,6 +3,7 @@ package com.material.nereeducation.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.SparseBooleanArray;
@@ -92,6 +93,11 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             holder.from.setText(notification.senderName);
             firstLetter = notification.senderName.substring(0, 1).charAt(0);
             holder.image_letter.setText(String.valueOf(firstLetter));
+        }
+        if(notification.status.equals("unread"))
+        {
+            holder.from.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            holder.title.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         }
 
         holder.title.setText(notification.title);

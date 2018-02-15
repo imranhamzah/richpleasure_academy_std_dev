@@ -90,8 +90,7 @@
                     android:singleLine="true"
                     android:text="People Name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/grey_90"
-                    android:textStyle="bold" />
+                    android:textColor="@color/grey_90" />
 
                 <TextView
                     android:id="@+id/title"
@@ -102,8 +101,7 @@
                     android:singleLine="true"
                     android:text="email.address@mail.com"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/grey_90"
-                    android:textStyle="bold" />
+                    android:textColor="@color/grey_90" />
 
                 <TextView
                     android:id="@+id/message"
