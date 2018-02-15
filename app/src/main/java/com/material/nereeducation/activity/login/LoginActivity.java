@@ -33,12 +33,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.material.nereeducation.AppController;
 import com.material.nereeducation.R;
 import com.material.nereeducation.activity.dashboard.Dashboard;
 import com.material.nereeducation.activity.register.RegisterActivity;
 import com.material.nereeducation.config.AppConfig;
+import com.material.nereeducation.model.Student;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -204,6 +208,9 @@ public class LoginActivity extends Activity implements ValueEventListener{
                             String created_at = null;
                             db.addUser(user.getDisplayName(), user.getEmail(), user.getUid(), created_at);
 
+                            //Update on students
+                            updateStudentData(user.getUid());
+
                             Intent gotoDashboard = new Intent(getApplicationContext(),Dashboard.class);
                             startActivity(gotoDashboard);
                             finish();
@@ -217,9 +224,57 @@ public class LoginActivity extends Activity implements ValueEventListener{
                             updateUI(null);
                         }
 
-                        // ...
                     }
                 });
+    }
+
+    private void updateStudentData(final String studentId)
+    {
+
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final HashMap<Object,Object> studentData = new HashMap<>();
+
+        //To check either student registered or not
+        databaseReference.child("students/"+studentId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //If Exist then ignore created_at
+                if(dataSnapshot.getValue() != null)
+                {
+                    String studentDataReceived = gson.toJson(dataSnapshot.getValue());
+                    Student student = gson.fromJson(studentDataReceived,Student.class);
+
+                    //Update data only
+                    studentData.put("last_login", ServerValue.TIMESTAMP);
+                    studentData.put("created_at", student.dtCreated);
+                    studentData.put("student_email",user.getEmail());
+                    studentData.put("student_fullname",user.getDisplayName());
+                    studentData.put("student_id",user.getUid());
+                    databaseReference.child("students/"+studentId).setValue(studentData);
+
+                }else
+                {
+                    //Create new
+                    studentData.put("last_login", ServerValue.TIMESTAMP);
+                    studentData.put("created_at", user.getMetadata().getCreationTimestamp());
+                    studentData.put("student_email",user.getEmail());
+                    studentData.put("student_fullname",user.getDisplayName());
+                    studentData.put("student_id",user.getUid());
+                    databaseReference.child("students/"+studentId).setValue(studentData);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 

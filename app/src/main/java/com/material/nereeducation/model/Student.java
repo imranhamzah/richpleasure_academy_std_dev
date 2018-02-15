@@ -21,7 +21,7 @@ public class Student {
     @Expose
     public String mobilePhoneNo;
 
-    @SerializedName("dt_created")
+    @SerializedName("created_at")
     @Expose
     public String dtCreated;
 
