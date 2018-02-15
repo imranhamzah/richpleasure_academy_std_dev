@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -36,6 +38,7 @@ import android.widget.Toast;
 
 import com.github.florent37.fiftyshadesof.FiftyShadesOf;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -61,7 +64,11 @@ import com.material.nereeducation.model.EduYears;
 import com.material.nereeducation.model.Subject;
 import com.material.nereeducation.model.Tutor;
 import com.material.nereeducation.utils.Tools;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -315,8 +322,35 @@ public class Dashboard extends AppCompatActivity{
     }
 
     private void initNavigationMenu() {
-        NavigationView nav_view = findViewById(R.id.nav_view);
-        View v = nav_view.getHeaderView(0);
+
+    NavigationView nav_view = findViewById(R.id.nav_view);
+
+
+    final FirebaseUser fbUserData = FirebaseAuth.getInstance().getCurrentUser();
+    String photoUrl = String.valueOf(fbUserData.getPhotoUrl());
+    System.out.println("photoURL: "+photoUrl);
+
+    View v = nav_view.getHeaderView(0);
+
+    CircularImageView circularImageView = v.findViewById(R.id.profileImage);
+
+    if(!photoUrl.isEmpty())
+    {
+        URL url;
+        Bitmap bmp;
+        try {
+            url = new URL(photoUrl);
+            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            circularImageView.setImageBitmap(bmp);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
         TextView studentName = v.findViewById(R.id.studentName);
         TextView studentEmail = v.findViewById(R.id.email);
 

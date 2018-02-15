@@ -13,7 +13,7 @@
         android:src="@drawable/bg_drawer" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/avatar"
+        android:id="@+id/profileImage"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_margin="@dimen/spacing_large"

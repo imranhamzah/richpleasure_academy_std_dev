@@ -58,7 +58,10 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private List<Notification> items = new ArrayList<>();
+    private LinearLayout messageEmptyList;
     private void initComponent() {
+
+        messageEmptyList = findViewById(R.id.messageEmptyList);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new LineItemDecoration(this, LinearLayout.VERTICAL));
@@ -101,14 +104,21 @@ public class NotificationActivity extends AppCompatActivity {
         databaseReference.child("notifications/"+uuid+"/data_notification").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                if(dataSnapshot.getValue() != null)
                 {
-                    String dataReceived = gson.toJson(snapshot.getValue());
-                    System.out.println(dataReceived);
-                    Notification notificationItems = gson.fromJson(dataReceived, Notification.class);
-                    items.add(notificationItems);
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                    {
+                        String dataReceived = gson.toJson(snapshot.getValue());
+                        System.out.println(dataReceived);
+                        Notification notificationItems = gson.fromJson(dataReceived, Notification.class);
+                        items.add(notificationItems);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }else
+                {
+                    messageEmptyList.setVisibility(View.VISIBLE);
+                    System.out.println("dfdfd   dde ke?");
                 }
-                mAdapter.notifyDataSetChanged();
             }
 
             @Override
