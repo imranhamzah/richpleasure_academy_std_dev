@@ -158,8 +158,8 @@
 
     <string-array name="alphabet_color">
         <!--A--> <item>#fffca1</item>
-        <!--B--> <item>#bfffa1</item>
-        <!--C--> <item>#a1ffe9</item>
+        <!--B--> <item>#84b46e</item>
+        <!--C--> <item>#81d1be</item>
         <!--D--> <item>#a1bcff</item>
         <!--E--> <item>#dea1ff</item>
         <!--F--> <item>#ffa1f4</item>
@@ -180,8 +180,8 @@
         <!--U--> <item>#61b63a</item>
         <!--V--> <item>#418721</item>
         <!--W--> <item>#2b5c15</item>
-        <!--X--> <item>#ffff5f</item>
-        <!--Y--> <item>#ffff8e</item>
+        <!--X--> <item>#c6c619</item>
+        <!--Y--> <item>#c6c66e</item>
         <!--Z--> <item>#b7b702</item>
     </string-array>
 

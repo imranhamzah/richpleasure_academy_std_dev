@@ -84,7 +84,6 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         {
             String admin = "Nere Education";
             holder.from.setText(admin);
-            System.out.println("Letter:- "+admin.substring(0, 1));
             firstLetter = admin.substring(0, 1).charAt(0);
 
             holder.image_letter.setText(String.valueOf(firstLetter));

@@ -101,7 +101,7 @@ public class NotificationActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-        databaseReference.child("notifications/"+uuid+"/data_notification").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("notifications/"+uuid+"/data_notification").orderByChild("status").startAt("read").endAt("unread").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue() != null)
@@ -109,7 +109,6 @@ public class NotificationActivity extends AppCompatActivity {
                     for(DataSnapshot snapshot: dataSnapshot.getChildren())
                     {
                         String dataReceived = gson.toJson(snapshot.getValue());
-                        System.out.println(dataReceived);
                         Notification notificationItems = gson.fromJson(dataReceived, Notification.class);
                         items.add(notificationItems);
                     }
@@ -117,7 +116,6 @@ public class NotificationActivity extends AppCompatActivity {
                 }else
                 {
                     messageEmptyList.setVisibility(View.VISIBLE);
-                    System.out.println("dfdfd   dde ke?");
                 }
             }
 
