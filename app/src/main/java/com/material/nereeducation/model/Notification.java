@@ -24,6 +24,18 @@ public class Notification {
     @Expose
     public String title;
 
+    @SerializedName("sender_type")
+    @Expose
+    public String sender_type;
+
+    @SerializedName("sender_id")
+    @Expose
+    public String sender_id;
+
+    public String senderName;
+
+    public String senderProfileImage;
+
     @SerializedName("message")
     @Expose
     public String message;

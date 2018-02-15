@@ -79,7 +79,7 @@ public class NotificationActivity extends AppCompatActivity {
                 } else {
                     // read the inbox which removes bold from the row
                     Notification notification = mAdapter.getItem(pos);
-                    Toast.makeText(getApplicationContext(), "Read: " + notification.from, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Read: " + notification.sender_id, Toast.LENGTH_SHORT).show();
 
                 }
             }

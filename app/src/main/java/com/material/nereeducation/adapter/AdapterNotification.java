@@ -70,11 +70,23 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         final Notification notification = items.get(position);
 
         // displaying text view data
-        holder.from.setText(notification.from);
+
+        System.out.println("sender type:"+notification.sender_type);
+        if(notification.sender_type.equals("1")) //Admin
+        {
+            String admin = "Nere Education";
+            holder.from.setText(admin);
+            System.out.println("Letter:- "+admin.substring(0, 1));
+            holder.image_letter.setText(admin.substring(0, 1));
+        }else
+        {
+            holder.from.setText(notification.senderName);
+            holder.image_letter.setText(notification.senderName.substring(0, 1));
+        }
+
         holder.title.setText(notification.title);
         holder.message.setText(notification.message);
         holder.date.setText(getDate(Long.parseLong(notification.date)));
-//        holder.image_letter.setText(notification.from.substring(0, 1));
 
         holder.lyt_parent.setActivated(selected_items.get(position, false));
 
@@ -104,11 +116,11 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         if (notification.image != null) {
             Tools.displayImageRound(ctx, holder.image, notification.image);
             holder.image.setColorFilter(null);
-//            holder.image_letter.setVisibility(View.GONE);
+            holder.image_letter.setVisibility(View.GONE);
         } else {
             holder.image.setImageResource(R.drawable.shape_circle);
-            holder.image.setColorFilter(notification.color);
-//            holder.image_letter.setVisibility(View.VISIBLE);
+            holder.image.setColorFilter(null);
+            holder.image_letter.setVisibility(View.VISIBLE);
         }
     }
 
