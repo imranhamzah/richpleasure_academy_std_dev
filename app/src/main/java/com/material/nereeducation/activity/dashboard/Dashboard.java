@@ -1,13 +1,17 @@
 package com.material.nereeducation.activity.dashboard;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.AppBarLayout;
@@ -24,6 +28,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -59,6 +64,7 @@ import com.material.nereeducation.activity.profile.StudentProfileDetails;
 import com.material.nereeducation.activity.profile.TutorProfileDetails;
 import com.material.nereeducation.activity.search.SearchToolbarLight;
 import com.material.nereeducation.adapter.AdapterEduYear;
+import com.material.nereeducation.adapter.AdapterSearchView;
 import com.material.nereeducation.adapter.AdapterSubject;
 import com.material.nereeducation.adapter.AdapterTutor;
 import com.material.nereeducation.model.EduYears;
@@ -107,6 +113,16 @@ public class Dashboard extends AppCompatActivity{
 
     private int hot_number = 0;
     private TextView ui_hot = null;
+
+
+    public List<EduYears> eduYearsList = new ArrayList<>();
+    public RecyclerView eduYearListRecycler;
+    public AdapterEduYear adapterEduYear;
+    private String eduYearKey = null;
+    private String eduYearTitle = null;
+
+    private static final HashMap<String,String> EDU_YEARS = new LinkedHashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +206,6 @@ public class Dashboard extends AppCompatActivity{
         });
     }
 
-    private String single_choice_selected;
-    private static final HashMap<String,String> EDU_YEARS = new LinkedHashMap<>();
 
 
     private void displayEduYearSelection() {
@@ -260,10 +274,19 @@ public class Dashboard extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+
+
         if(id == R.id.lessons_discuss_with_teacher)
         {
             Intent gotoAskTeacherList = new Intent(getApplicationContext(), AskTeacherList.class);
             startActivity(gotoAskTeacherList);
+            return true;
+        }
+
+        if(id == R.id.action_search)
+        {
+            Intent gotoSearch = new Intent(getApplicationContext(), SearchToolbarLight.class);
+            startActivity(gotoSearch);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -273,6 +296,7 @@ public class Dashboard extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
+
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_dashboard, menu);
@@ -289,8 +313,11 @@ public class Dashboard extends AppCompatActivity{
                 startActivity(gotoNotification);
             }
         };
+
+
         return super.onCreateOptionsMenu(menu);
     }
+
 
     static abstract class MyMenuItemStuffListener implements View.OnClickListener, View.OnLongClickListener {
         private String hint;
@@ -596,71 +623,6 @@ public class Dashboard extends AppCompatActivity{
         linearLayoutManagerSubject.setOrientation(LinearLayoutManager.HORIZONTAL);
     }
 
-
-    private void showChooseEduYearOld() {
-        if(eduYear == null)
-        {
-//            single_choice_selected = EDU_YEARS[0];
-        }else
-        {
-            eduYear = single_choice_selected;
-        }
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(Dashboard.this);
-        builderSingle.setIcon(R.mipmap.ic_launcher);
-        builderSingle.setTitle("Select education year");
-
-
-        final ArrayList<Map.Entry<String, String>> array = new ArrayList<>();
-        array.addAll(EDU_YEARS.entrySet());
-
-        ArrayList<String> dataYearList = new ArrayList<>();
-
-        // Loop over ArrayList of Entry elements.
-        for (Map.Entry<String, String> entry : array) {
-            // Use each ArrayList element.
-            String key = entry.getKey();
-            String value = entry.getValue();
-            dataYearList.add(entry.getValue());
-
-            System.out.println("Key = " + key + "; Value = " + value);
-        }
-
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(Dashboard.this, android.R.layout.simple_list_item_single_choice,dataYearList);
-
-        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String eduYearKey = array.get(which).getKey();
-                String eduYearTitle = array.get(which).getValue();
-                Toast.makeText(Dashboard.this,"You have selected " + eduYearTitle,Toast.LENGTH_LONG).show();
-                editorEduYear.putString("eduYearValue",String.valueOf(eduYearKey));
-                getSubjectData(eduYearKey);
-                getTutorData(eduYearKey);
-                if(!String.valueOf(array.get(which).getValue()).equals("null"))
-                {
-                    editorEduYear.putString("eduYearTitle",String.valueOf(array.get(which).getValue()));
-                    actionbarTitle.setText(String.valueOf(array.get(which).getValue()));
-                    editorEduYear.commit();
-                }
-
-            }
-        });
-
-        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builderSingle.show();
-    }
-
-    public List<EduYears> eduYearsList = new ArrayList<>();
-    public RecyclerView eduYearListRecycler;
-    public AdapterEduYear adapterEduYear;
-    private String eduYearKey = null;
-    private String eduYearTitle = null;
     public void showChooseEduYear()
     {
         final Dialog dialog = new Dialog(Dashboard.this, R.style.Theme_AppCompat_Light_Dialog);

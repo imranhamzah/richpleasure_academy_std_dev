@@ -75,10 +75,6 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
     private String query = null;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +98,11 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
         mAdapterSearchResult.setOnClickListener(new AdapterSearchResult.OnClickListener() {
             @Override
             public void onItemClick(View view, Tutor obj, int pos) {
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
                 Intent gotoTutorProfile = new Intent(SearchToolbarLight.this, TutorProfileDetails.class);
+                gotoTutorProfile.putExtra("tutorProfileData",obj);
+                gotoTutorProfile.putExtra("tutorSubjects",gson.toJson(obj.tutorSubjects));
                 startActivity(gotoTutorProfile);
             }
         });
@@ -112,7 +112,7 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Tools.setSystemBarColor(this, R.color.colorPrimary);
+        Tools.setSystemBarColor(this, R.color.black);
     }
 
     private void initComponent() {
@@ -210,7 +210,12 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
         lyt_no_result.setVisibility(View.GONE);
 
         query = et_search.getText().toString().trim();
+
+        System.out.println("query:-"+query);
         if (!query.equals("")) {
+
+            GsonBuilder builder = new GsonBuilder();
+            final Gson gson = builder.create();
 
             mTutors = mRootReference
                     .child("tutors")
@@ -221,30 +226,17 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    GsonBuilder builder = new GsonBuilder();
-                    Gson gson = builder.create();
-
-                    String arr_result = gson.toJson(dataSnapshot.getValue());
-
-                    if(String.valueOf(dataSnapshot.getValue()) != "null")
+                    if(dataSnapshot.getValue() != null)
                     {
-                        JSONArray jsonArray;
+                        tutorList.clear();
 
-                        try {
-                            jsonArray = new JSONArray(arr_result);
-                            tutorList.clear();
-                            for(int i=0; i<jsonArray.length(); i++)
-                            {
-                                if(String.valueOf(jsonArray.get(i)) != "null")
-                                {
-                                    Tutor tutor = gson.fromJson(String.valueOf(jsonArray.get(i)),Tutor.class);
-                                    tutorList.add(tutor);
-                                }
-                            }
-                            mAdapterSearchResult.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                        {
+                            String arr_result = gson.toJson(snapshot.getValue());
+                            Tutor tutor = gson.fromJson(arr_result,Tutor.class);
+                            tutorList.add(tutor);
                         }
+                        mAdapterSearchResult.notifyDataSetChanged();
                     }else
                     {
                         lyt_no_result.setVisibility(View.VISIBLE);

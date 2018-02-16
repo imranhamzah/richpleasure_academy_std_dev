@@ -98,10 +98,6 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         {
             holder.from.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             holder.title.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        }else
-        {
-            holder.from.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-            holder.title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         }
 
         holder.title.setText(notification.title);

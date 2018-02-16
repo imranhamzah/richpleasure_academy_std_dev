@@ -98,6 +98,15 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    public void onItemClick(View view, Notification obj, int pos) {
+        if (mAdapter.getSelectedItemCount() > 0) {
+            enableActionMode(pos);
+        } else { // read the inbox which removes bold from the row
+            Notification notification = mAdapter.getItem(pos);
+            Toast.makeText(getApplicationContext(), "Read: " + notification.sender_id, Toast.LENGTH_SHORT).show();
+            updateStatus(notification.notificationId,"read",pos);
+    } }
+
     private void getNotificationData()
     {
         items.clear();
