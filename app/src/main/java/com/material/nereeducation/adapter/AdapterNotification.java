@@ -22,7 +22,6 @@ import com.material.nereeducation.utils.Tools;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.ViewHolder> {
 
@@ -38,6 +37,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -83,7 +83,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         Character firstLetter;
         if(notification.sender_type.equals("1")) //Admin
         {
-            String admin = "Nere Education";
+            String admin = ctx.getString(R.string.admin_name);
             holder.from.setText(admin);
             firstLetter = admin.substring(0, 1).charAt(0);
 
@@ -127,7 +127,6 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         displayImage(holder, notification, firstLetter);
 
     }
-
 
     private void displayImage(ViewHolder holder, Notification notification, Character firstLetter) {
         if (notification.image != null) {
@@ -201,6 +200,8 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     public void removeData(int position) {
         items.remove(position);
         resetCurrentIndex();
+
+
     }
 
     private void resetCurrentIndex() {

@@ -1,6 +1,7 @@
 package com.material.nereeducation.activity.notification;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,8 +34,6 @@ import java.util.List;
 
 public class NotificationActivity extends AppCompatActivity {
 
-    private View parent_view;
-
     private RecyclerView recyclerView;
     private AdapterNotification mAdapter;
     private ActionModeCallback actionModeCallback;
@@ -43,7 +44,6 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        parent_view = findViewById(R.id.lyt_parent);
 
         initToolbar();
         initComponent();
@@ -81,6 +81,8 @@ public class NotificationActivity extends AppCompatActivity {
                     Notification notification = mAdapter.getItem(pos);
                     Toast.makeText(getApplicationContext(), "Read: " + notification.sender_id, Toast.LENGTH_SHORT).show();
 
+                    updateStatus(notification.notificationId,"read",pos);
+
                 }
             }
 
@@ -92,6 +94,13 @@ public class NotificationActivity extends AppCompatActivity {
 
         actionModeCallback = new ActionModeCallback();
 
+        getNotificationData();
+
+    }
+
+    private void getNotificationData()
+    {
+        items.clear();
         GsonBuilder builder = new GsonBuilder();
         final Gson gson = builder.create();
 
@@ -124,9 +133,22 @@ public class NotificationActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void updateStatus(final String notificationId, String status, final int position) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String uuid = firebaseAuth.getUid();
 
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+        databaseReference.child("notifications/"+uuid+"/data_notification").child(notificationId).child("status").setValue(status
+        ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mAdapter.notifyItemChanged(position); //Problem here - how to update text from BOLD to NORMAL for this item?
+            }
+        });
     }
 
     private void enableActionMode(int position) {

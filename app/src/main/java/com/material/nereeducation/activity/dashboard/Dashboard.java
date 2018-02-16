@@ -231,13 +231,6 @@ public class Dashboard extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_search)
-        {
-            Intent gotoSearch = new Intent(getApplicationContext(), SearchToolbarLight.class);
-            startActivity(gotoSearch);
-            return true;
-        }
-
         if(id == R.id.lessons_discuss_with_teacher)
         {
             Intent gotoAskTeacherList = new Intent(getApplicationContext(), AskTeacherList.class);
@@ -641,9 +634,8 @@ public class Dashboard extends AppCompatActivity{
     private String eduYearTitle = null;
     public void showChooseEduYear()
     {
-        final Dialog dialog = new Dialog(Dashboard.this);
+        final Dialog dialog = new Dialog(Dashboard.this, R.style.Theme_AppCompat_Light_Dialog);
 
-        dialog.setTitle("Select Education Year");
         dialog.setContentView(R.layout.dialog_choose_edu_year);
 
         eduYearListRecycler = dialog.findViewById(R.id.eduYearListRecycler);

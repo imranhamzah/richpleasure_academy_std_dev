@@ -6,9 +6,10 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
-        android:orderInCategory="100"
+        android:orderInCategory="10"
         android:title="Search"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
 
     <item
         android:id="@+id/action_notification"
@@ -16,12 +17,13 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_notifications"
         android:title="Notifications"
+        android:orderInCategory="20"
         />
 
 
     <item
         android:id="@+id/lessons_discuss_with_teacher"
-        android:orderInCategory="100"
+        android:orderInCategory="30"
         android:title="Ask Teacher List"
         app:showAsAction="never" />
 </menu>
