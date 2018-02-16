@@ -41,6 +41,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
@@ -104,7 +105,7 @@ public class Dashboard extends AppCompatActivity{
 
     public LinearLayout layout1,layout2;
 
-    private int hot_number = 5;
+    private int hot_number = 0;
     private TextView ui_hot = null;
 
     @Override
@@ -158,8 +159,36 @@ public class Dashboard extends AppCompatActivity{
         }
 
         Tools.setSystemBarColor(this,R.color.black);
+        getUnreadNotificationNumber();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getUnreadNotificationNumber();
+    }
+
+    private void getUnreadNotificationNumber()
+    {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String uuid = firebaseAuth.getUid();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("notifications/"+uuid+"/data_notification").orderByChild("status").startAt("unread").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                hot_number = (int) dataSnapshot.getChildrenCount();
+                updateHotCount(hot_number);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     private String single_choice_selected;
     private static final HashMap<String,String> EDU_YEARS = new LinkedHashMap<>();
