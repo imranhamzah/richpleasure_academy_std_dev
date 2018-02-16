@@ -209,18 +209,30 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
         ViewAnimation.collapse(lyt_suggestion);
         lyt_no_result.setVisibility(View.GONE);
 
-        query = et_search.getText().toString().trim();
+        query = et_search.getText().toString().trim().toLowerCase();
 
-        System.out.println("query:-"+query);
         if (!query.equals("")) {
 
             GsonBuilder builder = new GsonBuilder();
             final Gson gson = builder.create();
 
+            String[] strArray = query.split(" ");
+            StringBuilder builderString = new StringBuilder();
+            for (String s : strArray) {
+                String cap = s.substring(0, 1).toUpperCase() + s.substring(1);
+                builderString.append(cap + " ");
+            }
+
+            String filteredQuery = String.valueOf(builderString).trim();
+
+            System.out.println("Query Fileted: "+filteredQuery);
+
             mTutors = mRootReference
                     .child("tutors")
                     .orderByChild("tutor_name")
-                    .startAt(query);
+                    .startAt(filteredQuery)
+                    .endAt(filteredQuery+"\uf8ff");
+
             mTutors.addListenerForSingleValueEvent(new ValueEventListener() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
@@ -252,6 +264,7 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
                 }
             });
             mAdapterSuggestion.addSearchHistory(query);
+
         } else {
             Toast.makeText(this, "Please fill search input", Toast.LENGTH_SHORT).show();
         }
