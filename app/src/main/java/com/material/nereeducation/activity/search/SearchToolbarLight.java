@@ -42,11 +42,13 @@ import com.material.nereeducation.model.Tutor;
 import com.material.nereeducation.utils.Tools;
 import com.material.nereeducation.utils.ViewAnimation;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+import me.xdrop.fuzzywuzzy.model.ExtractedResult;
 
 public class SearchToolbarLight extends AppCompatActivity implements ValueEventListener {
 
@@ -225,37 +227,33 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
 
             String filteredQuery = String.valueOf(builderString).trim();
 
-            System.out.println("Query Fileted: "+filteredQuery);
 
-            mTutors = mRootReference
+
+            final List ssList = new ArrayList();
+            mRootReference
                     .child("tutors")
-                    .orderByChild("tutor_name")
-                    .startAt(filteredQuery)
-                    .endAt(filteredQuery+"\uf8ff");
-
-            mTutors.addListenerForSingleValueEvent(new ValueEventListener() {
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    .orderByChild("tutor_name").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    if(dataSnapshot.getValue() != null)
+                    System.out.println("Data all tutors");
+                    for(DataSnapshot tutorData: dataSnapshot.getChildren())
                     {
-                        tutorList.clear();
-
-                        for(DataSnapshot snapshot: dataSnapshot.getChildren())
-                        {
-                            String arr_result = gson.toJson(snapshot.getValue());
-                            Tutor tutor = gson.fromJson(arr_result,Tutor.class);
-                            tutorList.add(tutor);
-                        }
-                        mAdapterSearchResult.notifyDataSetChanged();
-                    }else
-                    {
-                        lyt_no_result.setVisibility(View.VISIBLE);
-                        tutorList.clear();
-                        mAdapterSearchResult.notifyDataSetChanged();
+                        String tutorDataList = gson.toJson(tutorData.getValue());
+                        Tutor sTutor = gson.fromJson(tutorDataList,Tutor.class);
+                        ssList.add(sTutor.tutorName);
                     }
-                    progress_bar.setVisibility(View.GONE);
+                    tutorList.clear();
+
+                    for(Object temp : FuzzySearch.extractTop(query, ssList, 3))
+                    {
+                        ExtractedResult extractedResult = (ExtractedResult) temp;
+
+                        if(extractedResult.getScore() > 50)
+                        {
+                            searchThreeTop(extractedResult.getString().trim());
+                        }
+
+                    }
                 }
 
                 @Override
@@ -263,11 +261,51 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
 
                 }
             });
-            mAdapterSuggestion.addSearchHistory(query);
 
         } else {
             Toast.makeText(this, "Please fill search input", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void searchThreeTop(String filteredQuery) {
+        GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+
+        mTutors = mRootReference
+                .child("tutors")
+                .orderByChild("tutor_name")
+                .startAt(filteredQuery)
+                .endAt(filteredQuery+"\uf8ff");
+
+        mTutors.addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.getValue() != null)
+                {
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren())
+                    {
+                        String arr_result = gson.toJson(snapshot.getValue());
+                        Tutor tutor = gson.fromJson(arr_result,Tutor.class);
+                        tutorList.add(tutor);
+                    }
+                    mAdapterSearchResult.notifyDataSetChanged();
+                }else
+                {
+                    lyt_no_result.setVisibility(View.VISIBLE);
+                    tutorList.clear();
+                    mAdapterSearchResult.notifyDataSetChanged();
+                }
+                progress_bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mAdapterSuggestion.addSearchHistory(query);
     }
 
     @Override

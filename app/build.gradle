@@ -75,6 +75,9 @@ dependencies {
     //Facebook Login
     implementation 'com.facebook.android:facebook-login:[4,5)'
 
+    //Fuzzy Search Input
+    compile 'me.xdrop:fuzzywuzzy:1.1.9'
+
 
 
 }
