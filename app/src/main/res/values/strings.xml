@@ -51,5 +51,6 @@
     <string name="facebook_app_id">2062207187395999</string>
     <string name="fb_login_protocol_scheme">fb2062207187395999</string>
     <string name="admin_name">Nere Education</string>
+    <string name="my_activity">My Activity</string>
 
 </resources>

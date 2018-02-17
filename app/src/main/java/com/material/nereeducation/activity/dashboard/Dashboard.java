@@ -50,6 +50,7 @@ import com.material.nereeducation.activity.MainMenu;
 import com.material.nereeducation.activity.analysis.AnalysisActivity;
 import com.material.nereeducation.activity.askteachers.AskTeacherList;
 import com.material.nereeducation.activity.chapters.ChapterListActivity;
+import com.material.nereeducation.activity.log.LogActivity;
 import com.material.nereeducation.activity.notification.NotificationActivity;
 import com.material.nereeducation.activity.login.LoginActivity;
 import com.material.nereeducation.activity.login.SQLiteHandler;
@@ -429,6 +430,12 @@ public class Dashboard extends AppCompatActivity{
                     startActivity(intentProfile);
                 }
 
+                if(id == R.id.nav_activity)
+                {
+                    Intent intentActivity = new Intent(getApplicationContext(), LogActivity.class);
+                    startActivity(intentActivity);
+                }
+
                 if(id == R.id.nav_trending)
                 {
                     Intent intentProfile = new Intent(getApplicationContext(), MainMenu.class);
@@ -439,7 +446,7 @@ public class Dashboard extends AppCompatActivity{
                     logoutUser();
                 }
                 drawer.closeDrawers();
-                return true;
+                return false;
             }
         });
     }

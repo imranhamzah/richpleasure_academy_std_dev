@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_home"
             android:title="Profile" />
         <item
+            android:id="@+id/nav_activity"
+            android:icon="@drawable/ic_work"
+            android:title="My Activity" />
+        <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_whatshot"
             android:title="Original Files" />
