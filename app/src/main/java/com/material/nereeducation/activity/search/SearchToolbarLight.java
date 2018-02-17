@@ -235,7 +235,6 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
                     .orderByChild("tutor_name").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    System.out.println("Data all tutors");
                     for(DataSnapshot tutorData: dataSnapshot.getChildren())
                     {
                         String tutorDataList = gson.toJson(tutorData.getValue());
@@ -244,16 +243,28 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
                     }
                     tutorList.clear();
 
-                    for(Object temp : FuzzySearch.extractTop(query, ssList, 3))
-                    {
-                        ExtractedResult extractedResult = (ExtractedResult) temp;
-
-                        if(extractedResult.getScore() > 50)
+                    int counter = 1;
+                    boolean no_result = true;
+                        for(Object temp : FuzzySearch.extractTop(query, ssList, 3))
                         {
-                            searchThreeTop(extractedResult.getString().trim());
+                            ExtractedResult extractedResult = (ExtractedResult) temp;
+
+                            counter++;
+                            if(extractedResult.getScore() > 50)
+                            {
+                                searchThreeTop(extractedResult.getString().trim());
+                                no_result = false;
+                            }
+
+                            if(counter == 3 && no_result == true)
+                            {
+                                lyt_no_result.setVisibility(View.VISIBLE);
+                                tutorList.clear();
+                                mAdapterSearchResult.notifyDataSetChanged();
+                                progress_bar.setVisibility(View.GONE);
+                            }
                         }
 
-                    }
                 }
 
                 @Override
@@ -290,11 +301,6 @@ public class SearchToolbarLight extends AppCompatActivity implements ValueEventL
                         Tutor tutor = gson.fromJson(arr_result,Tutor.class);
                         tutorList.add(tutor);
                     }
-                    mAdapterSearchResult.notifyDataSetChanged();
-                }else
-                {
-                    lyt_no_result.setVisibility(View.VISIBLE);
-                    tutorList.clear();
                     mAdapterSearchResult.notifyDataSetChanged();
                 }
                 progress_bar.setVisibility(View.GONE);
