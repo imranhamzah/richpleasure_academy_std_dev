@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,13 +51,20 @@ public class LogActivity extends AppCompatActivity {
         databaseReference.child("log_activities/"+uuid+"/data/").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                if(dataSnapshot.getValue() != null)
                 {
-                    String dataRecieved = gson.toJson(snapshot.getValue());
-                    Log log = gson.fromJson(dataRecieved, Log.class);
-                    logList.add(log);
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                    {
+                        String dataRecieved = gson.toJson(snapshot.getValue());
+                        Log log = gson.fromJson(dataRecieved, Log.class);
+                        logList.add(log);
+                    }
+                    adapterLogActivity.notifyDataSetChanged();
+                }else
+                {
+                    LinearLayout activityEmpty = findViewById(R.id.activityEmpty);
+                    activityEmpty.setVisibility(View.VISIBLE);
                 }
-                adapterLogActivity.notifyDataSetChanged();
             }
 
             @Override
