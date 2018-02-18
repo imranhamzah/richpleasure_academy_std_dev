@@ -32,49 +32,10 @@
         android:scrollingCache="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activityRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/spacing_smlarge"
-                    android:layout_marginStart="@dimen/spacing_smlarge"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
-                        android:background="@color/grey_10" />
-
-                    <ImageView
-                        android:layout_width="@dimen/spacing_middle"
-                        android:layout_height="@dimen/spacing_middle"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:tint="@color/light_blue_400"
-                        app:srcCompat="@drawable/shape_round_solid" />
-
-                </RelativeLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/activityRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-
-
-
-        </LinearLayout>
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.NestedScrollView>
 
