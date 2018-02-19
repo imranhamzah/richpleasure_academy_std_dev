@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:gravity="center_vertical"
-                    android:text="2 Questions"
+                    android:text="Start"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
