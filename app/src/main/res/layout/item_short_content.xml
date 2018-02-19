@@ -39,7 +39,7 @@
                     android:layout_height="120dp"
                     android:text="Fungsi"
                     android:textColor="@color/grey_500"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <RelativeLayout

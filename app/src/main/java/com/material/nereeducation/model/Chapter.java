@@ -12,7 +12,7 @@ public class Chapter {
     @Expose
     public String chapterNumber;
 
-    @SerializedName("chapter_title_my")
+    @SerializedName("chapter_title_en")
     @Expose
     public String chapterTitle;
 

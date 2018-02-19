@@ -476,7 +476,9 @@
         <activity
             android:name="com.material.nereeducation.activity.lesson.LessonActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.material.nereeducation.activity.subchapter.SubchapterActivity" />
+        <activity
+            android:name="com.material.nereeducation.activity.subchapter.SubchapterActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.material.nereeducation.activity.practice.PracticeActivity"
             android:label="@string/title_activity_practice"
