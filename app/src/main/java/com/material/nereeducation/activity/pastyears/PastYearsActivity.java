@@ -30,6 +30,7 @@ import com.material.nereeducation.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PastYearsActivity extends AppCompatActivity {
@@ -41,7 +42,6 @@ public class PastYearsActivity extends AppCompatActivity {
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
 
-    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,6 @@ public class PastYearsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        storageReference = FirebaseStorage.getInstance().getReference();
 
         databaseReference.child("past_years/-L3weMhXHw-HyDfhPqPc/data").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,40 +89,33 @@ public class PastYearsActivity extends AppCompatActivity {
     private void displayPastYearQuestion(DataSnapshot dataSnapshot) {
 //Q1
         System.out.println("1:"+dataSnapshot.getValue());
+        int number = 0;
+        HashMap<String,Object> dataPastYear = new HashMap<>();
         for(DataSnapshot snapshot: dataSnapshot.getChildren())
         {
             System.out.println("2:"+snapshot.getValue());
+            number++;
             //Divisions
+            dataPastYear.put("number",String.valueOf(number));
             for(DataSnapshot divisionsLabel : snapshot.getChildren())
             {
                 System.out.println("3:"+divisionsLabel.getValue());
-                //Div1
-                for(DataSnapshot divisionData: divisionsLabel.getChildren())
-                {
-                    System.out.println("4:"+divisionData.getValue());
-                    //Image
-                    for(DataSnapshot imageData: divisionData.getChildren())
-                    {
-                        getImageFromStorage(imageData);
-                    }
-                }
+                getImageFromStorage(dataPastYear,divisionsLabel);
             }
         }
     }
 
-    private void getImageFromStorage(DataSnapshot imageData) {
-        storageReference.child("past_years/"+imageData.getValue()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
-                System.out.println("xxxx yyy - "+uri);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+    private void getImageFromStorage(final HashMap<String,Object> dataPastYear, DataSnapshot imageData) {
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+
+        dataPastYear.put("divisions",imageData.getValue());
+        String dataReceived = gson.toJson(dataPastYear);
+        PastYears pastYears = gson.fromJson(dataReceived,PastYears.class);
+
+        pastYearsList.add(pastYears);
+        adapterPastYears.notifyDataSetChanged();
     }
 
     private void displayPastYearQuestions() {

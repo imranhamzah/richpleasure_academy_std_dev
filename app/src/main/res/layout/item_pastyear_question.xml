@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -30,7 +31,7 @@
                 android:id="@+id/qstYear"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="2015"/>
+                android:text="Question"/>
 
             <ImageButton
                 android:layout_alignRight="@id/qstYear"
@@ -52,17 +53,12 @@
             android:layout_marginBottom="8dp"
             />
 
-        <TextView
-            android:id="@+id/pastYearContent"
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/imageQuestion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Content 1"/>
-
-
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
-
-
 
 </android.support.v7.widget.CardView>
