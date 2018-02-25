@@ -1,17 +1,24 @@
 package com.material.nereeducation.activity.pastyears;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +32,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.material.nereeducation.R;
+import com.material.nereeducation.activity.MainMenu;
+import com.material.nereeducation.activity.log.LogActivity;
 import com.material.nereeducation.adapter.AdapterPastYears;
 import com.material.nereeducation.model.PastYears;
 import com.material.nereeducation.utils.Tools;
@@ -41,6 +50,9 @@ public class PastYearsActivity extends AppCompatActivity {
     private List<PastYears> pastYearsList = new ArrayList<>();
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private Toolbar toolbar;
+
+    private DrawerLayout drawer;
 
 
 
@@ -48,7 +60,7 @@ public class PastYearsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_years);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setSubtitle("Additional Mathematics");
         setSupportActionBar(toolbar);
 
@@ -70,6 +82,23 @@ public class PastYearsActivity extends AppCompatActivity {
 
         initComponent();
         displayPastYearQuestions();
+        manageDrawer();
+
+    }
+
+    private void manageDrawer() {
+
+        NavigationView nav_view = findViewById(R.id.nav_view);
+        drawer = findViewById(R.id.drawer_layout);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(final MenuItem item) {
+
+                int id = item.getItemId();
+
+                return false;
+            }
+        });
 
     }
 
@@ -79,6 +108,26 @@ public class PastYearsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.pastYearMenu)
+        {
+            if (drawer.isDrawerOpen(Gravity.RIGHT)) {
+                drawer.closeDrawer(Gravity.RIGHT);
+            } else {
+                drawer.openDrawer(Gravity.RIGHT);
+            }
+            return true;
+        }
+        if(id == R.id.bookMark)
+        {
+            Toast.makeText(getApplicationContext(),"Bookmark added!",Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void initComponent() {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
