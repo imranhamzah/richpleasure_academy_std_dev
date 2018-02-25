@@ -21,4 +21,16 @@
 
     <include layout="@layout/content_past_years"  />
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|right"
+        android:duplicateParentState="true"
+        android:background="@color/grey_900"
+        app:itemIconTint="@drawable/color_state_light"
+        app:itemTextColor="@drawable/color_state_light"
+        app:menu="@menu/menu_bottom_lesson" />
+
 </android.support.design.widget.CoordinatorLayout>

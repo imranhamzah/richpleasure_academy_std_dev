@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
@@ -48,10 +49,13 @@ public class PastYearsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_years);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setSubtitle("Additional Mathematics");
         setSupportActionBar(toolbar);
 
+        String subchapterId = getIntent().getStringExtra("subchapterId");
 
-        databaseReference.child("past_years/-L3weMhXHw-HyDfhPqPc/data").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        databaseReference.child("past_years/"+subchapterId+"/data").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -69,6 +73,12 @@ public class PastYearsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pastyear,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void initComponent() {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,6 +94,8 @@ public class PastYearsActivity extends AppCompatActivity {
 
         recyclerViewPastYears.setAdapter(adapterPastYears);
     }
+
+
 
 
     private void displayPastYearQuestion(DataSnapshot dataSnapshot) {
@@ -107,15 +119,21 @@ public class PastYearsActivity extends AppCompatActivity {
 
     private void getImageFromStorage(final HashMap<String,Object> dataPastYear, DataSnapshot imageData) {
 
+        pastYearsList.clear();
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
         dataPastYear.put("divisions",imageData.getValue());
+        System.out.println("Past Year Data Hash "+dataPastYear);
+
         String dataReceived = gson.toJson(dataPastYear);
         PastYears pastYears = gson.fromJson(dataReceived,PastYears.class);
 
+
         pastYearsList.add(pastYears);
         adapterPastYears.notifyDataSetChanged();
+
+        //Adapter Image List Should Be Here
     }
 
     private void displayPastYearQuestions() {

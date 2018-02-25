@@ -28,13 +28,13 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/qstYear"
+                android:id="@+id/qstNumber"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="Question"/>
 
             <ImageButton
-                android:layout_alignRight="@id/qstYear"
+                android:layout_alignRight="@id/qstNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"

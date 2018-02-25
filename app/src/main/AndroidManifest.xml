@@ -439,6 +439,7 @@
             android:screenOrientation="portrait" />
         <activity android:name="com.material.nereeducation.activity.login.LoginActivity" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name="com.material.nereeducation.activity.splash.SplashScreenActivity"
             android:noHistory="true">
             <intent-filter>

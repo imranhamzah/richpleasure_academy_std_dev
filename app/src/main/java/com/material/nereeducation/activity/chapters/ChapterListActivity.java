@@ -90,7 +90,6 @@ public class ChapterListActivity extends AppCompatActivity{
 
 //        displayChapterList();
         String subjectId = getIntent().getStringExtra("subjectId");
-        System.out.println("subjectId received:"+subjectId);
         getChapterList(subjectId);
 
     }
