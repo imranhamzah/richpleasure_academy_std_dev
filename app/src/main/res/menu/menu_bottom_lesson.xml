@@ -2,7 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_question_list"
-        android:icon="@drawable/ic_question_mark"
-        android:title="Questions" />
+        android:id="@+id/prevQuestion"
+        android:icon="@drawable/ic_chevron_left"
+        android:title="Previous" />
+
+    <item
+        android:id="@+id/nextQuestion"
+        android:icon="@drawable/ic_chevron_right"
+        android:title="Next" />
 </menu>

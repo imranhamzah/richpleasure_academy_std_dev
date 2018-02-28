@@ -112,9 +112,9 @@ public class LessonActivity extends AppCompatActivity{
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigation_question_list:
+                    /*case R.id.navigation_question_list:
                         showQuestionList();
-                        return true;
+                        return true;*/
                 }
                 return false;
             }

@@ -82,29 +82,15 @@ public class PastYearsActivity extends AppCompatActivity {
 
         initComponent();
         displayPastYearQuestions();
-        manageDrawer();
 
     }
 
-    private void manageDrawer() {
-
-        NavigationView nav_view = findViewById(R.id.nav_view);
-        drawer = findViewById(R.id.drawer_layout);
-        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(final MenuItem item) {
-
-                int id = item.getItemId();
-
-                return false;
-            }
-        });
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_pastyear,menu);
+        for (int i = 1; i <= 25; i++) {
+            menu.add("Question "+ i);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
